@@ -1,0 +1,189 @@
+﻿<Window x:Class="CrudVietSteam.View.LoginView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CrudVietSteam.View"
+        mc:Ignorable="d"
+        xmlns:Icon ="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        WindowStartupLocation="CenterScreen"
+        xmlns:LoginVm ="clr-namespace:CrudVietSteam.ViewModel"
+         ResizeMode="NoResize"
+         WindowStyle="None"
+         MouseDown="Window_MouseDown"
+         AllowsTransparency="True"
+         Background="Transparent"
+         Title="LoginView" Height="550" Width="700">
+    <Window.DataContext>
+        <LoginVm:LoginVM/>
+    </Window.DataContext>
+    <Border 
+         BorderBrush="MediumSlateBlue"
+         BorderThickness="2"
+         CornerRadius="20">
+        <!--back ground with interface-->
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0 0" >
+                <GradientStop Color="#1b1448" Offset="0.2"/>
+                <GradientStop Color="#DA34AE" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.Background>
+
+        <!--divding the grid into 3 rows-->
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!--Row 1-->
+            <Grid Grid.Row="0" d:Background="Wheat">
+                <TextBlock
+                         HorizontalAlignment="Left"
+                         Margin="10"
+                         FontWeight="Bold"
+                         FontSize="20"
+                         Foreground="White"
+                         Text="Login App"/>
+                <WrapPanel Orientation="Horizontal" 
+                            HorizontalAlignment="Right">
+                    <Button Style="{StaticResource btnIconTitleBar}"
+                                           Click="WindowMiniMine_Click">
+                        <Icon:PackIconMaterial Kind="WindowMinimize" 
+                                         Width="20" 
+                                         Height="20" 
+                                         Foreground="White"/>
+                    </Button>
+                    <!--<Button Style="{StaticResource btnIconTitleBar}"
+                             Click="MaxSize_Click">
+                         <Icon:PackIconMaterial Kind="WindowMaximize" 
+                                         Width="20" 
+                                         Height="20" 
+                                         Foreground="White"/>
+                     </Button>-->
+
+                    <Button Style="{StaticResource btnIconTitleBar}"
+                             Click="CloseWindow_Click">
+                        <Icon:PackIconMaterialDesign 
+                                        Kind="Close"
+                                         Width="20" 
+                                         Height="20" 
+                                         Foreground="White"/>
+                    </Button>
+                </WrapPanel>
+            </Grid>
+
+            <!--Row 2-->
+            <Grid Grid.Row="1">
+                <StackPanel>
+                    <Image Source="/Image/login.png" 
+                                  Height="150"  />
+                    <TextBlock
+                         HorizontalAlignment="Center"
+                         FontWeight="Bold"
+                         FontSize="30"
+                         Foreground="White"
+                         Text="Login" Margin="0 5"/>
+                </StackPanel>
+            </Grid>
+
+            <!--Row3 -->
+            <Grid Grid.Row="2" >
+                <WrapPanel  HorizontalAlignment="Center" Orientation="Vertical">
+                    <TextBlock
+                         Style="{StaticResource tblUser}"
+                         Text="Username"/>
+                    <TextBox 
+                         Style="{StaticResource tbxInput}"
+                         Text="{Binding EmailVM,UpdateSourceTrigger=PropertyChanged , Mode=TwoWay}">
+
+                        <TextBox.Background>
+                            <ImageBrush 
+                                 ImageSource="/Image/person.png" 
+                                 AlignmentX="Left"                
+                                 Stretch="Uniform" />
+                        </TextBox.Background>
+                    </TextBox>
+
+                    <TextBlock
+                         Style="{StaticResource tblUser}"
+                         Text="Password"
+                         Margin="0 30 0 0"/>
+
+                    <PasswordBox Style="{StaticResource tbxInput}"
+                                 PasswordChanged="tbxPassword_PasswordChanged"
+                                x:Name="tbxPassword">
+                        <PasswordBox.Background>
+                            <ImageBrush 
+                                 ImageSource="/Image/5.password.png" 
+                                 AlignmentX="Left"      
+                                 Stretch="Uniform"/>
+                        </PasswordBox.Background>
+                    </PasswordBox>
+
+                    <CheckBox Margin="5 15 0 0"
+                              FontWeight="DemiBold" 
+                              Foreground="Azure"
+                              IsChecked="{Binding RememberMe}"
+                              Content="Remember Me " >
+
+                    </CheckBox>
+
+                    <Button x:Name="btnLogin"                          
+                         BorderThickness="0"
+                         Content="LOG IN"
+                         Foreground="White"
+                         FontSize="14"
+                         CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                         Command="{Binding LoginCommand}"
+                         FontWeight="DemiBold"
+                         FontFamily="/Font/Nexa.ttf#Nexa"
+                         Cursor="Hand"                           
+                         Margin="0,30,0,0" >
+
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="#462AD8"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#28AEED"/>
+                                    </Trigger>
+                                    <Trigger Property="IsMouseCaptured" Value="True">
+                                        <Setter Property="Background" Value="#DA34AE"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Width="150" 
+                                         Height="45"
+                                         CornerRadius="15"
+                                         Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center"
+                                               HorizontalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
+                    <!--<Button Background="Transparent"
+                     BorderThickness="0"
+                     Foreground="White"
+                     FontSize="15"
+                     Margin="0 15"
+                     Command="{Binding NavigateToRegisterCommand}"
+                     CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                     FontWeight="DemiBold" Width="165">
+                        <Underline>I Don't have account</Underline>
+
+                    </Button>-->
+
+                </WrapPanel>
+            </Grid>
+
+        </Grid>
+
+    </Border>
+</Window>
