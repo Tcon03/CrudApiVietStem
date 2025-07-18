@@ -13,7 +13,6 @@ namespace CrudVietSteam.ViewModel
 {
     public class LoginVM : ViewModelBase
     {
-        public readonly VietstemSevice service;
         private string _email;
         public string EmailVM
         {
@@ -53,7 +52,6 @@ namespace CrudVietSteam.ViewModel
         public LoginVM()
         {
             LoginCommand = new VfxCommand(OnLogin, CanExcutedLogin);
-            service = new VietstemSevice();
 
         }
 
@@ -70,7 +68,7 @@ namespace CrudVietSteam.ViewModel
 
         private async void OnLogin(object obj)
         {
-            bool login = await service.LoginAsync(EmailVM, PasswordVM);
+            bool login = await App.vietstemService.LoginAsync(EmailVM, PasswordVM);
             if (login)
             {
                 if (RememberMe)
@@ -86,7 +84,6 @@ namespace CrudVietSteam.ViewModel
                 VietsteamDataView viet = new VietsteamDataView();
                 viet.Show();
                 Authenticated?.Invoke(this, new EventArgs());
-                await service.GetContestAsync();
             }
         }
     }

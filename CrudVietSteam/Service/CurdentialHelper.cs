@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Management;
 using System.Windows;
 using System.Windows.Media.Media3D;
 
@@ -22,7 +23,7 @@ namespace CrudVietSteam.Service
         /// </summary>
         public static void SaveCurdential(string username, string password)
         {
-           
+
             var curdential = new User
             {
                 email = username,
@@ -39,25 +40,31 @@ namespace CrudVietSteam.Service
         /// <summary>
         /// Read File Save Account 
         /// </summary>
-        public static (string _email, string _password)? Load()
+        public static User Load()
         {
             if (!File.Exists(filePath))
             {
-                MessageBox.Show("File hiện tại không có trong thư mục ");
                 return null;
             }
-            // Read File Path 
-            var readFileCurdential = File.ReadAllText(filePath);
-            // convert data to object User with two filed data email and password . 
-            var data = JsonConvert.DeserializeObject<User>(readFileCurdential);
+            var data = File.ReadAllText(filePath);
+            return JsonConvert.DeserializeObject<User>(data);
+            //if (!File.Exists(filePath))
+            //{
+            //    MessageBox.Show("File hiện tại không có trong thư mục ");
+            //    return null;
+            //}
+            //// Read File Path 
+            //var readFileCurdential = File.ReadAllText(filePath);
+            //// convert data to object User with two filed data email and password . 
+            //var data = JsonConvert.DeserializeObject<User>(readFileCurdential);
 
-            string userName = data.email;
-            string password = data.password;
+            //string userName = data.email;
+            //string password = data.password;
 
-            Debug.WriteLine("==== Password ==== : " + password);
-            Debug.WriteLine("==== Email ==== : " + userName);
+            //Debug.WriteLine("==== Password ==== : " + password);
+            //Debug.WriteLine("==== Email ==== : " + userName);
 
-            return (userName, password);
+            //return (userName, password);
         }
         /// <summary>
         /// Delete File Path Account

@@ -15,13 +15,5 @@ namespace CrudVietSteam.Service.DTO
         public DateTime createdAt { get; set; }
         public DateTime updatedAt { get; set; }
     }
-    public class DisplayResponse
-    {
-        public string _id { get; set; }
-        public int _ttl { get; set; }
-        public DateTime _created { get; set; }
-        public string _userId { get; set; }
-        public DateTime  _createdAt { get; set; }
-        public DateTime _updatedAt { get; set; }
-    }
+  
 }

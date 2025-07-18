@@ -21,20 +21,20 @@ namespace CrudVietSteam.View
     /// </summary>
     public partial class LoginView : Window
     {
+        
         public LoginView()
         {
             InitializeComponent();
             LoginVM vm = this.DataContext as LoginVM;
             if (vm != null)
             {
-
                 var remembered = CurdentialHelper.Load();
                 // nếu file tồn tại 
                 if (remembered != null)
                 {
                     // gán các trường dữ liệu cho email và password bên VMD 
-                    vm.EmailVM = remembered.Value._email;
-                    vm.PasswordVM = remembered.Value._password;
+                    vm.EmailVM = remembered.email;
+                    vm.PasswordVM = remembered.password;
                     vm.RememberMe = true;
 
                     // Gán tên của thuộc tính pass cho bên passVM
