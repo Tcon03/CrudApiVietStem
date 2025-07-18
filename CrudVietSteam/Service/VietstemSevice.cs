@@ -35,7 +35,7 @@ namespace CrudVietSteam.Service
         /// </summary>
         public async Task<bool> LoginAsync(string user, string password)
         {
-            var body = new 
+            var body = new
             {
                 email = user,
                 password = password
@@ -82,7 +82,7 @@ namespace CrudVietSteam.Service
         /// Get Data Api
         /// </summary>
         /// <returns></returns>
-        public async Task<string> GetContestAsync()
+        public async Task<List<ContestsDTO>> GetContestAsync()
         {
             string urlGetContest = "http://localhost:3000/api/Contests";
             try
@@ -94,9 +94,12 @@ namespace CrudVietSteam.Service
                     var result = await response.Content.ReadAsStringAsync();
                     Debug.WriteLine("=====Result Get =====\n" + result);
 
-                    //var convertResult = JsonConvert.DeserializeObject<List<ContestsDTO>>(result);
+                    var convertResult = JsonConvert.DeserializeObject<List<ContestsDTO>>(result);
 
-                    return result;
+                    MessageBox.Show("Lấy dữ liệu thành công ");
+                    //var convertResult = JsonConvert.DeserializeObject<List<ContestsDTO>>(result);
+                    return convertResult;
+
                 }
                 else
                 {

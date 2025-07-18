@@ -5,8 +5,38 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CrudVietSteam.View"
         mc:Ignorable="d"
+        xmlns:vstVm="clr-namespace:CrudVietSteam.ViewModel"
         Title="VietsteamDataView" Height="450" Width="800">
+    <Window.DataContext>
+        <vstVm:ContestVM/>
+    </Window.DataContext>
     <Grid>
-        
+        <DataGrid ItemsSource="{Binding Contests}"
+               AutoGenerateColumns="False"
+                  CanUserResizeRows="False"
+                  Margin="10"
+                  FontSize="20">
+            <DataGrid.Columns >
+                <DataGridTextColumn Header="Id" Width="*"
+                                   Binding="{Binding id }"/>
+                <DataGridTextColumn Header="Name" Width="*"
+                                    Binding="{Binding name}"/>
+                <DataGridTextColumn Header="Introduce" 
+                                    Width="*" Binding="{Binding introduce}"/>
+                <DataGridTextColumn Header="Rule" 
+                                    Width="*" Binding="{Binding rule}"/>
+                <DataGridTextColumn Header="fromGrade" 
+                                    Binding="{Binding fromGrade}" Width="*"/>
+                <DataGridTextColumn Header="Guide" Width="*" 
+                                    Binding="{Binding guide}"/>
+                <DataGridTextColumn Header="status" Width="*"
+                                    Binding="{Binding status}"/>
+                <DataGridTextColumn Header="description" Width="*"
+                                    Binding="{Binding description}"/>
+                <DataGridTextColumn Header="title" Width="*"
+                                    Binding="{Binding title}"/>
+
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>

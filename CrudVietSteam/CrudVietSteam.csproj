@@ -180,6 +180,7 @@
     <Compile Include="Service\DTO\VietStemDTO.cs" />
     <Compile Include="Service\TokenManager.cs" />
     <Compile Include="Service\VietstemSevice.cs" />
+    <Compile Include="ViewModel\ContestVM.cs" />
     <Compile Include="ViewModel\LoginVM.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\LoginView.xaml.cs">

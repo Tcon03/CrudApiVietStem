@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CrudVietSteam.Service;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,5 +14,6 @@ namespace CrudVietSteam
     /// </summary>
     public partial class App : Application
     {
+        public static VietstemSevice vietstemService { get; } = new VietstemSevice();
     }
 }
