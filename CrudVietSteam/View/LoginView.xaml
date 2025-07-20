@@ -6,16 +6,17 @@
         xmlns:local="clr-namespace:CrudVietSteam.View"
         mc:Ignorable="d"
         xmlns:Icon ="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:LVM="clr-namespace:CrudVietSteam.ViewModel"
         WindowStartupLocation="CenterScreen"
-        xmlns:LoginVm ="clr-namespace:CrudVietSteam.ViewModel"
-         ResizeMode="NoResize"
+        ResizeMode="NoResize"
          WindowStyle="None"
          MouseDown="Window_MouseDown"
          AllowsTransparency="True"
          Background="Transparent"
          Title="LoginView" Height="550" Width="700">
+
     <Window.DataContext>
-        <LoginVm:LoginVM/>
+        <LVM:LoginVM/>
     </Window.DataContext>
     <Border 
          BorderBrush="MediumSlateBlue"
@@ -125,7 +126,7 @@
                     <CheckBox Margin="5 15 0 0"
                               FontWeight="DemiBold" 
                               Foreground="Azure"
-                              IsChecked="{Binding RememberMe}"
+                              IsChecked="{Binding RememberMe,Mode=TwoWay ,UpdateSourceTrigger=PropertyChanged}"
                               Content="Remember Me " >
 
                     </CheckBox>
@@ -135,7 +136,7 @@
                          Content="LOG IN"
                          Foreground="White"
                          FontSize="14"
-                         CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                         CommandParameter="{Binding ElementName=_this}" 
                          Command="{Binding LoginCommand}"
                          FontWeight="DemiBold"
                          FontFamily="/Font/Nexa.ttf#Nexa"

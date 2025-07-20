@@ -53,9 +53,10 @@ namespace CrudVietSteam.Service
                     Debug.WriteLine("======= Result Login ========\n" + resultLogin);
 
                     var loginResult = JsonConvert.DeserializeObject<VietStemDTO>(resultLogin);
+                    // Save Id accessToken to file
                     _tokenManager.SaveToFile(loginResult.id);
 
-                    MessageBox.Show("Đăng nhập thành công ");
+                    MessageBox.Show("Đăng nhập thành công ","Thông báo" , MessageBoxButton.OK , MessageBoxImage.Information);
 
                     return true;
                 }
@@ -95,9 +96,7 @@ namespace CrudVietSteam.Service
                     Debug.WriteLine("=====Result Get =====\n" + result);
 
                     var convertResult = JsonConvert.DeserializeObject<List<ContestsDTO>>(result);
-
-                    MessageBox.Show("Lấy dữ liệu thành công ");
-                    //var convertResult = JsonConvert.DeserializeObject<List<ContestsDTO>>(result);
+                    Debug.WriteLine("Lấy dữ liệu thành công "+convertResult);
                     return convertResult;
 
                 }

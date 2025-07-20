@@ -1,23 +1,21 @@
-﻿using CrudVietSteam.Command;
-using CrudVietSteam.Service;
-using CrudVietSteam.Service.DTO;
+﻿using CrudVietSteam.Service.DTO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace CrudVietSteam.ViewModel
 {
-    public class ContestVM : ViewModelBase
+    /// <summary>
+    /// Get data Api display contest data
+    /// </summary>
+    public class ContestsVM 
     {
         public ObservableCollection<ContestsDTO> Contests { get; set; }
 
-        public ICommand LoadDataContest { get; set; }
-        public ContestVM()
+        public ContestsVM()
         {
             Contests = new ObservableCollection<ContestsDTO>();
             OnLoad();

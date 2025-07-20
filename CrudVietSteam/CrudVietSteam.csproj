@@ -180,8 +180,9 @@
     <Compile Include="Service\DTO\VietStemDTO.cs" />
     <Compile Include="Service\TokenManager.cs" />
     <Compile Include="Service\VietstemSevice.cs" />
-    <Compile Include="ViewModel\ContestVM.cs" />
+    <Compile Include="ViewModel\ContestsVM.cs" />
     <Compile Include="ViewModel\LoginVM.cs" />
+    <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
@@ -191,10 +192,24 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Command\VfxCommand.cs" />
+    <Compile Include="View\UserControls\CityUC.xaml.cs">
+      <DependentUpon>CityUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\ContestDataUC.xaml.cs">
+      <DependentUpon>ContestDataUC.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\VietsteamDataView.xaml.cs">
       <DependentUpon>VietsteamDataView.xaml</DependentUpon>
     </Compile>
     <Page Include="View\LoginView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\CityUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\ContestDataUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -221,8 +236,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Resource Include="Font\Nexa normal.ttf" />
-    <Resource Include="Font\Nexa.ttf" />
+    <Content Include="Font\Nexa normal.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Font\Nexa.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -235,6 +254,18 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="Image\5.password.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\city.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\contest.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\contestGuide.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\email  Contact.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Image\login.png">

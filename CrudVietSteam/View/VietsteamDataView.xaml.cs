@@ -23,5 +23,19 @@ namespace CrudVietSteam.View
         {
             InitializeComponent();
         }
+
+        private void visiInputClick(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(tbxVisiSearch.Text))
+            {
+                tblSearch.Visibility = Visibility.Visible;
+
+            }
+            else
+            {
+                tblSearch.Visibility = Visibility.Collapsed;
+
+            }
+        }
     }
 }

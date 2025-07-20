@@ -18,6 +18,7 @@ namespace CrudVietSteam.Service
         /// </summary>
         public  void SaveToFile(string accessToken)
         {
+            //1. nếu lưu nó từ object thì chuyển đổi nó về chuối json 
             File.WriteAllText(TkFile,accessToken);
             Debug.WriteLine("===== Lưu File AccessToken thành công =====");
         }
@@ -34,6 +35,7 @@ namespace CrudVietSteam.Service
                 Debug.WriteLine($"{TkFile} does not exist");
                 return null;
             }
+            // nếu  đọc file đấy là chuối json thì chuổi đổi nó sang object  và trả về object đó 
 
             var readFile = File.ReadAllText(TkFile);
             return readFile;
