@@ -23,7 +23,17 @@ namespace CrudVietSteam.Service
         /// </summary>
         public static void SaveCurdential(string username, string password)
         {
+            //1 . check if  File Path Exist then don't save it   
+            if (File.Exists(filePath))
+            {
+                var readFile = File.ReadAllText(filePath);
+                var data = JsonConvert.DeserializeObject<User>(readFile);
+                if (data != null && data.email == username && data.password == password)
+                    Debug.WriteLine("File đã tồn tại và bỏ qua bước save ");
+                return;
+            }
 
+            //2. If File Path Null then create a new file and save it 
             var curdential = new User
             {
                 email = username,
@@ -42,11 +52,15 @@ namespace CrudVietSteam.Service
         /// </summary>
         public static User Load()
         {
+            // 1. if filePath not exist then return null 
             if (!File.Exists(filePath))
             {
+                MessageBox.Show("File hiện tại đang rỗng !! Vui lòng đăng nhập tk,mk");
                 return null;
             }
+
             var data = File.ReadAllText(filePath);
+
             return JsonConvert.DeserializeObject<User>(data);
             //if (!File.Exists(filePath))
             //{

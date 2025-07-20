@@ -11,16 +11,16 @@ using System.Windows.Input;
 
 namespace CrudVietSteam.ViewModel
 {
-    public class LoginVM : ViewModelBase
+    public class LoginVM :ViewModelBase
     {
-        private string _email;
+      private string _email;
         public string EmailVM
         {
             get { return _email; }
             set
             {
                 _email = value;
-                Debug.WriteLine("Event được kích hoạt " + value);
+                Debug.WriteLine("Event Email được kích hoạt " + value);
                 RaisePropertyChange(nameof(EmailVM));
             }
         }
@@ -31,7 +31,7 @@ namespace CrudVietSteam.ViewModel
             set
             {
                 _password = value;
-                Debug.WriteLine("Event được kích hoạt " + value);
+                Debug.WriteLine("Event Pass được kích hoạt " + value);
                 RaisePropertyChange(nameof(PasswordVM));
             }
         }
@@ -43,7 +43,7 @@ namespace CrudVietSteam.ViewModel
             set
             {
                 _remember = value;
-                Debug.WriteLine("Event được kích hoạt " + value);
+                Debug.WriteLine("Event Remember được kích hoạt " + value);
                 RaisePropertyChange(nameof(_remember));
             }
         }
@@ -52,7 +52,6 @@ namespace CrudVietSteam.ViewModel
         public LoginVM()
         {
             LoginCommand = new VfxCommand(OnLogin, CanExcutedLogin);
-
         }
 
 
@@ -68,6 +67,7 @@ namespace CrudVietSteam.ViewModel
 
         private async void OnLogin(object obj)
         {
+            // 1. Check if login is valid 
             bool login = await App.vietstemService.LoginAsync(EmailVM, PasswordVM);
             if (login)
             {
@@ -77,7 +77,6 @@ namespace CrudVietSteam.ViewModel
                 }
                 else
                 {
-
                     CurdentialHelper.Clear();
                 }
 
@@ -85,6 +84,7 @@ namespace CrudVietSteam.ViewModel
                 viet.Show();
                 Authenticated?.Invoke(this, new EventArgs());
             }
+
         }
     }
 }
