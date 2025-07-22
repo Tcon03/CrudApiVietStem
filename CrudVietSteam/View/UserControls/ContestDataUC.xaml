@@ -4,33 +4,131 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CrudVietSteam.View.UserControls"
-              xmlns:viewModel ="clr-namespace:CrudVietSteam.ViewModel"
+             xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+           xmlns:Vmd ="clr-namespace:CrudVietSteam.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.DataContext>
-        <viewModel:ContestsVM/>
+        <Vmd:ContestsVM/>
     </UserControl.DataContext>
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Disabled"
-                      HorizontalScrollBarVisibility="Disabled">
-            <DataGrid
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <!--thuộc tính cho tiêu đề của DataGrid-->
+        <DataGrid
                  BorderThickness="0"
                  FontSize="20"
-                 FontWeight="DemiBold"
-                AutoGenerateColumns="False"
-                 Background="Transparent"
+                 ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                 ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                 FontWeight="Bold"
+                 Foreground="#634BD4 "
+                 AutoGenerateColumns="False"
                  CanUserAddRows="False"
+                CanUserResizeRows="False"
                  IsReadOnly="True"
                  ItemsSource="{Binding Contests}">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Binding="{Binding id}" Width="50"/>
-                    <DataGridTextColumn Header="Name" Binding="{Binding name}" Width="150"/>
-                    <DataGridTextColumn Header="Title" Binding="{Binding title}" Width="*"/>
-                    <DataGridTextColumn Header="Status" Binding="{Binding status}" Width="120"/>
-                    <!-- Thêm các cột khác từ ContestsDTO của bạn ở đây -->
-                </DataGrid.Columns>
-            </DataGrid>
-        </ScrollViewer>
 
+            <!--style của DataGrid-->
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="FontSize" Value="16"/>
+                    <Setter Property="FontWeight" Value="DemiBold"/>
+                    <!--EVENT Selection vào ô thì sẽ đổi màu 
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="LightPink"/>
+                                <Setter Property="Foreground" Value="Black"/>
+                            </Trigger>
+                        </Style.Triggers>-->
+
+                </Style>
+            </DataGrid.CellStyle>
+
+            <DataGrid.Columns>
+
+                <!--display the data from ContestsDTO-->
+                <DataGridTextColumn Header="ID" Binding="{Binding id}" Width="50"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding name}" Width="150"/>
+                <DataGridTextColumn Header="Title" Binding="{Binding title}" Width="*"/>
+                <DataGridTextColumn Header="Status" Binding="{Binding status}" Width="120"/>
+                <DataGridTemplateColumn   Header="Actions"
+                                          CanUserResize="False"
+                                          Width="auto" 
+                                          TextBlock.TextAlignment="Center">
+                    <!--Custom Actions-->
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Style="{StaticResource btnIconEdit}">
+                                    <Icon:PackIconMaterial Kind="Pencil" 
+                                            Foreground="White"/>
+
+                                </Button>
+                                <Button Style="{StaticResource btnDelete}">
+                                    <Icon:PackIconMaterial 
+                                              Kind="Delete" 
+                                              Foreground="White"/>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!-- Thêm các cột khác từ ContestsDTO của bạn ở đây -->
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Grid Grid.Row="2" 
+              d:Background="White"  >
+            <StackPanel  Margin="20 5"
+                  HorizontalAlignment="Right"
+                  Orientation="Horizontal">
+
+                <!--<TextBlock Text="Per Page"
+                     VerticalAlignment="Center"
+                     FontFamily="/Font/"
+                    Margin="10"
+                     FontSize="20"/>
+
+          <ComboBox 
+                    Background="Transparent"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="15"
+                    Margin="5"
+                    MinWidth="40">
+
+              <ComboBoxItem Content="5" />
+              <ComboBoxItem Content="10" />
+              <ComboBoxItem Content="20" />
+          </ComboBox>-->
+
+                <Button  Command="{Binding PrevPageCommand}" 
+                         CommandParameter="{Binding ElementName=this}"
+                      Margin="5"
+                      Style="{StaticResource btnIconEdit}">
+                    <Icon:PackIconMaterial Kind="ChevronLeft" 
+                        Width="20" 
+                        Height="20" 
+                        Foreground="White"/>
+                </Button>
+                <TextBlock FontFamily="/Font/Nexa.ttf#Nexa"
+                             FontSize="20"
+                             Margin=" 5"
+                             Text="1/10"/>
+                <Button   Command="{Binding NextPageCommand}"
+                          CommandParameter="{Binding ElementName=this}"
+                          Style="{StaticResource btnIconEdit}"
+                          BorderThickness="0">
+                    <Icon:PackIconMaterial Kind="ChevronRight" 
+                                            Width="20" 
+                                            Height="20" 
+                                            Foreground="White"/>
+                </Button>
+
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

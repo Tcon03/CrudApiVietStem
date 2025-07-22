@@ -56,7 +56,7 @@ namespace CrudVietSteam.Service
                     // Save Id accessToken to file
                     _tokenManager.SaveToFile(loginResult.id);
 
-                    MessageBox.Show("Đăng nhập thành công ","Thông báo" , MessageBoxButton.OK , MessageBoxImage.Information);
+                    MessageBox.Show("Đăng nhập thành công ", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
 
                     return true;
                 }
@@ -83,20 +83,42 @@ namespace CrudVietSteam.Service
         /// Get Data Api
         /// </summary>
         /// <returns></returns>
-        public async Task<List<ContestsDTO>> GetContestAsync()
+        public async Task<List<ContestsDTO>> GetContestAsync(int pageSize, int currentPage)
         {
             string urlGetContest = "http://localhost:3000/api/Contests";
+
+            /* set mặc định cho pageSize là 10 phần tử
+             set mặc định cho currentPage là 1 
+             offset =  bỏ qua bảo nhiêu phần tử 
+             limit = PageSize lấy bao nhiêu phần tử muốn trả về 
+                      {
+                          "where": { "status": "open" },
+                          "order": "name ASC",
+                          "limit": 10,
+                          "offset": 10
+                       }
+            */
             try
             {
+                var fiterObject = new
+                {
+                    limit = pageSize,
+                    offset = (currentPage - 1) * pageSize // lấy số page hiện tại trừ đi 1 và nhân với số phần tử 
+                };
 
-                var response = await _client.GetAsync(urlGetContest);
+                var convertFilter = JsonConvert.SerializeObject(fiterObject);
+                Debug.WriteLine("=====Filter Object =====\n" + convertFilter);
+
+                string urlWithFilter = $"{urlGetContest}?filter={convertFilter}";
+
+                var response = await _client.GetAsync(urlWithFilter);
                 if (response.IsSuccessStatusCode)
                 {
                     var result = await response.Content.ReadAsStringAsync();
                     Debug.WriteLine("=====Result Get =====\n" + result);
 
                     var convertResult = JsonConvert.DeserializeObject<List<ContestsDTO>>(result);
-                    Debug.WriteLine("Lấy dữ liệu thành công "+convertResult);
+                    Debug.WriteLine("Lấy dữ liệu thành công " + convertResult);
                     return convertResult;
 
                 }

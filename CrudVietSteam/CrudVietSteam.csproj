@@ -198,8 +198,11 @@
     <Compile Include="View\UserControls\ContestDataUC.xaml.cs">
       <DependentUpon>ContestDataUC.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\VietsteamDataView.xaml.cs">
-      <DependentUpon>VietsteamDataView.xaml</DependentUpon>
+    <Compile Include="View\UserControls\HintTextBox.xaml.cs">
+      <DependentUpon>HintTextBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\VietstemMain.xaml.cs">
+      <DependentUpon>VietstemMain.xaml</DependentUpon>
     </Compile>
     <Page Include="View\LoginView.xaml">
       <SubType>Designer</SubType>
@@ -213,7 +216,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\VietsteamDataView.xaml">
+    <Page Include="View\UserControls\HintTextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\VietstemMain.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -240,6 +247,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Font\Nexa.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Font\Roboto.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />

@@ -15,27 +15,13 @@ using System.Windows.Shapes;
 namespace CrudVietSteam.View
 {
     /// <summary>
-    /// Interaction logic for VietsteamDataView.xaml
+    /// Interaction logic for VietstemMain.xaml
     /// </summary>
-    public partial class VietsteamDataView : Window
+    public partial class VietstemMain : Window
     {
-        public VietsteamDataView()
+        public VietstemMain()
         {
             InitializeComponent();
-        }
-
-        private void visiInputClick(object sender, TextChangedEventArgs e)
-        {
-            if (string.IsNullOrEmpty(tbxVisiSearch.Text))
-            {
-                tblSearch.Visibility = Visibility.Visible;
-
-            }
-            else
-            {
-                tblSearch.Visibility = Visibility.Collapsed;
-
-            }
         }
     }
 }
