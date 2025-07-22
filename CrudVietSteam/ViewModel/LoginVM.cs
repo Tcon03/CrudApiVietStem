@@ -11,9 +11,9 @@ using System.Windows.Input;
 
 namespace CrudVietSteam.ViewModel
 {
-    public class LoginVM :ViewModelBase
+    public class LoginVM : ViewModelBase
     {
-      private string _email;
+        private string _email;
         public string EmailVM
         {
             get { return _email; }
@@ -80,7 +80,7 @@ namespace CrudVietSteam.ViewModel
                     CurdentialHelper.Clear();
                 }
 
-                VietsteamDataView viet = new VietsteamDataView();
+                VietstemMain viet = new VietstemMain();
                 viet.Show();
                 Authenticated?.Invoke(this, new EventArgs());
             }

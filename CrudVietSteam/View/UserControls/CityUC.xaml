@@ -5,7 +5,33 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CrudVietSteam.View.UserControls"
              mc:Ignorable="d" 
-             xmlns:contestVM ="clr-namespace:CrudVietSteam.ViewModel"
+                xmlns:viewModel ="clr-namespace:CrudVietSteam.ViewModel"
              d:DesignHeight="450" d:DesignWidth="800">
-   
+  
+    <Grid>
+        <!--<DataGrid Grid.Row="3" Margin="-10,10,10,0" 
+                  AutoGenerateColumns="False"
+                  ItemsSource="{Binding Contests}"
+                 >
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn CanUserResize="False" Width="auto"  >
+                    <DataGridCheckBoxColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <CheckBox/>
+                        </DataTemplate>
+                    </DataGridCheckBoxColumn.HeaderTemplate>
+                </DataGridCheckBoxColumn>
+
+                <DataGridTextColumn Header="채널ID" IsReadOnly="True" Width="*" Binding="{Binding name}"/>
+                <DataGridTextColumn Header="페이지 키" IsReadOnly="False" Width="*" Binding="{Binding id}"/>
+                <DataGridTextColumn Header="페이지 타입" IsReadOnly="True" Width="*" Binding="{Binding AddTag}"/>
+                <DataGridTextColumn Header="클릭수" IsReadOnly="True" Width="*" TextBlock.TextAlignment="Center" Binding="{Binding ClickCount}"/>
+                <DataGridTextColumn Header="구매건수" IsReadOnly="True" Width="*" TextBlock.TextAlignment="Center" Binding="{Binding BuyCount}"/>
+                <DataGridTextColumn Header="총 구매금액" IsReadOnly="True" Width="*" TextBlock.TextAlignment="Center" Binding="{Binding TotalAmount}"/>
+                <DataGridTextColumn Header="수익" IsReadOnly="True" Width="*" TextBlock.TextAlignment="Center" Binding="{Binding Profit}"/>
+                <DataGridTextColumn Header="클릭당 수익" IsReadOnly="True" Width="*" TextBlock.TextAlignment="Center" Binding="{Binding ClickPerProfit, StringFormat={}{0:0.##}}"/>
+                <DataGridTextColumn Header="전환율" IsReadOnly="True" Width="*" TextBlock.TextAlignment="Center" Binding="{Binding ConversionRate, StringFormat={}{0:0.##}%}"/>
+            </DataGrid.Columns>
+        </DataGrid>-->
+    </Grid>
 </UserControl>

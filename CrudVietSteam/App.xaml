@@ -2,42 +2,44 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:CrudVietSteam"
-             StartupUri="View/VietsteamDataView.xaml">
+             StartupUri="View/VietstemMain.xaml">
     <Application.Resources>
 
-        <Style TargetType="Button" x:Key="btnMenuItem">
-            <Setter Property="Background" Value="Transparent"/>
+        <!--Button Seach-->
+        <Style TargetType="Button" x:Key="btnSearch">
+            <Setter Property="Background" Value="#4EB1B6 "/>
             <Setter Property="BorderBrush" Value="Transparent"/>
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontSize" Value="20"/>
             <Setter Property="FontWeight" Value="DemiBold"/>
             <Setter Property="FontFamily" Value="Font\Nexa.ttf"/>
-            <Setter Property="Height" Value="40"/>
-            <Setter Property="MinWidth" Value="200"/>
-            <Setter Property="Margin" Value="0 5 0 0"/>
+            <Setter Property="Height" Value="42"/>
+            <Setter Property="MinWidth" Value="150"/>
             <Setter Property="Template" >
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border Background="{TemplateBinding Background}" 
-                                CornerRadius="0 20 20 0">
+                                CornerRadius="7">
                             <ContentPresenter
-                                   HorizontalAlignment="Left"
+                                   HorizontalAlignment="Center"
                                    VerticalAlignment="Center">
                             </ContentPresenter>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
+                
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#4EB1B6"/>
+                    <Setter Property="Background" Value="Pink"/>
+                    <Setter Property="Foreground" Value="Black"/>
                 </Trigger>
                 <Trigger Property="IsMouseCaptured" Value="True">
-                    <Setter Property="Background" Value="#AAD922"/>
+                    <Setter Property="Background" Value="#AD49E1"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
 
+        <!--Button Add-->
         <Style TargetType="Button" x:Key="btnAdd" >
             <Setter Property="Width" Value="180"/>
             <Setter Property="Height" Value="45"/>
@@ -62,33 +64,48 @@
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="Pink"/>
-                    <Setter Property="Foreground" Value="DarkGoldenrod"/>
+                    <Setter Property="Foreground" Value="Black"/>
                 </Trigger>
                 <Trigger Property="IsMouseCaptured" Value="True">
-                    <Setter Property="Background" Value="LightSalmon"/>
+                    <Setter Property="Background" Value="#AD49E1"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="btnIconTitleBar" TargetType="Button">
-            <Setter Property="Background" Value="Transparent"/>
+
+        <!--Button Edit on datagrid -->
+        <Style x:Key="btnIconEdit" TargetType="Button">
+            <Setter Property="Background" Value="#433878"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="VerticalAlignment" Value="Top"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="Foreground" Value="Gray"/>
             <Setter Property="Height" Value="30"/>
-            <Setter Property="Margin" Value="30 20"/>
+            <Setter Property="Width" Value="30"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="5">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#4EB1B6"/>
+                    <Setter Property="Background" Value="Pink"/>
+                    <Setter Property="Foreground" Value="Black"/>
                 </Trigger>
                 <Trigger Property="IsMouseCaptured" Value="True">
-                    <Setter Property="Background" Value="#AAD922"/>
+                    <Setter Property="Background" Value="#AD49E1"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
 
-
+        <Style TargetType="Button" x:Key="btnDelete" BasedOn="{StaticResource btnIconEdit}">
+            <Setter Property="Background" Value="#CC2B52"/>
+        </Style>
 
         <Style TargetType="TextBlock" x:Key="tblUser">
             <Setter Property="Foreground" Value="LightGray"/>
@@ -99,6 +116,7 @@
         </Style>
 
 
+        <!--TextBox UserName and Password-->
         <Style x:Key="tbxInput" TargetType="Control">
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="FontWeight" Value="Medium" />
@@ -112,7 +130,29 @@
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Margin" Value="0 5 0 0"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
 
+        <!--Button Tap Interface -->
+        <Style x:Key="tapButton"  TargetType="Button" >
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="FontSize" Value="25"/>
+            
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Foreground" Value="#001F3F"/>
+            <Setter Property="FontFamily" Value="/Font/Roboto.ttf#Roboto Black"/>
+
+            <!--<Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Pink"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                </Trigger>
+                <Trigger Property="IsMouseCaptured" Value="True">
+                    <Setter Property="Background" Value="#AD49E1"/>
+                </Trigger>
+            </Style.Triggers>-->
         </Style>
     </Application.Resources>
 </Application>
