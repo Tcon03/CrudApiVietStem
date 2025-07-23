@@ -46,6 +46,37 @@ namespace CrudVietSteam.ViewModel
                 }
             }
         }
+        private int _totalPage; // Tổng số trang, mặc định là 1 
+        public int TotalPage
+        {
+            get { return _totalPage; }
+            set
+            {
+                if (_totalPage != value)
+                {
+                    _totalPage = value;
+                    Debug.WriteLine("TotalPage changed to: " + _totalPage);
+                    RaisePropertyChange(nameof(TotalPage)); // Thông báo thay đổi thuộc tính TotalPage
+                }
+            }
+        }
+        private int _totalRecords = 0; // Tổng số bản ghi, mặc định là 0 
+        public int TotalRecords
+        {
+            get { return _totalRecords; }
+            set
+            {
+                if (_totalRecords != value)
+                {
+                    _totalRecords = value;
+                    Debug.WriteLine("TotalRecords changed to: " + _totalRecords);
+                    RaisePropertyChange(nameof(TotalRecords)); // Thông báo thay đổi thuộc tính TotalRecords
+                }
+            }
+        }
+
+
+
         public ObservableCollection<ContestsDTO> Contests { get; set; }
 
         public ICommand NextPageCommand { get; set; }
@@ -58,9 +89,8 @@ namespace CrudVietSteam.ViewModel
             OnLoad();
         }
 
-        private bool CanPrevPage(object arg)
+        private bool CanPrevPage()
         {
-            // Chỉ có thể lùi khi không phải ở trang đầu tiên
             return CurrentPage > 1;
         }
 
@@ -68,8 +98,8 @@ namespace CrudVietSteam.ViewModel
         {
             if (CurrentPage > 1)
             {
-                CurrentPage--; // Giảm trang hiện tại nếu không phải trang đầu tiên
-                OnLoad(); // Tải lại dữ liệu khi chuyển về trang trước
+                CurrentPage--;
+                OnLoad();
             }
             else
             {
@@ -77,14 +107,11 @@ namespace CrudVietSteam.ViewModel
             }
         }
 
-        private bool CanNextPage(object arg)
+
+
+        private bool CanNextPage()
         {
-            if (Contests == null || Contests.Count == 0)
-            {
-                return false; // Không có dữ liệu để chuyển trang
-            }
-            // Kiểm tra nếu có dữ liệu để chuyển sang trang tiếp theo
-            return Contests.Count >= PageSize; // Nếu số lượng bản ghi hiện tại >= PageSize thì có thể chuyển trang
+            return CurrentPage < TotalPage;
         }
 
         private void OnNextPage(object obj)
@@ -95,17 +122,48 @@ namespace CrudVietSteam.ViewModel
 
         private async void OnLoad()
         {
-            var data = await App.vietstemService.GetContestAsync(PageSize, CurrentPage);
-            if (data == null)
+            try
             {
-                // Nếu không có dữ liệu, có thể hiển thị thông báo hoặc xử lý khác
-                return;
+                var totalRecords = await App.vietstemService.GetCountAsync(); // Giả sử có phương thức để lấy tổng số bản ghi
+                if (totalRecords > 0)
+                {
+                    //   tổng số lượng / số lượng item của 1 page (30/1)
+                    TotalPage = (int)Math.Ceiling((double)totalRecords / PageSize); // Tính tổng số trang dựa trên tổng số bản ghi và PageSize
+                    Debug.WriteLine(" ====== Tổng số Page ====: " + TotalPage);
+
+                    TotalRecords = totalRecords; // Cập nhật tổng số bản ghi
+                    Debug.WriteLine("Tổng số bản ghi Item: " + TotalRecords);
+
+                    var data = await App.vietstemService.GetContestAsync(PageSize, CurrentPage);
+                    if (data == null)
+                    { 
+                        return;
+                    }
+                    Contests.Clear();
+                    foreach (var item in data)
+                    {
+                        Contests.Add(item);
+                    }
+                }
+                else
+                {
+                    Debug.WriteLine("Không có bản ghi nào để hiển thị.");
+                    TotalPage = 0; // Nếu không có bản ghi, đặt tổng số trang là 1
+                }
             }
-            Contests.Clear();
-            foreach (var item in data)
+            catch (Exception ex)
             {
-                Contests.Add(item);
+                Debug.WriteLine("Lỗi khi tải dữ liệu: " + ex.Message);
+                // Xử lý lỗi nếu cần, ví dụ: hiển thị thông báo lỗi cho người dùng
             }
+            finally
+            {
+                // Cập nhật lại trạng thái của các nút Next/Prev sau mỗi lần tải
+                (NextPageCommand as VfxCommand)?.RaiseCanExecuteChanged();
+                (PrevPageCommand as VfxCommand)?.RaiseCanExecuteChanged();
+            }
+
+
         }
     }
 }

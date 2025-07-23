@@ -21,6 +21,7 @@ namespace CrudVietSteam.Service
     {
 
         public readonly string Url = "http://localhost:3000/api/Accounts/login";
+
         public string contentType = "application/json";
         public readonly HttpClient _client;
         public TokenManager _tokenManager;
@@ -115,10 +116,10 @@ namespace CrudVietSteam.Service
                 if (response.IsSuccessStatusCode)
                 {
                     var result = await response.Content.ReadAsStringAsync();
-                    Debug.WriteLine("=====Result Get =====\n" + result);
+                    Debug.WriteLine("===== Result Get =====\n" + result);
 
                     var convertResult = JsonConvert.DeserializeObject<List<ContestsDTO>>(result);
-                    Debug.WriteLine("Lấy dữ liệu thành công " + convertResult);
+                    Debug.WriteLine("Lấy dữ liệu thành công " + convertResult.Count);
                     return convertResult;
 
                 }
@@ -135,8 +136,27 @@ namespace CrudVietSteam.Service
                 return null;
             }
         }
-
-
+        public async Task<int> GetCountAsync()
+        {
+            string urlGetContest = "http://localhost:3000/api/Contests/count";
+            var response = await _client.GetAsync(urlGetContest);
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadAsStringAsync();
+                Debug.WriteLine("=====Result Get Count =====\n" + result);
+                // Chuyển đổi kết quả về kiểu int
+                // C1 . int counts = int.Parse(result);
+                var convertResult = JsonConvert.DeserializeObject<Item>(result);
+                Debug.WriteLine("Lấy dữ liệu thành công " + convertResult.count);
+                return convertResult.count; // Trả về số lượng bản ghi
+            }
+            else
+            {
+                var errorrResult = await response.Content.ReadAsStringAsync();
+                Debug.WriteLine("====== Errorr Result Get Count Data========\n" + errorrResult);
+                return 0;
+            }
+        }
     }
 
 

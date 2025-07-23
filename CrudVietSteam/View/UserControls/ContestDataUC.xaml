@@ -5,9 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CrudVietSteam.View.UserControls"
              xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
-           xmlns:Vmd ="clr-namespace:CrudVietSteam.ViewModel"
+             xmlns:Vmd ="clr-namespace:CrudVietSteam.ViewModel"
+             x:Name="root"
+               HorizontalAlignment="Stretch"
+              VerticalAlignment="Stretch"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="550" d:DesignWidth="800">
     <UserControl.DataContext>
         <Vmd:ContestsVM/>
     </UserControl.DataContext>
@@ -20,13 +23,16 @@
         <DataGrid
                  BorderThickness="0"
                  FontSize="20"
+             HorizontalAlignment="Stretch"
+                 VerticalAlignment="Stretch"
+                 Width="Auto"
+                 Height="Auto"
                  ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                  ScrollViewer.VerticalScrollBarVisibility="Hidden"
                  FontWeight="Bold"
                  Foreground="#634BD4 "
                  AutoGenerateColumns="False"
                  CanUserAddRows="False"
-                CanUserResizeRows="False"
                  IsReadOnly="True"
                  ItemsSource="{Binding Contests}">
 
@@ -81,32 +87,26 @@
         </DataGrid>
 
         <Grid Grid.Row="2" 
-              d:Background="White"  >
+              d:Background="White" >
+
+            <TextBlock HorizontalAlignment="Left"
+                       FontSize="17"
+                          FontFamily="/Font/Nexa.ttf#Nexa"
+                       FontWeight="DemiBold"
+                       Margin="10"
+                       VerticalAlignment="Center">
+                <Run Text="Total Records: "/>
+                <Run Text="{Binding TotalRecords , Mode=OneWay}"  />
+
+            </TextBlock>
+
             <StackPanel  Margin="20 5"
                   HorizontalAlignment="Right"
                   Orientation="Horizontal">
 
-                <!--<TextBlock Text="Per Page"
-                     VerticalAlignment="Center"
-                     FontFamily="/Font/"
-                    Margin="10"
-                     FontSize="20"/>
-
-          <ComboBox 
-                    Background="Transparent"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    FontSize="15"
-                    Margin="5"
-                    MinWidth="40">
-
-              <ComboBoxItem Content="5" />
-              <ComboBoxItem Content="10" />
-              <ComboBoxItem Content="20" />
-          </ComboBox>-->
 
                 <Button  Command="{Binding PrevPageCommand}" 
-                         CommandParameter="{Binding ElementName=this}"
+                         CommandParameter="{Binding ElementName=root}"
                       Margin="5"
                       Style="{StaticResource btnIconEdit}">
                     <Icon:PackIconMaterial Kind="ChevronLeft" 
@@ -116,10 +116,15 @@
                 </Button>
                 <TextBlock FontFamily="/Font/Nexa.ttf#Nexa"
                              FontSize="20"
-                             Margin=" 5"
-                             Text="1/10"/>
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center"
+                             Margin=" 5">
+                    <Run Text="{Binding CurrentPage , Mode=OneWay}"/> 
+                    <Run Text=" of "/>
+                    <Run Text="{Binding TotalPage , Mode=OneWay}"/>
+                </TextBlock>
                 <Button   Command="{Binding NextPageCommand}"
-                          CommandParameter="{Binding ElementName=this}"
+                          CommandParameter="{Binding ElementName=root}"
                           Style="{StaticResource btnIconEdit}"
                           BorderThickness="0">
                     <Icon:PackIconMaterial Kind="ChevronRight" 
