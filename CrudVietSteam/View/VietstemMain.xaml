@@ -9,7 +9,7 @@
         x:Name="_this"
         xmlns:Vm="clr-namespace:CrudVietSteam.ViewModel"
         xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
-        Title="VietsteamDataView" Height="720" Width="1280">
+        Title="VietsteamDataView" Height="720" Width="1000">
     <Window.DataContext>
         <Vm:MainViewModel/>
     </Window.DataContext>
@@ -106,6 +106,7 @@
                     <UC:HintTextBox  
                            HintText="Search Contest Id ..."
                            Margin=" 0 "/>
+                   
 
                     <Button Style="{StaticResource btnSearch }"
                              Margin="10 0 20 0">

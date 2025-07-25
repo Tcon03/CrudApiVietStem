@@ -16,7 +16,7 @@ namespace CrudVietSteam.ViewModel
     /// </summary>
     public class ContestsVM : ViewModelBase
     {
-        private int _pageSize = 10; // Số lượng bản ghi trên mỗi trang 
+        private int _pageSize = 15; // Số lượng bản ghi trên mỗi trang 
         public int PageSize
         {
             get { return _pageSize; }
@@ -41,8 +41,8 @@ namespace CrudVietSteam.ViewModel
                 {
                     _currentPage = value;
                     Debug.WriteLine("CurrentPage changed to: " + _currentPage);
-                    //OnLoad(); // Tải lại dữ liệu khi thay đổi CurrentPage n 
-                    RaisePropertyChange(nameof(CurrentPage)); // Thông báo thay đổi thuộc tính CurrentPage
+                    OnLoad(); // Tải lại dữ liệu khi thay đổi CurrentPage n 
+                    RaisePropertyChange(nameof(CurrentPage));
                 }
             }
         }
@@ -56,14 +56,17 @@ namespace CrudVietSteam.ViewModel
                 {
                     _totalPage = value;
                     Debug.WriteLine("TotalPage changed to: " + _totalPage);
-                    RaisePropertyChange(nameof(TotalPage)); // Thông báo thay đổi thuộc tính TotalPage
+                    RaisePropertyChange(nameof(TotalPage));
                 }
             }
         }
-        private int _totalRecords = 0; // Tổng số bản ghi, mặc định là 0 
+        private int _totalRecords = 0; // Tổng số bản ghi, mặc định là 0 vì chưa có gửi api lên  
         public int TotalRecords
         {
-            get { return _totalRecords; }
+            get
+            {
+                return _totalRecords;
+            }
             set
             {
                 if (_totalRecords != value)
@@ -81,6 +84,7 @@ namespace CrudVietSteam.ViewModel
 
         public ICommand NextPageCommand { get; set; }
         public ICommand PrevPageCommand { get; set; }
+
         public ContestsVM()
         {
             Contests = new ObservableCollection<ContestsDTO>();
@@ -89,17 +93,22 @@ namespace CrudVietSteam.ViewModel
             OnLoad();
         }
 
+        /// <summary>
+        /// PrevPage Page Check if can go to pevious page
+        /// </summary>
         private bool CanPrevPage()
         {
             return CurrentPage > 1;
         }
 
+        /// <summary>
+        /// PrevPage Page Go to previous page
+        /// </summary>
         private void OnPrevPage(object obj)
         {
             if (CurrentPage > 1)
             {
                 CurrentPage--;
-                OnLoad();
             }
             else
             {
@@ -108,39 +117,48 @@ namespace CrudVietSteam.ViewModel
         }
 
 
-
+        /// <summary>
+        /// Check if can go to nextPage 
+        /// </summary>
         private bool CanNextPage()
         {
+           
             return CurrentPage < TotalPage;
         }
 
+        /// <summary>
+        /// Nextpage default
+        /// </summary>
         private void OnNextPage(object obj)
         {
             CurrentPage++;
-            OnLoad(); // Tải lại dữ liệu khi chuyển sang trang tiếp theo
         }
 
         private async void OnLoad()
         {
             try
             {
-                var totalRecords = await App.vietstemService.GetCountAsync(); // Giả sử có phương thức để lấy tổng số bản ghi
+                //1. Get Total Records from Api
+                var totalRecords = await App.vietstemService.GetCountAsync();
+              
                 if (totalRecords > 0)
                 {
-                    //   tổng số lượng / số lượng item của 1 page (30/1)
-                    TotalPage = (int)Math.Ceiling((double)totalRecords / PageSize); // Tính tổng số trang dựa trên tổng số bản ghi và PageSize
-                    Debug.WriteLine(" ====== Tổng số Page ====: " + TotalPage);
-
                     TotalRecords = totalRecords; // Cập nhật tổng số bản ghi
+                    //  Amount TotalRecord / Amount PageSize (30/1)
+                    TotalPage = (int)Math.Ceiling((double)TotalRecords / PageSize); // Tính tổng số trang dựa trên tổng số bản ghi và PageSize
+                    Debug.WriteLine(" ====== Tổng số Page ==== :" + TotalPage);
+
+                  
                     Debug.WriteLine("Tổng số bản ghi Item: " + TotalRecords);
 
-                    var data = await App.vietstemService.GetContestAsync(PageSize, CurrentPage);
-                    if (data == null)
-                    { 
+                    var dataApi = await App.vietstemService.GetContestAsync(PageSize, CurrentPage);
+                    if (dataApi == null)
+                    {
                         return;
                     }
+
                     Contests.Clear();
-                    foreach (var item in data)
+                    foreach (var item in dataApi)
                     {
                         Contests.Add(item);
                     }
@@ -148,13 +166,12 @@ namespace CrudVietSteam.ViewModel
                 else
                 {
                     Debug.WriteLine("Không có bản ghi nào để hiển thị.");
-                    TotalPage = 0; // Nếu không có bản ghi, đặt tổng số trang là 1
+                    TotalPage = 0; 
                 }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine("Lỗi khi tải dữ liệu: " + ex.Message);
-                // Xử lý lỗi nếu cần, ví dụ: hiển thị thông báo lỗi cho người dùng
             }
             finally
             {

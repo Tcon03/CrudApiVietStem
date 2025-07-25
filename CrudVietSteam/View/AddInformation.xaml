@@ -1,0 +1,93 @@
+﻿<Window x:Class="CrudVietSteam.View.AddInformation"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CrudVietSteam.View"
+        mc:Ignorable="d" 
+        xmlns:uc="clr-namespace:CrudVietSteam.View.UserControls"
+        xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen"
+        Background="Transparent"
+        Title="AddInformation"
+        Height="450" Width="800">
+
+
+    <Border MouseDown="Border_MouseDown"
+            CornerRadius="15"
+            Background="{DynamicResource PrimaryBackgroundColor}" >
+        <Grid>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" >
+                <TextBlock Text="Contest Information" 
+                           FontSize="30" 
+                           Foreground="#434344"
+                           HorizontalAlignment="Left"
+                           FontWeight="Bold"
+                           Margin="20 10"/>
+                <Button Style="{StaticResource btnClose}" 
+                        Click="btnClose_Click"
+                        >
+                    <Icon:PackIconMaterial Kind="Close" 
+                            Width="20" 
+                            Height="20" 
+                            Foreground="#434344"/>
+                </Button>
+            </Grid>
+            <Grid Margin="40 0 40 0 " Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+               
+                <StackPanel Margin="5" >
+                    <uc:HeaderHintTbl Margin="10  "
+                                      HintText="Name Contest ..."
+                                      TextHeader="Name"/>
+                    
+                    <uc:HeaderHintTbl Margin="10 "
+                                      HintText="Introduct contest ..."
+                                      TextHeader="Introduct"/>
+                    
+                    <uc:HeaderHintTbl Margin="10 "
+                                      HintText="Status Contest ..."
+                                      TextHeader="status"/>
+
+                </StackPanel>
+                
+                <StackPanel Margin="30 5"
+                            Grid.Column="1" >
+                    <uc:HeaderHintTbl Margin="10  "
+                                      HintText="Title Contest ..."
+                                      TextHeader="Title"/>
+                    
+                    <uc:HeaderHintTbl Margin="10 "
+                                      HintText="Introduct contest ..."
+                                      TextHeader="Introduct"/>
+                    
+                    <uc:HeaderHintTbl Margin="10 "
+                                      HintText="Status Contest ..."
+                                      TextHeader="Status"/>
+                    
+                </StackPanel>
+            </Grid>
+            <StackPanel Orientation="Horizontal" 
+                        HorizontalAlignment="Right"
+                        Grid.Row="2">
+                <Button Content="Cancel" Style="{StaticResource btnCancel}">
+                    
+                </Button>
+                <Button Content="OK" Style="{StaticResource btnOk}">
+                    
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

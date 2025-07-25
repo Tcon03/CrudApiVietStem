@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="CrudVietSteam.View.UserControls.HeaderHintTbl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CrudVietSteam.View.UserControls"
+             mc:Ignorable="d" 
+              x:Name="root"
+             d:DesignHeight="70" d:DesignWidth="250">
+    <Grid Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <TextBlock d:Text="Example Information ..."
+                       HorizontalAlignment="Left"
+                       Foreground="{DynamicResource PrimaryBlueColor}"
+                       FontWeight="DemiBold"
+                       Text="{Binding ElementName=root,Path=TextHeader}"
+                       Margin="5"
+                       FontSize="15"/>
+        </Grid>
+
+        <Border Grid.Row="1" 
+                BorderBrush="Gray"
+                BorderThickness="1"
+                Background="White"
+                CornerRadius="10">
+            <Grid>
+                <TextBox Style="{StaticResource tbxHint}"
+                         x:Name="txbWord"
+                         Text="{Binding ElementName=root,Path=Text,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                         Width="300">
+                </TextBox>
+                
+                <TextBlock IsHitTestVisible="False"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center"
+                           Foreground="{DynamicResource PrimaryGrayColor }"
+                           Margin="15 5"
+                           FontStyle="Italic"
+                           d:Text="example..."
+                           Text="{Binding ElementName=root, Path=HintText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                           FontSize="13">
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger  Binding="{Binding ElementName=txbWord,Path=Text}"
+                                              Value="">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+        </Border>
+
+
+    </Grid>
+</UserControl>

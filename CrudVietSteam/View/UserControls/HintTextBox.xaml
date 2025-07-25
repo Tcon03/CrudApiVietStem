@@ -7,20 +7,7 @@
              mc:Ignorable="d" 
              x:Name="root"
              d:DesignHeight="40" d:DesignWidth="300">
-    <UserControl.Resources>
-        <Style TargetType="TextBox" x:Key="tbxHint">
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="FontWeight" Value="Normal"/>
-            <Setter Property="FontFamily" Value="/Font/Roboto.ttf#Roboto Black"/>
-            <Setter Property="Padding" Value="10 10 10 10"/>
-            <Setter Property="MinHeight" Value="40"/>
-            <Setter Property="Width" Value="300"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0"/>
-        </Style>
-    </UserControl.Resources>
+  
 
     <Border CornerRadius="8"
             Margin="2"
@@ -29,8 +16,10 @@
             Background="White">
 
         <Grid>
+
             <TextBox Style="{StaticResource tbxHint}"
                  x:Name="tbxWord"
+                     Width="300"
                  Text="{Binding ElementName=root,Path=Text,
                  Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
             </TextBox>
@@ -38,7 +27,6 @@
             <TextBlock IsHitTestVisible="False"
                        HorizontalAlignment="Left"
                        VerticalAlignment="Center"
-                       x:Name="txtHint"
                        Foreground="Gray"
                        Margin="5"
                        FontWeight="DemiBold"

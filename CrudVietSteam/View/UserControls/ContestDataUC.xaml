@@ -10,27 +10,25 @@
                HorizontalAlignment="Stretch"
               VerticalAlignment="Stretch"
              mc:Ignorable="d" 
-             d:DesignHeight="550" d:DesignWidth="800">
+             d:DesignHeight="550" d:DesignWidth="600">
     <UserControl.DataContext>
         <Vmd:ContestsVM/>
     </UserControl.DataContext>
-    <Grid>
+    <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <!--thuộc tính cho tiêu đề của DataGrid-->
-        <DataGrid
+        <DataGrid 
+                 MinRowHeight="35"
                  BorderThickness="0"
                  FontSize="20"
-             HorizontalAlignment="Stretch"
+                 HorizontalAlignment="Stretch"
                  VerticalAlignment="Stretch"
-                 Width="Auto"
-                 Height="Auto"
                  ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                  ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                 FontWeight="Bold"
-                 Foreground="#634BD4 "
+                 Foreground="{DynamicResource PrimaryBlueColor}"
                  AutoGenerateColumns="False"
                  CanUserAddRows="False"
                  IsReadOnly="True"

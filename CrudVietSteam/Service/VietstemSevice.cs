@@ -53,7 +53,7 @@ namespace CrudVietSteam.Service
                 {
                     Debug.WriteLine("======= Result Login ========\n" + resultLogin);
 
-                    var loginResult = JsonConvert.DeserializeObject<VietStemDTO>(resultLogin);
+                    var loginResult = JsonConvert.DeserializeObject<LoginDTO>(resultLogin);
                     // Save Id accessToken to file
                     _tokenManager.SaveToFile(loginResult.id);
 
@@ -81,7 +81,7 @@ namespace CrudVietSteam.Service
 
 
         /// <summary>
-        /// Get Data Api
+        /// Get Data Api Page Size and Current Page
         /// </summary>
         /// <returns></returns>
         public async Task<List<ContestsDTO>> GetContestAsync(int pageSize, int currentPage)
@@ -136,6 +136,10 @@ namespace CrudVietSteam.Service
                 return null;
             }
         }
+
+        /// <summary>
+        /// Get Count Data Api  
+        /// </summary>
         public async Task<int> GetCountAsync()
         {
             string urlGetContest = "http://localhost:3000/api/Contests/count";

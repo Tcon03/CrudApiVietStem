@@ -177,13 +177,16 @@
     <Compile Include="Model\User.cs" />
     <Compile Include="Service\CurdentialHelper.cs" />
     <Compile Include="Service\DTO\ContestsDTO.cs" />
-    <Compile Include="Service\DTO\VietStemDTO.cs" />
+    <Compile Include="Service\DTO\LoginDTO.cs" />
     <Compile Include="Service\TokenManager.cs" />
     <Compile Include="Service\VietstemSevice.cs" />
     <Compile Include="ViewModel\ContestsVM.cs" />
     <Compile Include="ViewModel\LoginVM.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="View\AddInformation.xaml.cs">
+      <DependentUpon>AddInformation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
@@ -198,12 +201,19 @@
     <Compile Include="View\UserControls\ContestDataUC.xaml.cs">
       <DependentUpon>ContestDataUC.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\UserControls\HeaderHintTbl.xaml.cs">
+      <DependentUpon>HeaderHintTbl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\UserControls\HintTextBox.xaml.cs">
       <DependentUpon>HintTextBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\VietstemMain.xaml.cs">
       <DependentUpon>VietstemMain.xaml</DependentUpon>
     </Compile>
+    <Page Include="View\AddInformation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\LoginView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -213,6 +223,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\UserControls\ContestDataUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\HeaderHintTbl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
