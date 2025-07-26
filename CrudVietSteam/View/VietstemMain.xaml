@@ -9,7 +9,7 @@
         x:Name="_this"
         xmlns:Vm="clr-namespace:CrudVietSteam.ViewModel"
         xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
-        Title="VietsteamDataView" Height="720" Width="1000">
+        Title="VietsteamDataView" Height="720" Width="1200">
     <Window.DataContext>
         <Vm:MainViewModel/>
     </Window.DataContext>
@@ -44,6 +44,8 @@
 
                 <Button HorizontalAlignment="Right" 
                         Margin="25"
+                        Command="{Binding AddInfor}"
+                        CommandParameter="{Binding ElementName=_this}"
                         Style="{StaticResource btnAdd }">
                     <StackPanel Orientation="Horizontal">
                         <Icon:PackIconMaterial Kind="Plus" 
@@ -93,7 +95,7 @@
                            HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                            Margin="20 0"
-                            Foreground="#213555"
+                            Foreground="{DynamicResource PrimaryColor}"
                            FontFamily="/Font/Nexa.ttf#Nexa"
                            Text="{Binding CurrentTitle}"
                            FontWeight="Bold"
@@ -117,7 +119,7 @@
                                   Margin="0 0"
                                   Foreground="White"/>
                             <TextBlock FontFamily="/Font/Roboto.ttf#Roboto Black"
-                                       FontSize="20"
+                                       FontSize="18"
                                        Text="Search"/>
                         </StackPanel>
                     </Button>

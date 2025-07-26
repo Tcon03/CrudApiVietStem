@@ -1,5 +1,6 @@
 ﻿using CrudVietSteam.Command;
 using CrudVietSteam.Service.DTO;
+using CrudVietSteam.View;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,6 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace CrudVietSteam.ViewModel
@@ -78,21 +80,134 @@ namespace CrudVietSteam.ViewModel
             }
         }
 
+        private string _name;
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                if (_name != value)
+                {
+                    _name = value;
+                    RaisePropertyChange(nameof(Name));
+                }
+            }
+        }
 
+
+        private string _introduce;
+        public string Introduce
+        {
+            get { return _introduce; }
+            set
+            {
+                if (_introduce != value)
+                {
+                    _introduce = value;
+                    RaisePropertyChange(nameof(Introduce));
+                }
+            }
+        }
+
+        private string _status;
+        public string Status
+        {
+            get { return _status; }
+            set
+            {
+                if (_status != value)
+                {
+                    _status = value;
+                    RaisePropertyChange(nameof(Status));
+                }
+            }
+        }
+
+        private string _description;
+        public string Description
+        {
+            get { return _description; }
+            set
+            {
+                _description = value;
+                Debug.WriteLine("Value thay đổi nè " +value );
+                RaisePropertyChange(nameof(Description));
+            }
+        }
+        private string _title;
+
+        public string Title
+        {
+            get { return _title; }
+            set
+            {
+                _title = value;
+                RaisePropertyChange(nameof(Title));
+            }
+        }
+        private string _keyword;
+        public string Keywords
+        { 
+            get
+            {
+                return _keyword; 
+            } 
+            set
+            {
+                _keyword = value;
+                RaisePropertyChange(nameof(Keywords));
+            }
+        }
 
         public ObservableCollection<ContestsDTO> Contests { get; set; }
 
         public ICommand NextPageCommand { get; set; }
         public ICommand PrevPageCommand { get; set; }
-
+        public ICommand AddContestCommand { get; set; }
         public ContestsVM()
         {
             Contests = new ObservableCollection<ContestsDTO>();
             NextPageCommand = new VfxCommand(OnNextPage, CanNextPage);
             PrevPageCommand = new VfxCommand(OnPrevPage, CanPrevPage);
-            OnLoad();
+            AddContestCommand = new VfxCommand(o => AddContest(), o => true);
+            //OnLoad();
         }
 
+
+        public async void AddContest()
+        {
+
+
+            if (string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(Introduce) ||
+               string.IsNullOrEmpty(Status) || string.IsNullOrEmpty(Description) ||
+               string.IsNullOrEmpty(Title) || string.IsNullOrEmpty(Keywords))
+            {
+                MessageBox.Show("Thông tin cuộc thi không được để trống.");
+                return;
+            }
+            var addContestInfor = new ContestsDTO
+            {
+                name = Name,
+                introduce = Introduce,
+                status = Status,
+                description = Description,
+                title = Title,
+                keywords = Keywords
+            };
+            var result = await App.vietstemService.CreateContestAsync(addContestInfor);
+            if (result != null)
+            {
+                Debug.WriteLine("Thêm cuộc thi thành công: " + result.name);
+                // Cập nhật lại danh sách cuộc thi sau khi thêm mới
+                OnLoad();
+            }
+            else
+            {
+                Debug.WriteLine("Thêm cuộc thi thất bại.");
+            }
+
+
+        }
         /// <summary>
         /// PrevPage Page Check if can go to pevious page
         /// </summary>
@@ -122,7 +237,7 @@ namespace CrudVietSteam.ViewModel
         /// </summary>
         private bool CanNextPage()
         {
-           
+
             return CurrentPage < TotalPage;
         }
 
@@ -140,7 +255,7 @@ namespace CrudVietSteam.ViewModel
             {
                 //1. Get Total Records from Api
                 var totalRecords = await App.vietstemService.GetCountAsync();
-              
+
                 if (totalRecords > 0)
                 {
                     TotalRecords = totalRecords; // Cập nhật tổng số bản ghi
@@ -148,7 +263,7 @@ namespace CrudVietSteam.ViewModel
                     TotalPage = (int)Math.Ceiling((double)TotalRecords / PageSize); // Tính tổng số trang dựa trên tổng số bản ghi và PageSize
                     Debug.WriteLine(" ====== Tổng số Page ==== :" + TotalPage);
 
-                  
+
                     Debug.WriteLine("Tổng số bản ghi Item: " + TotalRecords);
 
                     var dataApi = await App.vietstemService.GetContestAsync(PageSize, CurrentPage);
@@ -166,7 +281,7 @@ namespace CrudVietSteam.ViewModel
                 else
                 {
                     Debug.WriteLine("Không có bản ghi nào để hiển thị.");
-                    TotalPage = 0; 
+                    TotalPage = 0;
                 }
             }
             catch (Exception ex)

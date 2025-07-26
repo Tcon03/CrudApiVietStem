@@ -39,7 +39,7 @@
             </Grid.RowDefinitions>
 
             <!--Row 1-->
-            <Grid Grid.Row="0" d:Background="Wheat">
+            <Grid Grid.Row="0">
                 <TextBlock
                          HorizontalAlignment="Left"
                          Margin="10"
@@ -49,8 +49,9 @@
                          Text="Login App"/>
                 <WrapPanel Orientation="Horizontal" 
                             HorizontalAlignment="Right">
-                    <Button         Style="{StaticResource btnDelete}"
-                                           Click="WindowMiniMine_Click">
+                    <Button  Style="{StaticResource btnClose}"
+                             Margin="10"
+                             Click="WindowMiniMine_Click">
                         <Icon:PackIconMaterial Kind="WindowMinimize" 
                                          Width="20" 
                                          Height="20" 
@@ -64,7 +65,8 @@
                                          Foreground="White"/>
                      </Button>-->
 
-                    <Button    Style="{StaticResource btnDelete}"
+                    <Button    Style="{StaticResource btnClose}"
+                               Margin="10"
                              Click="CloseWindow_Click">
                         <Icon:PackIconMaterialDesign 
                                         Kind="Close"

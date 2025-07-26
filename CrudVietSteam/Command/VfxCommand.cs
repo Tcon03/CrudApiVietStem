@@ -23,6 +23,8 @@ namespace CrudVietSteam.Command
             _TargetCanExecuteMethod = canExecuteMethod;
         }
 
+      
+
         public void RaiseCanExecuteChanged()
         {
             if (this != null)

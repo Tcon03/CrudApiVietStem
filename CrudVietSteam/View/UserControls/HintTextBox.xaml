@@ -19,7 +19,7 @@
 
             <TextBox Style="{StaticResource tbxHint}"
                  x:Name="tbxWord"
-                     Width="300"
+                     MinWidth="300"
                  Text="{Binding ElementName=root,Path=Text,
                  Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
             </TextBox>

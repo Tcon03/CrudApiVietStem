@@ -89,8 +89,7 @@
 
             <TextBlock HorizontalAlignment="Left"
                        FontSize="17"
-                          FontFamily="/Font/Nexa.ttf#Nexa"
-                       FontWeight="DemiBold"
+                       FontWeight="Bold"
                        Margin="10"
                        VerticalAlignment="Center">
                 <Run Text="Total Records: "/>
@@ -101,20 +100,17 @@
             <StackPanel  Margin="20 5"
                   HorizontalAlignment="Right"
                   Orientation="Horizontal">
-
-
+                
                 <Button  Command="{Binding PrevPageCommand}" 
                          CommandParameter="{Binding ElementName=root}"
-                      Margin="5"
-                      Style="{StaticResource btnIconEdit}">
+                          Margin="5"
+                          Style="{StaticResource btnIconEdit}">
                     <Icon:PackIconMaterial Kind="ChevronLeft" 
-                        Width="20" 
-                        Height="20" 
-                        Foreground="White"/>
+                                Foreground="White"/>
                 </Button>
-                <TextBlock FontFamily="/Font/Nexa.ttf#Nexa"
-                             FontSize="20"
-                             HorizontalAlignment="Center"
+                <TextBlock 
+                             FontSize="18"
+                             FontWeight="Bold"
                              VerticalAlignment="Center"
                              Margin=" 5">
                     <Run Text="{Binding CurrentPage , Mode=OneWay}"/> 
@@ -126,8 +122,6 @@
                           Style="{StaticResource btnIconEdit}"
                           BorderThickness="0">
                     <Icon:PackIconMaterial Kind="ChevronRight" 
-                                            Width="20" 
-                                            Height="20" 
                                             Foreground="White"/>
                 </Button>
 

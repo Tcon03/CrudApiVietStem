@@ -5,19 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CrudVietSteam.View"
         mc:Ignorable="d" 
+        x:Name="_this"
+        xmlns:Vmd="clr-namespace:CrudVietSteam.ViewModel"
         xmlns:uc="clr-namespace:CrudVietSteam.View.UserControls"
         xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
         WindowStyle="None"
         AllowsTransparency="True"
         WindowStartupLocation="CenterScreen"
         Background="Transparent"
+        ResizeMode="NoResize"
         Title="AddInformation"
         Height="450" Width="800">
 
-
+    <Window.DataContext>
+        <Vmd:ContestsVM/>
+    </Window.DataContext>
     <Border MouseDown="Border_MouseDown"
             CornerRadius="15"
-            Background="{DynamicResource PrimaryBackgroundColor}" >
+            Background="White" >
         <Grid>
 
             <Grid.RowDefinitions>
@@ -46,46 +51,55 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-               
-                <StackPanel Margin="5" >
+
+                <StackPanel Margin="0 0 10 0"  >
                     <uc:HeaderHintTbl Margin="10  "
+                                      Text="{Binding Name ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                       HintText="Name Contest ..."
                                       TextHeader="Name"/>
-                    
-                    <uc:HeaderHintTbl Margin="10 "
+
+                    <uc:HeaderHintTbl Margin="10"
+                                        Text="{Binding Introduce ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                       HintText="Introduct contest ..."
                                       TextHeader="Introduct"/>
-                    
+
                     <uc:HeaderHintTbl Margin="10 "
+                                        Text="{Binding Status ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                       HintText="Status Contest ..."
                                       TextHeader="status"/>
 
                 </StackPanel>
-                
-                <StackPanel Margin="30 5"
+
+                <StackPanel Margin="10 0 0 0"
                             Grid.Column="1" >
                     <uc:HeaderHintTbl Margin="10  "
+                                      Text="{Binding Title ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                       HintText="Title Contest ..."
                                       TextHeader="Title"/>
-                    
+
                     <uc:HeaderHintTbl Margin="10 "
-                                      HintText="Introduct contest ..."
-                                      TextHeader="Introduct"/>
-                    
+                                      Text="{Binding Description ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                      HintText="Description contest ..."
+                                      TextHeader="Description"/>
+
                     <uc:HeaderHintTbl Margin="10 "
-                                      HintText="Status Contest ..."
-                                      TextHeader="Status"/>
-                    
+                                      Text="{Binding Keywords ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                      HintText="Keywords Contest ..."
+                                      TextHeader="Keywords"/>
+
                 </StackPanel>
             </Grid>
             <StackPanel Orientation="Horizontal" 
+                        Margin="0 20 20 20"
                         HorizontalAlignment="Right"
                         Grid.Row="2">
                 <Button Content="Cancel" Style="{StaticResource btnCancel}">
-                    
                 </Button>
-                <Button Content="OK" Style="{StaticResource btnOk}">
-                    
+
+                <Button Content="OK" 
+                        Command="{Binding AddContestCommand}" 
+                        CommandParameter="{Binding ElementName=_this}"
+                        Style="{StaticResource btnOk}">
                 </Button>
             </StackPanel>
         </Grid>
