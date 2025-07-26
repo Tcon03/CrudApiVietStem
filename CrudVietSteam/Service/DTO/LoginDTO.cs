@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CrudVietSteam.Service.DTO
 {
-    public class VietStemDTO
+    public class LoginDTO
     {
         public string id { get; set; }
         public int ttl { get; set; }

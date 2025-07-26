@@ -39,7 +39,7 @@ namespace CrudVietSteam.Service
                 email = username,
                 password = password
             };
-            // chuyển đổi đối tượng sang định dạng Json
+            // chuyển đổi Obj sang định dạng Json
             var json = JsonConvert.SerializeObject(curdential, Formatting.Indented);
             Debug.WriteLine("==== Save Account ==== \n" + json);
 
@@ -60,8 +60,13 @@ namespace CrudVietSteam.Service
             }
 
             var data = File.ReadAllText(filePath);
-
+        
             return JsonConvert.DeserializeObject<User>(data);
+
+            // C2. lưu dữ liệu vào biến data và chuyển đổi sang đối tượng User
+            // var convertData = JsonConvert.DeserializeObject<User>(data);
+            //return convertData;
+
             //if (!File.Exists(filePath))
             //{
             //    MessageBox.Show("File hiện tại không có trong thư mục ");

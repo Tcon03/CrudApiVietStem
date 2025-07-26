@@ -5,10 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CrudVietSteam.View.UserControls"
              mc:Ignorable="d" 
-                xmlns:viewModel ="clr-namespace:CrudVietSteam.ViewModel"
+              xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:viewModel ="clr-namespace:CrudVietSteam.ViewModel"
              d:DesignHeight="450" d:DesignWidth="800">
-  
-    <Grid>
+
+    <Grid d:Background="White">
         <!--<DataGrid Grid.Row="3" Margin="-10,10,10,0" 
                   AutoGenerateColumns="False"
                   ItemsSource="{Binding Contests}"
@@ -33,5 +34,54 @@
                 <DataGridTextColumn Header="전환율" IsReadOnly="True" Width="*" TextBlock.TextAlignment="Center" Binding="{Binding ConversionRate, StringFormat={}{0:0.##}%}"/>
             </DataGrid.Columns>
         </DataGrid>-->
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Button Style="{StaticResource btnSideBar}">
+                <Icon:PackIconMaterial Kind="Menu"/>
+            </Button>
+
+            <Border Grid.Row="1"
+              CornerRadius="0 25 0 0"
+              Background="#634BD4">
+                <StackPanel Orientation="Vertical">
+                    <Button Command="{Binding ShowContestView}" 
+                      CommandParameter="{Binding ElementName=_this}"
+                      Style="{StaticResource btnSideBar}">
+
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Image/contest.png" 
+                           Height="30"
+                           Margin="5 0"
+                           Stretch="Uniform"/>
+                            <TextBlock Text=" Contest" Margin="5"/>
+                        </StackPanel>
+
+                    </Button>
+                    <Button  Style="{StaticResource btnSideBar}"
+                      Command="{Binding ShowCityView}" 
+                      CommandParameter="{Binding ElementName=_this}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Image/city.png" 
+                               Height="30"
+                               Margin="5 0"
+                               Stretch="Uniform"/>
+                            <TextBlock Text="City" Margin="10 5"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+            </Border>
+        </Grid>
+
     </Grid>
 </UserControl>

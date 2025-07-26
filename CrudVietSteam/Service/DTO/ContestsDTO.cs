@@ -24,4 +24,8 @@ namespace CrudVietSteam.Service.DTO
         public DateTime createdAt { get; set; }
         public DateTime updatedAt { get; set; }
     }
+    public class Item
+    {
+        public int count { get; set; }
+    }
 }
