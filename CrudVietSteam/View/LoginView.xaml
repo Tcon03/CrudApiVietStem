@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CrudVietSteam.View"
         mc:Ignorable="d"
+        x:Name="_this"
         xmlns:Icon ="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:LVM="clr-namespace:CrudVietSteam.ViewModel"
         WindowStartupLocation="CenterScreen"

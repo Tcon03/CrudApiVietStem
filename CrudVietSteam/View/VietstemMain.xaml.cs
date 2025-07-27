@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CrudVietSteam.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,16 @@ namespace CrudVietSteam.View
         public VietstemMain()
         {
             InitializeComponent();
+            MainViewModel mainViewModel = this.DataContext as MainViewModel;
+            if (mainViewModel != null)
+            {
+                mainViewModel.CloseViet += CloseVietHandler;
+            }
+        }
+
+        private void CloseVietHandler(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

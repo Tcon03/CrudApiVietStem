@@ -130,7 +130,7 @@ namespace CrudVietSteam.ViewModel
             set
             {
                 _description = value;
-                Debug.WriteLine("Value thay đổi nè " +value );
+                Debug.WriteLine("Value thay đổi nè " + value);
                 RaisePropertyChange(nameof(Description));
             }
         }
@@ -147,11 +147,11 @@ namespace CrudVietSteam.ViewModel
         }
         private string _keyword;
         public string Keywords
-        { 
+        {
             get
             {
-                return _keyword; 
-            } 
+                return _keyword;
+            }
             set
             {
                 _keyword = value;
@@ -164,13 +164,15 @@ namespace CrudVietSteam.ViewModel
         public ICommand NextPageCommand { get; set; }
         public ICommand PrevPageCommand { get; set; }
         public ICommand AddContestCommand { get; set; }
+        public EventHandler AddSuccess;
+
         public ContestsVM()
         {
             Contests = new ObservableCollection<ContestsDTO>();
             NextPageCommand = new VfxCommand(OnNextPage, CanNextPage);
             PrevPageCommand = new VfxCommand(OnPrevPage, CanPrevPage);
             AddContestCommand = new VfxCommand(o => AddContest(), o => true);
-            //OnLoad();
+            OnLoad();
         }
 
 
@@ -192,18 +194,30 @@ namespace CrudVietSteam.ViewModel
                 status = Status,
                 description = Description,
                 title = Title,
-                keywords = Keywords
+                keywords = Keywords,
+                rule = "string",
+                guide = "string",
+                fromGrade = 0,
+                toGrade = 0,
+                accountId = "string",
+                cityId = 0,
+                createdAt = DateTime.Now,
+                updatedAt = DateTime.Now
             };
             var result = await App.vietstemService.CreateContestAsync(addContestInfor);
             if (result != null)
             {
                 Debug.WriteLine("Thêm cuộc thi thành công: " + result.name);
+                VietstemMain vietstemMain = new VietstemMain();
+                vietstemMain.Show();
                 // Cập nhật lại danh sách cuộc thi sau khi thêm mới
-                OnLoad();
+                AddSuccess?.Invoke(this, new EventArgs());
+                MessageBox.Show("Đóng giao diện Add Information Thành Công");
+                
             }
             else
             {
-                Debug.WriteLine("Thêm cuộc thi thất bại.");
+                MessageBox.Show("Thêm cuộc thi thất bại.");
             }
 
 
@@ -259,8 +273,11 @@ namespace CrudVietSteam.ViewModel
                 if (totalRecords > 0)
                 {
                     TotalRecords = totalRecords; // Cập nhật tổng số bản ghi
+                    RaisePropertyChange(nameof(TotalRecords));
                     //  Amount TotalRecord / Amount PageSize (30/1)
                     TotalPage = (int)Math.Ceiling((double)TotalRecords / PageSize); // Tính tổng số trang dựa trên tổng số bản ghi và PageSize
+                    RaisePropertyChange(nameof(TotalPage));
+
                     Debug.WriteLine(" ====== Tổng số Page ==== :" + TotalPage);
 
 
@@ -294,7 +311,6 @@ namespace CrudVietSteam.ViewModel
                 (NextPageCommand as VfxCommand)?.RaiseCanExecuteChanged();
                 (PrevPageCommand as VfxCommand)?.RaiseCanExecuteChanged();
             }
-
 
         }
     }
