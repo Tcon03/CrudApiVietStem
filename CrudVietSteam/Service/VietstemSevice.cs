@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -45,7 +46,6 @@ namespace CrudVietSteam.Service
             };
             var jsonBody = JsonConvert.SerializeObject(body);
             var content = new StringContent(jsonBody, Encoding.UTF8, contentType);
-            Debug.WriteLine(content.ToString());
             try
             {
 
@@ -86,9 +86,9 @@ namespace CrudVietSteam.Service
         /// Get Data Api Page Size and Current Page
         /// </summary>
         /// <returns></returns>
-        public async Task<List<ContestsDTO>> GetContestAsync(int pageSize, int currentPage)
+        public async Task<ObservableCollection<ContestsDTO>> GetContestAsync(int pageSize, int currentPage)
         {
-
+            Debug.WriteLine("Đang truy cập vào hàm GetContest Pagging");
             /* set mặc định cho pageSize là 10 phần tử
              set mặc định cho currentPage là 1 
              offset =  bỏ qua bảo nhiêu phần tử 
@@ -109,7 +109,6 @@ namespace CrudVietSteam.Service
                 };
 
                 var convertFilter = JsonConvert.SerializeObject(fiterObject);
-                Debug.WriteLine("=====Filter Object =====\n" + convertFilter);
 
                 string urlWithFilter = $"{urlGetContest}?filter={convertFilter}";
 
@@ -117,9 +116,8 @@ namespace CrudVietSteam.Service
                 if (response.IsSuccessStatusCode)
                 {
                     var result = await response.Content.ReadAsStringAsync();
-
-                    var convertResult = JsonConvert.DeserializeObject<List<ContestsDTO>>(result);
-                    Debug.WriteLine("Lấy dữ liệu thành công " + convertResult.Count);
+                    Debug.WriteLine("Result Get Count Pagging \n" +result);
+                    var convertResult = JsonConvert.DeserializeObject<ObservableCollection<ContestsDTO>>(result);
                     return convertResult;
 
                 }
@@ -132,7 +130,7 @@ namespace CrudVietSteam.Service
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Hiện tại đã xảy ra lỗi \n" + ex.Message);
+                MessageBox.Show("Hiện tại đã xảy ra lỗi get dữ liệu \n" + ex.Message);
                 return null;
             }
         }
@@ -167,20 +165,25 @@ namespace CrudVietSteam.Service
         /// </summary>
         public async Task<ContestsDTO> CreateContestAsync(ContestsDTO contest)
         {
-            var pushContest = "http://localhost:3000/api/Contests?access_token=tnI0JmrNKKQuxIWuea3w6J4QCYCMFqOElnfISPiI6v6drlkWZhk2KdljNgH9fAdJ";
-            var serializerSettings = new JsonSerializerSettings
-        {
-            DefaultValueHandling = DefaultValueHandling.Ignore
-        };
+            var accessToken = _tokenManager.LoadToken();
+            var url = "http://localhost:3000/api/Contests?access_token=";
+            var pushContest = url + accessToken; // Thêm access token vào URL
 
-            var convertConterst = JsonConvert.SerializeObject(contest,serializerSettings);
+            // Sử dụng JsonSerializerSettings để bỏ qua các giá trị mặc định
+            //var serializerSettings = new JsonSerializerSettings
+            //{
+            //    DefaultValueHandling = DefaultValueHandling.Ignore
+            //};
+
+            var convertConterst = JsonConvert.SerializeObject(contest);
+            Debug.WriteLine("Request gửi lên có định dạng như sau nhé :\n" + convertConterst);
             var content = new StringContent(convertConterst, Encoding.UTF8, contentType);
             var response = await _client.PostAsync(pushContest, content);
             if (response.IsSuccessStatusCode)
             {
                 var result = await response.Content.ReadAsStringAsync();
-                Debug.WriteLine("===== Result Create =====\n" + result);
                 var convertResult = JsonConvert.DeserializeObject<ContestsDTO>(result);
+                MessageBox.Show("Thêm dữ liêu thành công !!");
                 return convertResult;
             }
             else
@@ -196,6 +199,7 @@ namespace CrudVietSteam.Service
         /// </summary>
         public async Task<ContestsDTO> UpdateContestAsync(ContestsDTO contestUpdate)
         {
+
             var convertConterst = JsonConvert.SerializeObject(contestUpdate);
             var content = new StringContent(convertConterst, Encoding.UTF8, contentType);
             string urlUpdate = $"{urlGetContest}/{contestUpdate.id}"; // Thêm ID vào URL để cập nhật

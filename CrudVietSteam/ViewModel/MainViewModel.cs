@@ -52,6 +52,7 @@ namespace CrudVietSteam.ViewModel
         public ICommand ShowContestView { get; set; }
         public ICommand ShowCityView { get; set; }
         public ICommand AddInfor { get; set; }
+        public EventHandler CloseViet;
 
         public MainViewModel()
         {
@@ -66,8 +67,9 @@ namespace CrudVietSteam.ViewModel
         private void OnAdd(object obj)
         {
             AddInformation addInformation = new AddInformation();
-            addInformation.ShowDialog(); // Hiển thị cửa sổ thêm thông tin cuộc thi
-            
+            addInformation.Show();
+            CloseViet?.Invoke(this, new EventArgs());
+
         }
 
         public void SwitchView(ViewType viewType)

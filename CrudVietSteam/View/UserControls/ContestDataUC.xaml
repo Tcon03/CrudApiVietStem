@@ -32,7 +32,7 @@
                  AutoGenerateColumns="False"
                  CanUserAddRows="False"
                  IsReadOnly="True"
-                 ItemsSource="{Binding Contests}">
+                 ItemsSource="{Binding Contests , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
             <!--style của DataGrid-->
             <DataGrid.CellStyle>
@@ -93,7 +93,7 @@
                        Margin="10"
                        VerticalAlignment="Center">
                 <Run Text="Total Records: "/>
-                <Run Text="{Binding TotalRecords , Mode=OneWay}"  />
+                <Run Text="{Binding TotalRecords,Mode=TwoWay,UpdateSourceTrigger =PropertyChanged}"  />
 
             </TextBlock>
 

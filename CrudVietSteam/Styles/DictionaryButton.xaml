@@ -152,7 +152,7 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Opacity" Value="0.5"/>
+                <Setter Property="Background" Value="PaleVioletRed"/>
             </Trigger>
             <Trigger Property="IsMouseCaptured" Value="True">
                 <Setter Property="Background" Value="{DynamicResource CloseColor}"/>
@@ -178,15 +178,14 @@
         <Setter Property="FontFamily" Value="/Font/Roboto.ttf#Roboto Black"/>
         <Setter Property="FontSize" Value="20" />
         <Setter Property="FontWeight" Value="Bold" />
-        <Setter Property="Foreground" Value="#001F3F"/>
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryColor}"/>
         <Setter Property="BorderBrush" Value="Transparent" />
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border
+                    <Border         CornerRadius="8"
                                     Background="{TemplateBinding Background}"
-                                    BorderThickness="0 0 0 1"
                                     BorderBrush="{TemplateBinding BorderBrush}">
                         <ContentPresenter
                                     HorizontalAlignment="Center"
@@ -197,8 +196,12 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Opacity" Value="0.8"/>
+                <Setter Property="Foreground" Value="Black" />
+            </Trigger>
+          
+            <Trigger Property="IsPressed" Value="True">
                 <Setter Property="Background" Value="#7b5cd6" />
-                <Setter Property="Foreground" Value="#ffffff" />
             </Trigger>
         </Style.Triggers>
     </Style>

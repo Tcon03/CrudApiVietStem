@@ -18,7 +18,7 @@ namespace CrudVietSteam.Service.DTO
         public string description { get; set; }
         public string title { get; set; }
         public string keywords { get; set; }
-        public int id { get; set; }
+        public int? id { get; set; }
         public string accountId { get; set; }
         public int cityId { get; set; }
         public DateTime createdAt { get; set; }
