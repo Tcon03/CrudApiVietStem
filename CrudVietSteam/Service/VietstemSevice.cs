@@ -12,6 +12,7 @@ using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Configuration;
 using System.Web.Management;
 using System.Windows;
 using System.Windows.Documents;
@@ -20,22 +21,127 @@ namespace CrudVietSteam.Service
 {
     public class VietstemSevice
     {
-
-        public readonly string urlLogin = "http://localhost:3000/api/Accounts/login";
-        public readonly string urlGetContest = "http://localhost:3000/api/Contests";
+        public readonly ApiConfiguration _config;
 
 
-        public string contentType = "application/json";
         public readonly HttpClient _client;
         public TokenManager _tokenManager;
         public VietstemSevice()
         {
+            _config = new ApiConfiguration();
             _client = new HttpClient();
             _tokenManager = new TokenManager();
+            _client.BaseAddress = new Uri(_config.BaseUrl);
+        }
+
+
+        /// <summary>
+        /// Get Data Api
+        /// </summary>
+        public async Task<T> GetDataAsync<T>(string url)
+        {
+            try
+            {
+                // cần endpoint của phần nào thì truyền vào url
+                var response = await _client.GetAsync(url);
+                Debug.WriteLine("======= GetData ====== \n" + response);
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsStringAsync();
+                    Debug.WriteLine("===== Result Get Data =====\n" + result);
+
+                    return JsonConvert.DeserializeObject<T>(result);
+                }
+                else
+                {
+                    var errorResult = await response.Content.ReadAsStringAsync();
+                    Debug.WriteLine("====== Error Result Get Data ========\n" + errorResult);
+                    return default;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hiện tại đã xảy ra lỗi get dữ liệu \n" + ex.Message);
+                return default;
+            }
         }
 
         /// <summary>
-        /// Login Api
+        /// Post Data Api
+        /// </summary>
+        public async Task<T> PostData<T>(string url, object obj)
+        {
+            try
+            {
+                //1 cần endpoint của phần nào thì truyền vào url 
+                var accessToken = _tokenManager.LoadToken();
+                string urlWithToken = $"{url}?access_token={accessToken}";
+
+                //2. cần truyền vào object obj để post dữ liệu lên server và chuyển đổi sang chuỗi json
+                var convertObj = JsonConvert.SerializeObject(obj);
+                var jsonContent = new StringContent(convertObj, Encoding.UTF8, _config.ContentType);
+
+                //3 . Gửi Request Post lên server
+                var response = await _client.PostAsync(urlWithToken, jsonContent);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsStringAsync();
+                    Debug.WriteLine("===== Result Post Data =====\n" + result);
+
+                    //4. Chuyển đổi kết quả trả về từ server sang kiểu T 
+                    return JsonConvert.DeserializeObject<T>(result);
+                }
+                else
+                {
+                    var errorResult = await response.Content.ReadAsStringAsync();
+                    Debug.WriteLine("====== Error Result Post Data ========\n" + errorResult);
+                    return default;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hiện tại đã xảy ra lỗi post dữ liệu \n" + ex.Message);
+                return default;
+            }
+        }
+
+        public async Task<T> PutData<T>(string url, object obj)
+        {
+            try
+            {
+                //1 cần endpoint của phần nào thì truyền vào url 
+                var accessToken = _tokenManager.LoadToken();
+                string urlWithToken = $"{url}?access_token={accessToken}";
+                //2. cần truyền vào object obj để post dữ liệu lên server và chuyển đổi sang chuỗi json
+                var convertObj = JsonConvert.SerializeObject(obj);
+                var jsonContent = new StringContent(convertObj, Encoding.UTF8, _config.ContentType);
+                //3 . Gửi Request Post lên server
+                var response = await _client.PutAsync(urlWithToken, jsonContent);
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsStringAsync();
+                    Debug.WriteLine("===== Result Put Data =====\n" + result);
+                    //4. Chuyển đổi kết quả trả về từ server sang kiểu T 
+                    return JsonConvert.DeserializeObject<T>(result);
+                }
+                else
+                {
+                    var errorResult = await response.Content.ReadAsStringAsync();
+                    Debug.WriteLine("====== Error Result Put Data ========\n" + errorResult);
+                    return default;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hiện tại đã xảy ra lỗi put dữ liệu \n" + ex.Message);
+                return default;
+            }
+        }
+
+
+        /// <summary>
+        /// Post Login Api 
         /// </summary>
         public async Task<bool> LoginAsync(string user, string password)
         {
@@ -44,49 +150,54 @@ namespace CrudVietSteam.Service
                 email = user,
                 password = password
             };
-            var jsonBody = JsonConvert.SerializeObject(body);
-            var content = new StringContent(jsonBody, Encoding.UTF8, contentType);
-            try
+            var loginResult = await PostData<LoginDTO>(_config.LoginEndpoint, body);
+            Debug.WriteLine("======= Login Result ========\n" + loginResult);
+            if (loginResult != null)
             {
 
-                var response = await _client.PostAsync(urlLogin, content);
-                var resultLogin = await response.Content.ReadAsStringAsync();
-                if (response.IsSuccessStatusCode)
-                {
-                    Debug.WriteLine("======= Result Login ========\n" + resultLogin);
-
-                    var loginResult = JsonConvert.DeserializeObject<LoginDTO>(resultLogin);
-                    // Save Id accessToken to file
-                    _tokenManager.SaveToFile(loginResult.id);
-
-                    MessageBox.Show("Đăng nhập thành công ", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                    return true;
-                }
-
-                else
-                {
-                    var errorrLogin = await response.Content.ReadAsStringAsync();
-                    MessageBox.Show("===== Lỗi đăng nhập ==== \n" + errorrLogin);
-                    return false;
-                }
-
+                _tokenManager.SaveToFile(loginResult.id);
+                MessageBox.Show("Đăng nhập thành công ", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                return true;
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show("Đã xảy ra lỗi đăng nhập" + ex.Message);
+                MessageBox.Show("===== Lỗi đăng nhập ==== \n Vui lòng kiểm tra lại tài khoản và mật khẩu !", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
+            //var content = new StringContent(jsonBody, Encoding.UTF8, _config.ContentType);
+            //try
+            //{
+
+            //    var response = await _client.PostAsync(_config.LoginEndpoint, content);
+            //    var resultLogin = await response.Content.ReadAsStringAsync();
+            //    if (response.IsSuccessStatusCode)
+            //    {
+            //        Debug.WriteLine("======= Result Login ========\n" + resultLogin);
+
+            //        var loginResult = JsonConvert.DeserializeObject<LoginDTO>(resultLogin);
+            //        // Save Id accessToken to file
+            //        _tokenManager.SaveToFile(loginResult.id);
+
+            //        MessageBox.Show("Đăng nhập thành công ", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            //        return true;
+            //    }
+
+            //    else
+            //    {
+            //        var errorrLogin = await response.Content.ReadAsStringAsync();
+            //        MessageBox.Show("===== Lỗi đăng nhập ==== \n" + errorrLogin);
+            //        return false;
+            //    }
+
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show("Đã xảy ra lỗi đăng nhập" + ex.Message);
+            //    return false;
+            //}
         }
-
-
-
-
-        /// <summary>
-        /// Get Data Api Page Size and Current Page
-        /// </summary>
-        /// <returns></returns>
-        public async Task<ObservableCollection<ContestsDTO>> GetContestAsync(int pageSize, int currentPage)
+        public async Task<ObservableCollection<ContestsDTO>> GetDataContest(int pageSize, int currentPage)
         {
             Debug.WriteLine("Đang truy cập vào hàm GetContest Pagging");
             /* set mặc định cho pageSize là 10 phần tử
@@ -107,26 +218,29 @@ namespace CrudVietSteam.Service
                     limit = pageSize,
                     offset = (currentPage - 1) * pageSize // lấy số page hiện tại trừ đi 1 và nhân với số phần tử 
                 };
-
                 var convertFilter = JsonConvert.SerializeObject(fiterObject);
+                string urlWithFilter = $"{_config.GetContestEndpoint}?filter={convertFilter}";
 
-                string urlWithFilter = $"{urlGetContest}?filter={convertFilter}";
+                return await GetDataAsync<ObservableCollection<ContestsDTO>>(urlWithFilter);
+                //var convertFilter = JsonConvert.SerializeObject(fiterObject);
 
-                var response = await _client.GetAsync(urlWithFilter);
-                if (response.IsSuccessStatusCode)
-                {
-                    var result = await response.Content.ReadAsStringAsync();
-                    Debug.WriteLine("Result Get Count Pagging \n" +result);
-                    var convertResult = JsonConvert.DeserializeObject<ObservableCollection<ContestsDTO>>(result);
-                    return convertResult;
+                //string urlWithFilter = $"{_config.GetContestEndpoint}?filter={convertFilter}";
 
-                }
-                else
-                {
-                    var errorrResult = await response.Content.ReadAsStringAsync();
-                    Debug.WriteLine("====== Errorr Result Get Data========\n" + errorrResult);
-                    return null;
-                }
+                //var response = await _client.GetAsync(urlWithFilter);
+                //if (response.IsSuccessStatusCode)
+                //{
+                //    var result = await response.Content.ReadAsStringAsync();
+                //    Debug.WriteLine("Result Get Count Pagging \n" + result);
+                //    var convertResult = JsonConvert.DeserializeObject<ObservableCollection<ContestsDTO>>(result);
+                //    return convertResult;
+
+                //}
+                //else
+                //{
+                //    var errorrResult = await response.Content.ReadAsStringAsync();
+                //    Debug.WriteLine("====== Errorr Result Get Data========\n" + errorrResult);
+                //    return null;
+                //}
             }
             catch (Exception ex)
             {
@@ -138,26 +252,39 @@ namespace CrudVietSteam.Service
         /// <summary>
         /// Get Count Data Api  
         /// </summary>
-        public async Task<int> GetCountAsync()
+        public async Task<int> GetCountContestAsync()
         {
-            string urlGetContest = "http://localhost:3000/api/Contests/count";
-            var response = await _client.GetAsync(urlGetContest);
-            if (response.IsSuccessStatusCode)
+            try
             {
-                var result = await response.Content.ReadAsStringAsync();
-                Debug.WriteLine("=====Result Get Count =====\n" + result);
-                // Chuyển đổi kết quả về kiểu int
-                // C1 . int counts = int.Parse(result);
-                var convertResult = JsonConvert.DeserializeObject<Item>(result);
-                Debug.WriteLine("Lấy dữ liệu thành công " + convertResult.count);
-                return convertResult.count; // Trả về số lượng bản ghi
+                var urlGetCount = $"{_config.GetContestEndpoint}/count";
+                var resultConunt = await GetDataAsync<Item>(urlGetCount);
+                Debug.WriteLine("===== Result Get Count =====\n" + resultConunt.count);
+                return resultConunt.count;
             }
-            else
+            catch (Exception ex)
             {
-                var errorrResult = await response.Content.ReadAsStringAsync();
-                Debug.WriteLine("====== Errorr Result Get Count Data========\n" + errorrResult);
+                MessageBox.Show("Hiện tại đã xảy ra lỗi get dữ liệu \n" + ex.Message);
                 return 0;
             }
+
+            //string urlGetContest = "http://localhost:3000/api/Contests/count";
+            //var response = await _client.GetAsync(urlGetContest);
+            //if (response.IsSuccessStatusCode)
+            //{
+            //    var result = await response.Content.ReadAsStringAsync();
+            //    Debug.WriteLine("=====Result Get Count =====\n" + result);
+            //    // Chuyển đổi kết quả về kiểu int
+            //    // C1 . int counts = int.Parse(result);
+            //    var convertResult = JsonConvert.DeserializeObject<Item>(result);
+            //    Debug.WriteLine("Lấy dữ liệu thành công " + convertResult.count);
+            //    return convertResult.count; // Trả về số lượng bản ghi
+            //}
+            //else
+            //{
+            //    var errorrResult = await response.Content.ReadAsStringAsync();
+            //    Debug.WriteLine("====== Errorr Result Get Count Data========\n" + errorrResult);
+            //    return 0;
+            //}
         }
 
         /// <summary>
@@ -165,33 +292,38 @@ namespace CrudVietSteam.Service
         /// </summary>
         public async Task<ContestsDTO> CreateContestAsync(ContestsDTO contest)
         {
-            var accessToken = _tokenManager.LoadToken();
-            var url = "http://localhost:3000/api/Contests?access_token=";
-            var pushContest = url + accessToken; // Thêm access token vào URL
-
-            // Sử dụng JsonSerializerSettings để bỏ qua các giá trị mặc định
-            //var serializerSettings = new JsonSerializerSettings
-            //{
-            //    DefaultValueHandling = DefaultValueHandling.Ignore
-            //};
-
-            var convertConterst = JsonConvert.SerializeObject(contest);
-            Debug.WriteLine("Request gửi lên có định dạng như sau nhé :\n" + convertConterst);
-            var content = new StringContent(convertConterst, Encoding.UTF8, contentType);
-            var response = await _client.PostAsync(pushContest, content);
-            if (response.IsSuccessStatusCode)
+            try
             {
-                var result = await response.Content.ReadAsStringAsync();
-                var convertResult = JsonConvert.DeserializeObject<ContestsDTO>(result);
-                MessageBox.Show("Thêm dữ liêu thành công !!");
-                return convertResult;
+                var accessToken = _tokenManager.LoadToken();
+                var urlWithToken = $"{_config.GetContestEndpoint}?access_token={accessToken}"; // Thêm access token vào URL
+
+                var resultContest = await PostData<ContestsDTO>(urlWithToken, contest);
+                Debug.WriteLine("===== Result Create Contest =====\n" + resultContest);
+                return resultContest;
+
             }
-            else
+            catch (Exception ex)
             {
-                var errorrResult = await response.Content.ReadAsStringAsync();
-                Debug.WriteLine("====== Errorr Result Create Data========\n" + errorrResult);
+                MessageBox.Show("Hiện tại đã xảy ra lỗi tạo dữ liệu \n" + ex.Message);
                 return null;
             }
+            //var convertConterst = JsonConvert.SerializeObject(contest);
+            //Debug.WriteLine("Request gửi lên có định dạng như sau nhé :\n" + convertConterst);
+            //var content = new StringContent(convertConterst, Encoding.UTF8, _config.ContentType);
+            //var response = await _client.PostAsync(pushContest, content);
+            //if (response.IsSuccessStatusCode)
+            //{
+            //    var result = await response.Content.ReadAsStringAsync();
+            //    var convertResult = JsonConvert.DeserializeObject<ContestsDTO>(result);
+            //    MessageBox.Show("Thêm dữ liệu thành công !!");
+            //    return convertResult;
+            //}
+            //else
+            //{
+            //    var errorrResult = await response.Content.ReadAsStringAsync();
+            //    Debug.WriteLine("====== Errorr Result Create Data========\n" + errorrResult);
+            //    return null;
+            //}
         }
 
         /// <summary>
@@ -199,22 +331,28 @@ namespace CrudVietSteam.Service
         /// </summary>
         public async Task<ContestsDTO> UpdateContestAsync(ContestsDTO contestUpdate)
         {
+            string urlUpdate = $"{_config.GetContestEndpoint}/{contestUpdate.id}"; // Thêm ID vào URL để cập nhật
 
-            var convertConterst = JsonConvert.SerializeObject(contestUpdate);
-            var content = new StringContent(convertConterst, Encoding.UTF8, contentType);
-            string urlUpdate = $"{urlGetContest}/{contestUpdate.id}"; // Thêm ID vào URL để cập nhật
-            var response = await _client.PutAsync(urlUpdate, content);
-            if (response.IsSuccessStatusCode)
+            var response = await PutData<ContestsDTO>(urlUpdate, contestUpdate);
+            Debug.WriteLine("===== Result Update Contest =====\n" + response);
+            return response;
+        }
+
+
+        public async Task<ObservableCollection<CityDTO>> GetCityAsync()
+        {
+            try
             {
-                var result = await response.Content.ReadAsStringAsync();
-                Debug.WriteLine("===== Result Update =====\n" + result);
-                var convertResult = JsonConvert.DeserializeObject<ContestsDTO>(result);
-                return convertResult;
+
+                var accessToken = _tokenManager.LoadToken();
+                var url = $"{_config.GetCityEndpoint}?access_token={accessToken}"; // Thêm access token vào URL
+                var response = await GetDataAsync<ObservableCollection<CityDTO>>(url);
+                Debug.WriteLine("===== Result Get City =====\n" + response);
+                return response;
             }
-            else
+            catch (Exception ex)
             {
-                var errorrResult = await response.Content.ReadAsStringAsync();
-                Debug.WriteLine("====== Errorr Result Update Data========\n" + errorrResult);
+                MessageBox.Show("Hiện tại đã xảy ra lỗi get dữ liệu thành phố \n" + ex.Message);
                 return null;
             }
         }

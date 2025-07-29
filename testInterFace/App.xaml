@@ -1,0 +1,44 @@
+﻿<Application x:Class="testInterFace.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:testInterFace"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <Style x:Key="btnSideBar"  TargetType="{x:Type Button}" >
+            <Setter Property="MinWidth" Value="200"/>
+            <Setter Property="MinHeight" Value="45"/>
+            <Setter Property="Margin" Value="0 5 0 0"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="/Font/#Roboto"/>
+            <Setter Property="Template" >
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                        CornerRadius="10">
+                            <ContentPresenter
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Center">
+                            </ContentPresenter>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <!-- Khi chuột ở trên nút (IsMouseOver = True) -->
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#44FFFFFF"/>
+                    <!-- Màu trắng với độ trong suốt thấp -->
+                    <!-- Viền màu trắng -->
+                </Trigger>
+
+                <!-- Khi nút được chọn (IsChecked = True) -->
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#66FFFFFF"/>
+                    <!-- Màu trắng với độ trong suốt cao hơn -->
+                    <!-- Viền màu trắng -->
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Application.Resources>
+</Application>

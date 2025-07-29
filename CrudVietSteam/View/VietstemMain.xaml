@@ -7,6 +7,7 @@
         xmlns:UC="clr-namespace:CrudVietSteam.View.UserControls"
         mc:Ignorable="d"
         x:Name="_this"
+        WindowStartupLocation="CenterScreen"
         xmlns:Vm="clr-namespace:CrudVietSteam.ViewModel"
         xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
         Title="VietsteamDataView" Height="720" Width="1200">
@@ -21,6 +22,59 @@
 
         <!--Item MenuItem-->
 
+        <Grid>
+            <Grid.RowDefinitions>
+                <!--sidebar-->
+                <RowDefinition Height="auto"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Button Margin="20"
+                    BorderThickness="0"
+                    Background="Transparent">
+                <Icon:PackIconMaterial Kind="Menu"/>
+            </Button>
+
+            <Border Grid.Row="1"
+                      Background="{DynamicResource ColorButtonPurpule}">
+                <StackPanel Orientation="Vertical" 
+                            Margin="0 40">
+                    <Button Command="{Binding ShowContestView}" 
+                            Margin="0 10"
+                            Style="{StaticResource btnSideBar}"
+                            CommandParameter="{Binding ElementName=_this}">
+
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Image/contest.png" 
+                                   Height="40"
+                                   Margin="10 0"
+                                   Stretch="Uniform"/>
+                            <TextBlock Text="Contest" 
+                                       VerticalAlignment="Center"
+                                       FontSize="25"
+                                       Margin="5"/>
+                        </StackPanel>
+
+                    </Button>
+                    <Button  Style="{StaticResource btnSideBar}"
+                                Command="{Binding ShowCityView}" 
+                              CommandParameter="{Binding ElementName=_this}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Image/city.png" 
+                                   Height="40"
+                                   Margin="10 0"
+                                   Stretch="Uniform"/>
+                            <TextBlock Text="City"
+                                        VerticalAlignment="Center"
+                                         FontSize="25"
+                                         Margin="10 0"/>
+
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+            </Border>
+        </Grid>
 
 
         <!--Item Information-->
@@ -61,7 +115,7 @@
                 </Button>
             </Grid>
             <!--Item 2-->
-            <Grid Grid.Row="1">
+            <!--<Grid Grid.Row="1">
                 <StackPanel Margin="10" Orientation="Horizontal" HorizontalAlignment="Left">
 
                     <Button Content="Contest" 
@@ -80,7 +134,7 @@
                           Style="{StaticResource tapButton }"/>
 
                 </StackPanel>
-            </Grid>
+            </Grid>-->
             <Separator Grid.Row="1" 
                        VerticalAlignment="Bottom"
                        Margin="15"
@@ -108,7 +162,7 @@
                     <UC:HintTextBox  
                            HintText="Search Contest Id ..."
                            Margin=" 0 "/>
-                   
+
 
                     <Button Style="{StaticResource btnSearch }"
                              Margin="10 0 20 0">
@@ -138,46 +192,3 @@
 
     </Grid>
 </Window>
-<!--<Grid>
-    <Grid.RowDefinitions>
-    sidebar
-        <RowDefinition Height="auto"/>
-        <RowDefinition />
-    </Grid.RowDefinitions>
-
-    <Button Style="{StaticResource btnIconTitleBar}">
-        <Icon:PackIconMaterial Kind="Menu"/>
-    </Button>
-
-    <Border Grid.Row="1"
-              CornerRadius="0 25 20 0"
-              Background="#634BD4">
-        <StackPanel Orientation="Vertical">
-            <Button Command="{Binding ShowContestView}" 
-                      CommandParameter="{Binding ElementName=_this}"
-                      Style="{StaticResource btnMenuItem}">
-
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="/Image/contest.png" 
-                           Height="30"
-                           Margin="5 0"
-                           Stretch="Uniform"/>
-                    <TextBlock Text=" Contest" Margin="5"/>
-                </StackPanel>
-
-            </Button>
-            <Button Style="{StaticResource btnMenuItem}"
-                      Command="{Binding ShowCityView}" 
-                      CommandParameter="{Binding ElementName=_this}">
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="/Image/city.png" 
-                           Height="30"
-                           Margin="5 0"
-                           Stretch="Uniform"/>
-                    <TextBlock Text="City" Margin="10 5"/>
-                </StackPanel>
-            </Button>
-        </StackPanel>
-
-    </Border>
-</Grid>-->

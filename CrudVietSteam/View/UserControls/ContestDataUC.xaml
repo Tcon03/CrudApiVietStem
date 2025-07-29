@@ -23,6 +23,7 @@
         <DataGrid 
                  MinRowHeight="35"
                  BorderThickness="0"
+                 SelectedValue="{Binding SelectedContest}"
                  FontSize="20"
                  HorizontalAlignment="Stretch"
                  VerticalAlignment="Stretch"
