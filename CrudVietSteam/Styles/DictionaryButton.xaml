@@ -154,7 +154,7 @@
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="PaleVioletRed"/>
             </Trigger>
-            <Trigger Property="IsMouseCaptured" Value="True">
+            <Trigger Property="IsPressed" Value="True">
                 <Setter Property="Background" Value="{DynamicResource CloseColor}"/>
             </Trigger>
         </Style.Triggers>
@@ -207,10 +207,10 @@
     </Style>
 
 
-    <!--<Style x:Key="btnSideBar"  TargetType="{x:Type Button}" >
-        <Setter Property="Width" Value="150"/>
-        <Setter Property="Height" Value="35"/>
-        <Setter Property="Margin" Value="5"/>
+    <Style x:Key="btnSideBar"  TargetType="{x:Type Button}" >
+        <Setter Property="MinWidth" Value="200"/>
+        <Setter Property="MinHeight" Value="45"/>
+        <Setter Property="Margin" Value="0 5 0 0"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="FontFamily" Value="/Font/#Roboto"/>
@@ -218,7 +218,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Border Background="{TemplateBinding Background}" 
-                                   CornerRadius="10">
+                            CornerRadius="10">
                         <ContentPresenter
                                   HorizontalAlignment="Left"
                                   VerticalAlignment="Center">
@@ -227,17 +227,17 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-
         <Style.Triggers>
+            <!-- Khi chuột ở trên nút (IsMouseOver = True) -->
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="Pink"/>
-                <Setter Property="Foreground" Value="DarkGoldenrod"/>
+                <Setter Property="Background" Value="{DynamicResource colorMouse}"/>
             </Trigger>
-            <Trigger Property="IsMouseCaptured" Value="True">
-                <Setter Property="Background" Value="LightSalmon"/>
 
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="{DynamicResource colorPress}"/>
             </Trigger>
         </Style.Triggers>
-    </Style>-->
+    </Style>
+    
 
 </ResourceDictionary>

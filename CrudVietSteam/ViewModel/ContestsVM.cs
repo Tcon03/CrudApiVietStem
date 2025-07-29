@@ -159,6 +159,17 @@ namespace CrudVietSteam.ViewModel
             }
         }
 
+        private ContestsDTO _selectedContest;
+        public ContestsDTO SelectedContest
+        {
+            get { return _selectedContest; }
+            set
+            {
+                _selectedContest = value;
+                Debug.WriteLine("SelectedContest changed to: " + (_selectedContest != null ? _selectedContest.name : "null"));
+                RaisePropertyChange(nameof(SelectedContest));
+            }
+        }
         public ObservableCollection<ContestsDTO> Contests { get; set; }
 
         public ICommand NextPageCommand { get; set; }
@@ -195,11 +206,11 @@ namespace CrudVietSteam.ViewModel
                 description = Description,
                 title = Title,
                 keywords = Keywords,
-                rule = "string",
-                guide = "string",
+                rule = string.Empty,
+                guide = string.Empty,
                 fromGrade = 0,
                 toGrade = 0,
-                accountId = "string",
+                accountId = string.Empty,
                 cityId = 0,
                 createdAt = DateTime.Now,
                 updatedAt = DateTime.Now
@@ -213,7 +224,6 @@ namespace CrudVietSteam.ViewModel
                 // Cập nhật lại danh sách cuộc thi sau khi thêm mới
                 AddSuccess?.Invoke(this, new EventArgs());
                 MessageBox.Show("Đóng giao diện Add Information Thành Công");
-                
             }
             else
             {
@@ -251,7 +261,6 @@ namespace CrudVietSteam.ViewModel
         /// </summary>
         private bool CanNextPage()
         {
-
             return CurrentPage < TotalPage;
         }
 
@@ -268,7 +277,7 @@ namespace CrudVietSteam.ViewModel
             try
             {
                 //1. Get Total Records from Api
-                var totalRecords = await App.vietstemService.GetCountAsync();
+                var totalRecords = await App.vietstemService.GetCountContestAsync();
 
                 if (totalRecords > 0)
                 {
@@ -280,10 +289,10 @@ namespace CrudVietSteam.ViewModel
 
                     Debug.WriteLine(" ====== Tổng số Page ==== :" + TotalPage);
 
-
                     Debug.WriteLine("Tổng số bản ghi Item: " + TotalRecords);
 
-                    var dataApi = await App.vietstemService.GetContestAsync(PageSize, CurrentPage);
+                    //2. Get dữ liệu từ API với PageSize và CurrentPage
+                    var dataApi = await App.vietstemService.GetDataContest(PageSize, CurrentPage);
                     if (dataApi == null)
                     {
                         return;

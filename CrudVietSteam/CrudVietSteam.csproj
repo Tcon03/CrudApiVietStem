@@ -174,12 +174,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\ApiConfiguration.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Service\CurdentialHelper.cs" />
+    <Compile Include="Service\DTO\CityDTO.cs" />
     <Compile Include="Service\DTO\ContestsDTO.cs" />
     <Compile Include="Service\DTO\LoginDTO.cs" />
     <Compile Include="Service\TokenManager.cs" />
     <Compile Include="Service\VietstemSevice.cs" />
+    <Compile Include="ViewModel\CityVM.cs" />
     <Compile Include="ViewModel\ContestsVM.cs" />
     <Compile Include="ViewModel\LoginVM.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />

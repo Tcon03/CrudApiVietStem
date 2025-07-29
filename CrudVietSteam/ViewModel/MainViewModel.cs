@@ -57,8 +57,8 @@ namespace CrudVietSteam.ViewModel
         public MainViewModel()
         {
             contestVM = new ContestsVM();
-            ShowCityView = new VfxCommand(o => SwitchView(ViewType.ContestView), o => true);
-            ShowContestView = new VfxCommand(o => SwitchView(ViewType.CityView), o => true);
+            ShowCityView = new VfxCommand(o => SwitchView(ViewType.CityView), o => true);
+            ShowContestView = new VfxCommand(o => SwitchView(ViewType.ContestView), o => true);
             AddInfor = new VfxCommand(OnAdd, o => true);
             // Default display contest view 
             SwitchView(ViewType.ContestView);
@@ -69,7 +69,6 @@ namespace CrudVietSteam.ViewModel
             AddInformation addInformation = new AddInformation();
             addInformation.Show();
             CloseViet?.Invoke(this, new EventArgs());
-
         }
 
         public void SwitchView(ViewType viewType)
@@ -93,14 +92,5 @@ namespace CrudVietSteam.ViewModel
         }
 
 
-        private void OnContestView(object obj)
-        {
-
-        }
-
-        private void OnShowCityView(object obj)
-        {
-
-        }
     }
 }
