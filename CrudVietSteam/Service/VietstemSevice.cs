@@ -35,6 +35,8 @@ namespace CrudVietSteam.Service
         }
 
 
+
+        #region Method Get, Post, Put, Delete
         /// <summary>
         /// Get Data Api
         /// </summary>
@@ -106,7 +108,7 @@ namespace CrudVietSteam.Service
             }
         }
 
-        public async Task<T> PutData<T>(string url, object obj)
+        public async Task<T>PutData<T>(string url, object obj)
         {
             try
             {
@@ -138,7 +140,7 @@ namespace CrudVietSteam.Service
                 return default;
             }
         }
-
+        #endregion
 
         /// <summary>
         /// Post Login Api 
@@ -220,33 +222,33 @@ namespace CrudVietSteam.Service
                 };
                 var convertFilter = JsonConvert.SerializeObject(fiterObject);
                 string urlWithFilter = $"{_config.GetContestEndpoint}?filter={convertFilter}";
-
-                return await GetDataAsync<ObservableCollection<ContestsDTO>>(urlWithFilter);
-                //var convertFilter = JsonConvert.SerializeObject(fiterObject);
-
-                //string urlWithFilter = $"{_config.GetContestEndpoint}?filter={convertFilter}";
-
-                //var response = await _client.GetAsync(urlWithFilter);
-                //if (response.IsSuccessStatusCode)
-                //{
-                //    var result = await response.Content.ReadAsStringAsync();
-                //    Debug.WriteLine("Result Get Count Pagging \n" + result);
-                //    var convertResult = JsonConvert.DeserializeObject<ObservableCollection<ContestsDTO>>(result);
-                //    return convertResult;
-
-                //}
-                //else
-                //{
-                //    var errorrResult = await response.Content.ReadAsStringAsync();
-                //    Debug.WriteLine("====== Errorr Result Get Data========\n" + errorrResult);
-                //    return null;
-                //}
+                var resultPagging = await GetDataAsync<ObservableCollection<ContestsDTO>>(urlWithFilter);
+                return resultPagging;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Hiện tại đã xảy ra lỗi get dữ liệu \n" + ex.Message);
+                Debug.WriteLine("Hiện tại đã xảy ra lỗi get dữ liệu \n" + ex.Message);
                 return null;
             }
+            //var convertFilter = JsonConvert.SerializeObject(fiterObject);
+
+            //string urlWithFilter = $"{_config.GetContestEndpoint}?filter={convertFilter}";
+
+            //var response = await _client.GetAsync(urlWithFilter);
+            //if (response.IsSuccessStatusCode)
+            //{
+            //    var result = await response.Content.ReadAsStringAsync();
+            //    Debug.WriteLine("Result Get Count Pagging \n" + result);
+            //    var convertResult = JsonConvert.DeserializeObject<ObservableCollection<ContestsDTO>>(result);
+            //    return convertResult;
+
+            //}
+            //else
+            //{
+            //    var errorrResult = await response.Content.ReadAsStringAsync();
+            //    Debug.WriteLine("====== Errorr Result Get Data========\n" + errorrResult);
+            //    return null;
+            //}
         }
 
         /// <summary>
@@ -334,7 +336,7 @@ namespace CrudVietSteam.Service
             string urlUpdate = $"{_config.GetContestEndpoint}/{contestUpdate.id}"; // Thêm ID vào URL để cập nhật
 
             var response = await PutData<ContestsDTO>(urlUpdate, contestUpdate);
-            Debug.WriteLine("===== Result Update Contest =====\n" + response);
+            Debug.WriteLine("===== Result Update Contest =====\n" + response.name);
             return response;
         }
 
@@ -343,7 +345,6 @@ namespace CrudVietSteam.Service
         {
             try
             {
-
                 var accessToken = _tokenManager.LoadToken();
                 var url = $"{_config.GetCityEndpoint}?access_token={accessToken}"; // Thêm access token vào URL
                 var response = await GetDataAsync<ObservableCollection<CityDTO>>(url);

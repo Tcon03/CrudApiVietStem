@@ -8,7 +8,8 @@ namespace CrudVietSteam.Service.DTO
 {
     public class ContestsDTO
     {
-        public string name { get; set; }
+        public string name { get; set; } 
+
         public string introduce { get; set; }
         public string rule { get; set; }
         public string guide { get; set; }

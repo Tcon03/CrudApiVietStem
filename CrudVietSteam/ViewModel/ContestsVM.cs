@@ -1,7 +1,9 @@
 ﻿using CrudVietSteam.Command;
 using CrudVietSteam.Service.DTO;
 using CrudVietSteam.View;
+using CrudVietSteam.View.Windows;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -18,6 +20,8 @@ namespace CrudVietSteam.ViewModel
     /// </summary>
     public class ContestsVM : ViewModelBase
     {
+
+        #region Properties
         private int _pageSize = 15; // Số lượng bản ghi trên mỗi trang 
         public int PageSize
         {
@@ -43,7 +47,7 @@ namespace CrudVietSteam.ViewModel
                 {
                     _currentPage = value;
                     Debug.WriteLine("CurrentPage changed to: " + _currentPage);
-                    OnLoad(); // Tải lại dữ liệu khi thay đổi CurrentPage n 
+                    OnLoad(); // Tải lại dữ liệu khi thay đổi CurrentPage  
                     RaisePropertyChange(nameof(CurrentPage));
                 }
             }
@@ -159,35 +163,106 @@ namespace CrudVietSteam.ViewModel
             }
         }
 
-        private ContestsDTO _selectedContest;
-        public ContestsDTO SelectedContest
-        {
-            get { return _selectedContest; }
-            set
-            {
-                _selectedContest = value;
-                Debug.WriteLine("SelectedContest changed to: " + (_selectedContest != null ? _selectedContest.name : "null"));
-                RaisePropertyChange(nameof(SelectedContest));
-            }
-        }
+
+
+        #endregion
+
         public ObservableCollection<ContestsDTO> Contests { get; set; }
 
+        #region Commands
         public ICommand NextPageCommand { get; set; }
         public ICommand PrevPageCommand { get; set; }
         public ICommand AddContestCommand { get; set; }
+        public ICommand EditContestCommand { get; set; }
+        #endregion
+
+
         public EventHandler AddSuccess;
+
 
         public ContestsVM()
         {
             Contests = new ObservableCollection<ContestsDTO>();
-            NextPageCommand = new VfxCommand(OnNextPage, CanNextPage);
-            PrevPageCommand = new VfxCommand(OnPrevPage, CanPrevPage);
-            AddContestCommand = new VfxCommand(o => AddContest(), o => true);
+            InitializeCommands();
             OnLoad();
         }
 
+        private void InitializeCommands()
+        {
+            NextPageCommand = new VfxCommand(OnNextPage, CanNextPage);
+            PrevPageCommand = new VfxCommand(OnPrevPage, CanPrevPage);
+            AddContestCommand = new VfxCommand(AddContest, o => true);
+            EditContestCommand = new VfxCommand(OnEdit, o => true);
+        }
 
-        public async void AddContest()
+    
+        private void OnEdit(object obj)
+        {
+            var contestObj = obj as ContestsDTO;
+            if (contestObj != null)
+            {
+                var contestEdit = new ContestsDTO
+                { 
+                    // gán đối tượng vừa được select cho các trường dữ liệu của ContestDTO
+                    id = contestObj.id,
+                    name = contestObj.name,
+                    introduce = contestObj.introduce,
+                    rule = contestObj.rule,
+                    guide = contestObj.guide,
+                    fromGrade = contestObj.fromGrade,
+                    toGrade = contestObj.toGrade,
+                    status = contestObj.status,
+                    description = contestObj.description,
+                    title = contestObj.title,
+                    keywords = contestObj.keywords,
+                    accountId = contestObj.accountId,
+                    cityId = contestObj.cityId,
+                    createdAt = contestObj.createdAt,
+                    updatedAt = DateTime.Now
+                };
+
+                // gọi và truyền các đối tượng này cho class EditContestVM
+                EditContestVM editVM = new EditContestVM(contestEdit);
+                // show cửa sổ và truyền dataContext cho cửa sổ này 
+                EditContest edit = new EditContest
+                {
+                    DataContext = editVM // Gán DataContext cho cửa sổ EditContest
+                };
+                edit.ShowDialog(); // Hiển thị cửa sổ EditContest 
+
+                OnLoad();
+
+            }
+            //var contest = obj as ContestsDTO;
+            //if (contest != null)
+            //{
+            //    SelectedContest = new ContestsDTO
+            //    {
+            //        id = contest.id,
+            //        name = contest.name,
+            //        introduce = contest.introduce,
+            //        rule = contest.rule,
+            //        guide = contest.guide,
+            //        fromGrade = contest.fromGrade,
+            //        toGrade = contest.toGrade,
+            //        status = contest.status,
+            //        description = contest.description,
+            //        title = contest.title,
+            //        keywords = contest.keywords,
+            //        accountId = contest.accountId,
+            //        cityId = contest.cityId,
+            //        createdAt = contest.createdAt,
+            //        updatedAt = DateTime.Now
+            //    };
+            //    EditContest editContest = new EditContest();
+            //    editContest.DataContext = this; // Gán DataContext cho cửa sổ EditContest
+            //    editContest.ShowDialog(); // Hiển thị cửa sổ EditContest
+            //    }
+
+
+        }
+
+        public async void AddContest(object obj)
         {
 
 
@@ -218,9 +293,9 @@ namespace CrudVietSteam.ViewModel
             var result = await App.vietstemService.CreateContestAsync(addContestInfor);
             if (result != null)
             {
+                Contests.Clear();
+                OnLoad();
                 Debug.WriteLine("Thêm cuộc thi thành công: " + result.name);
-                VietstemMain vietstemMain = new VietstemMain();
-                vietstemMain.Show();
                 // Cập nhật lại danh sách cuộc thi sau khi thêm mới
                 AddSuccess?.Invoke(this, new EventArgs());
                 MessageBox.Show("Đóng giao diện Add Information Thành Công");
@@ -235,6 +310,8 @@ namespace CrudVietSteam.ViewModel
         /// <summary>
         /// PrevPage Page Check if can go to pevious page
         /// </summary>
+        /// 
+        #region Pagging
         private bool CanPrevPage()
         {
             return CurrentPage > 1;
@@ -272,6 +349,7 @@ namespace CrudVietSteam.ViewModel
             CurrentPage++;
         }
 
+        #endregion
         private async void OnLoad()
         {
             try

@@ -29,11 +29,11 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-            <Button Margin="20"
+            <!--<Button Margin="20"
                     BorderThickness="0"
                     Background="Transparent">
                 <Icon:PackIconMaterial Kind="Menu"/>
-            </Button>
+            </Button>-->
 
             <Border Grid.Row="1"
                       Background="{DynamicResource ColorButtonPurpule}">

@@ -87,11 +87,26 @@
     <!--Btn Cancel-->
     <Style TargetType="Button" BasedOn="{StaticResource btnSearch}" x:Key="btnCancel">
         <Setter Property="Width" Value="100"/>
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="Background" Value="#CC2B52"/>
+        <Setter Property="Foreground" Value="Red"/>
+        <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Margin" Value="10"/>
-        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="FontSize" Value="15"/> 
         <Setter Property="Height" Value="45"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" 
+                            BorderThickness="1" 
+                            BorderBrush="Gray"
+                               CornerRadius="7">
+                        <ContentPresenter
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center">
+                        </ContentPresenter>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
 
@@ -152,14 +167,16 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="PaleVioletRed"/>
+                <Setter Property="Background" Value="{DynamicResource CloseColor}"/>
+
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
                 <Setter Property="Background" Value="{DynamicResource CloseColor}"/>
+
             </Trigger>
         </Style.Triggers>
     </Style>
-    
+
 
 
 
@@ -199,7 +216,7 @@
                 <Setter Property="Opacity" Value="0.8"/>
                 <Setter Property="Foreground" Value="Black" />
             </Trigger>
-          
+
             <Trigger Property="IsPressed" Value="True">
                 <Setter Property="Background" Value="#7b5cd6" />
             </Trigger>
@@ -238,6 +255,6 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    
+
 
 </ResourceDictionary>
