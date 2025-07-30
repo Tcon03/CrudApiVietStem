@@ -23,16 +23,9 @@ namespace CrudVietSteam.View
         public VietstemMain()
         {
             InitializeComponent();
-            MainViewModel mainViewModel = this.DataContext as MainViewModel;
-            if (mainViewModel != null)
-            {
-                mainViewModel.CloseViet += CloseVietHandler;
-            }
+            
         }
 
-        private void CloseVietHandler(object sender, EventArgs e)
-        {
-            Close();
-        }
+        
     }
 }

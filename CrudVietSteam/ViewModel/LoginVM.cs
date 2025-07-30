@@ -13,6 +13,7 @@ namespace CrudVietSteam.ViewModel
 {
     public class LoginVM : ViewModelBase
     {
+        #region Properties
         private string _email;
         public string EmailVM
         {
@@ -47,6 +48,9 @@ namespace CrudVietSteam.ViewModel
                 RaisePropertyChange(nameof(_remember));
             }
         }
+
+        #endregion
+
         public ICommand LoginCommand { get; set; }
         public EventHandler Authenticated;
         public LoginVM()

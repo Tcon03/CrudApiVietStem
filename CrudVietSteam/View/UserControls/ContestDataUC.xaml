@@ -14,19 +14,20 @@
     <UserControl.DataContext>
         <Vmd:ContestsVM/>
     </UserControl.DataContext>
-    <Grid >
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="auto"/>
-        </Grid.RowDefinitions>
-        <!--thuộc tính cho tiêu đề của DataGrid-->
-        <DataGrid 
-                 MinRowHeight="35"
+    <Border CornerRadius="10"
+            Background="White">
+
+        <Grid Margin="5" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <!--thuộc tính cho tiêu đề của DataGrid-->
+            <DataGrid 
+                 MinRowHeight="40"
                  BorderThickness="0"
-                 SelectedValue="{Binding SelectedContest}"
+                 Background="Transparent"
                  FontSize="20"
-                 HorizontalAlignment="Stretch"
-                 VerticalAlignment="Stretch"
                  ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                  ScrollViewer.VerticalScrollBarVisibility="Hidden"
                  Foreground="{DynamicResource PrimaryBlueColor}"
@@ -35,81 +36,92 @@
                  IsReadOnly="True"
                  ItemsSource="{Binding Contests , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
-            <!--style của DataGrid-->
-            <DataGrid.CellStyle>
-                <Style TargetType="DataGridCell">
-                    <Setter Property="Foreground" Value="Black"/>
-                    <Setter Property="FontSize" Value="16"/>
-                    <Setter Property="FontWeight" Value="DemiBold"/>
-                    <!--EVENT Selection vào ô thì sẽ đổi màu 
+                <!--style của DataGrid-->
+                <DataGrid.CellStyle>
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="Foreground" Value="Black"/>
+                        <Setter Property="FontSize" Value="16"/>
+                        <Setter Property="FontWeight" Value="DemiBold"/>
+                        <!--EVENT Selection vào ô thì sẽ đổi màu--> 
                         <Style.Triggers>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter Property="Background" Value="LightPink"/>
-                                <Setter Property="Foreground" Value="Black"/>
+                                <Setter Property="Background" Value="{DynamicResource BlueLightColor}"/>
                             </Trigger>
-                        </Style.Triggers>-->
+                        </Style.Triggers>
 
-                </Style>
-            </DataGrid.CellStyle>
+                    </Style>
+                </DataGrid.CellStyle>
 
-            <DataGrid.Columns>
+                <DataGrid.Columns>
 
-                <!--display the data from ContestsDTO-->
-                <DataGridTextColumn Header="ID" Binding="{Binding id}" Width="50"/>
-                <DataGridTextColumn Header="Name" Binding="{Binding name}" Width="150"/>
-                <DataGridTextColumn Header="Title" Binding="{Binding title}" Width="*"/>
-                <DataGridTextColumn Header="Status" Binding="{Binding status}" Width="120"/>
-                <DataGridTemplateColumn   Header="Actions"
-                                          CanUserResize="False"
-                                          Width="auto" 
+                    <!--display the data from ContestsDTO-->
+                    <DataGridTextColumn Header="ID" Binding="{Binding id}" Width="50"/>
+                    <DataGridTextColumn Header="Name" Binding="{Binding name}" Width="150"/>
+                    <DataGridTextColumn Header="Title" Binding="{Binding title}" Width="*"/>
+                    <DataGridTextColumn Header="Description" Binding="{Binding description}" Width="120"/>
+                    <DataGridTextColumn Header="Status" Binding="{Binding status}" Width="120"/>
+                    <DataGridTemplateColumn   Width="50"
                                           TextBlock.TextAlignment="Center">
-                    <!--Custom Actions-->
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Button Style="{StaticResource btnIconEdit}">
-                                    <Icon:PackIconMaterial Kind="Pencil" 
-                                            Foreground="White"/>
+                        <!--Custom Actions-->
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Menu HorizontalAlignment="Center" 
+                                  Background="Transparent"
+                                  FontWeight="DemiBold"
+                                  VerticalAlignment="Center">
+                                    <MenuItem Header="⋮" FontSize="20" >
+                                        <!--Item Edit-->
+                                        <MenuItem Header="Edit" 
+                                              CommandParameter="{Binding}"
+                                              Command="{Binding DataContext.EditContestCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}">
+                                            <MenuItem.Icon>
+                                                <Icon:PackIconMaterial Kind="Pencil" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
 
-                                </Button>
-                                <Button Style="{StaticResource btnDelete}">
-                                    <Icon:PackIconMaterial 
-                                              Kind="Delete" 
-                                              Foreground="White"/>
-                                </Button>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <!-- Thêm các cột khác từ ContestsDTO của bạn ở đây -->
-            </DataGrid.Columns>
-        </DataGrid>
+                                        <!--Item Delete-->
+                                        <MenuItem Header="Delete" Foreground="Red" >
+                                            <MenuItem.Icon>
+                                                <Icon:PackIconMaterial Kind="Delete" Foreground="Red"/>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
 
-        <Grid Grid.Row="2" 
+
+                                    </MenuItem>
+                                </Menu>
+
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <!-- Thêm các cột khác từ ContestsDTO của bạn ở đây -->
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <Grid Grid.Row="2" 
               d:Background="White" >
 
-            <TextBlock HorizontalAlignment="Left"
+                <TextBlock HorizontalAlignment="Left"
                        FontSize="17"
                        FontWeight="Bold"
                        Margin="10"
                        VerticalAlignment="Center">
                 <Run Text="Total Records: "/>
-                <Run Text="{Binding TotalRecords,Mode=TwoWay,UpdateSourceTrigger =PropertyChanged}"  />
+                <Run Text="{Binding TotalRecords,Mode=OneWay,UpdateSourceTrigger =PropertyChanged}"  />
 
-            </TextBlock>
+                </TextBlock>
 
-            <StackPanel  Margin="20 5"
+                <StackPanel  Margin="20 5"
                   HorizontalAlignment="Right"
                   Orientation="Horizontal">
-                
-                <Button  Command="{Binding PrevPageCommand}" 
+
+                    <Button  Command="{Binding PrevPageCommand}" 
                          CommandParameter="{Binding ElementName=root}"
                           Margin="5"
                           Style="{StaticResource btnIconEdit}">
-                    <Icon:PackIconMaterial Kind="ChevronLeft" 
+                        <Icon:PackIconMaterial Kind="ChevronLeft" 
                                 Foreground="White"/>
-                </Button>
-                <TextBlock 
+                    </Button>
+                    <TextBlock 
                              FontSize="18"
                              FontWeight="Bold"
                              VerticalAlignment="Center"
@@ -117,16 +129,18 @@
                     <Run Text="{Binding CurrentPage , Mode=OneWay}"/> 
                     <Run Text=" of "/>
                     <Run Text="{Binding TotalPage , Mode=OneWay}"/>
-                </TextBlock>
-                <Button   Command="{Binding NextPageCommand}"
+                    </TextBlock>
+                    <Button   Command="{Binding NextPageCommand}"
                           CommandParameter="{Binding ElementName=root}"
                           Style="{StaticResource btnIconEdit}"
                           BorderThickness="0">
-                    <Icon:PackIconMaterial Kind="ChevronRight" 
+                        <Icon:PackIconMaterial Kind="ChevronRight" 
                                             Foreground="White"/>
-                </Button>
+                    </Button>
 
-            </StackPanel>
+                </StackPanel>
+            </Grid>
         </Grid>
-    </Grid>
+    </Border>
+
 </UserControl>

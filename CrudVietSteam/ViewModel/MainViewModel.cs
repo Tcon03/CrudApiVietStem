@@ -13,6 +13,7 @@ namespace CrudVietSteam.ViewModel
 
     public class MainViewModel : ViewModelBase
     {
+        #region Properties
         public enum ViewType
         {
             ContestView,
@@ -48,10 +49,13 @@ namespace CrudVietSteam.ViewModel
                 RaisePropertyChange(nameof(CurrentTitle));
             }
         }
+        #endregion
+
         public ContestsVM contestVM { get; private set; }
         public ICommand ShowContestView { get; set; }
         public ICommand ShowCityView { get; set; }
         public ICommand AddInfor { get; set; }
+
         public EventHandler CloseViet;
 
         public MainViewModel()
@@ -67,8 +71,7 @@ namespace CrudVietSteam.ViewModel
         private void OnAdd(object obj)
         {
             AddInformation addInformation = new AddInformation();
-            addInformation.Show();
-            CloseViet?.Invoke(this, new EventArgs());
+            addInformation.ShowDialog();
         }
 
         public void SwitchView(ViewType viewType)
