@@ -7,8 +7,6 @@
              xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:Vmd ="clr-namespace:CrudVietSteam.ViewModel"
              x:Name="root"
-               HorizontalAlignment="Stretch"
-              VerticalAlignment="Stretch"
              mc:Ignorable="d" 
              d:DesignHeight="550" d:DesignWidth="600">
     <UserControl.DataContext>
@@ -24,13 +22,13 @@
             </Grid.RowDefinitions>
             <!--thuộc tính cho tiêu đề của DataGrid-->
             <DataGrid 
-                 MinRowHeight="40"
+                 MinRowHeight="50"
                  BorderThickness="0"
                  Background="Transparent"
                  FontSize="20"
                  ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                  ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                 Foreground="{DynamicResource PrimaryBlueColor}"
+                 Foreground="{DynamicResource  TextPrimaryBlack}"
                  AutoGenerateColumns="False"
                  CanUserAddRows="False"
                  IsReadOnly="True"
@@ -42,7 +40,7 @@
                         <Setter Property="Foreground" Value="Black"/>
                         <Setter Property="FontSize" Value="16"/>
                         <Setter Property="FontWeight" Value="DemiBold"/>
-                        <!--EVENT Selection vào ô thì sẽ đổi màu--> 
+                        <!--EVENT Selection vào ô thì sẽ đổi màu-->
                         <Style.Triggers>
                             <Trigger Property="IsSelected" Value="True">
                                 <Setter Property="Background" Value="{DynamicResource BlueLightColor}"/>
@@ -55,13 +53,12 @@
                 <DataGrid.Columns>
 
                     <!--display the data from ContestsDTO-->
-                    <DataGridTextColumn Header="ID" Binding="{Binding id}" Width="50"/>
+                    <DataGridTextColumn Header="ID"  Binding="{Binding id}" Width="50"/>
                     <DataGridTextColumn Header="Name" Binding="{Binding name}" Width="150"/>
                     <DataGridTextColumn Header="Title" Binding="{Binding title}" Width="*"/>
-                    <DataGridTextColumn Header="Description" Binding="{Binding description}" Width="120"/>
+                    <DataGridTextColumn Header="Description" Binding="{Binding description}" Width="200"/>
                     <DataGridTextColumn Header="Status" Binding="{Binding status}" Width="120"/>
-                    <DataGridTemplateColumn   Width="50"
-                                          TextBlock.TextAlignment="Center">
+                    <DataGridTemplateColumn   Width="50" >
                         <!--Custom Actions-->
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -80,7 +77,9 @@
                                         </MenuItem>
 
                                         <!--Item Delete-->
-                                        <MenuItem Header="Delete" Foreground="Red" >
+                                        <MenuItem Header="Delete" Foreground="Red"
+                                                  CommandParameter="{Binding}" 
+                                                  Command="{Binding DataContext.DeleteItemCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}">
                                             <MenuItem.Icon>
                                                 <Icon:PackIconMaterial Kind="Delete" Foreground="Red"/>
                                             </MenuItem.Icon>
@@ -117,7 +116,7 @@
                     <Button  Command="{Binding PrevPageCommand}" 
                          CommandParameter="{Binding ElementName=root}"
                           Margin="5"
-                          Style="{StaticResource btnIconEdit}">
+                          Style="{StaticResource btnIconNext}">
                         <Icon:PackIconMaterial Kind="ChevronLeft" 
                                 Foreground="White"/>
                     </Button>
@@ -132,7 +131,7 @@
                     </TextBlock>
                     <Button   Command="{Binding NextPageCommand}"
                           CommandParameter="{Binding ElementName=root}"
-                          Style="{StaticResource btnIconEdit}"
+                          Style="{StaticResource btnIconNext}"
                           BorderThickness="0">
                         <Icon:PackIconMaterial Kind="ChevronRight" 
                                             Foreground="White"/>

@@ -9,4 +9,11 @@
         <Setter Property="Margin" Value="0 5 "/>
         <Setter Property="FontFamily" Value="Font\Nexa normal.ttf"/>
     </Style>
+    
+    <Style x:Key="FormLabel" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBlack}"/>
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="FontWeight" Value="Medium"/>
+        <Setter Property="Margin" Value="5"/>
+    </Style>
 </ResourceDictionary>

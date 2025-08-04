@@ -1,22 +1,24 @@
 ﻿<Window x:Class="CrudVietSteam.View.Windows.EditContest"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CrudVietSteam.View.Windows"
-        xmlns:uc="clr-namespace:CrudVietSteam.View.UserControls"
-        xmlns:Vm="clr-namespace:CrudVietSteam.ViewModel"  
-        xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
-        WindowStyle="None"
-        x:Name="_this"
-        AllowsTransparency="True"
-        WindowStartupLocation="CenterScreen"
-        Background="Transparent"
-        ResizeMode="NoResize"
-        Height="450" Width="800">
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:local="clr-namespace:CrudVietSteam.View.Windows"
+                xmlns:uc="clr-namespace:CrudVietSteam.View.UserControls"
+                xmlns:Vm="clr-namespace:CrudVietSteam.ViewModel"  
+                xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                WindowStyle="None"
+                mc:Ignorable="d"
+                Icon="/Image/ctEdit.png"
+                x:Name="_this"
+                AllowsTransparency="True"
+                WindowStartupLocation="CenterScreen"
+                Background="Transparent"
+                ResizeMode="NoResize"
+                Height="450" Width="800">
     <Border MouseDown="Border_MouseDown"
-         CornerRadius="15"
-         Background="White" >
+                 CornerRadius="15"
+                 Background="#FFFF" >
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
@@ -26,18 +28,17 @@
 
             <Grid Grid.Row="0" >
                 <TextBlock Text=" Edit Contest " 
-               FontSize="30" 
-               Foreground="#434344"
-               HorizontalAlignment="Left"
-               FontWeight="Bold"
-               Margin="20 10"/>
+                       FontSize="30" 
+                       Foreground="#434344"
+                       HorizontalAlignment="Left"
+                       FontWeight="Bold"
+                       Margin="20 10"/>
                 <Button Style="{StaticResource btnClose}" 
-                    Click="btnClose_Click"
-                                >
+                            Click="btnClose_Click">
                     <Icon:PackIconMaterial Kind="Close" 
-                Width="20" 
-                Height="20" 
-                Foreground="Red"/>
+                                        Width="20" 
+                                        Height="20" 
+                                        Foreground="Black"/>
                 </Button>
             </Grid>
             <Grid Margin="40 0 40 0 " Grid.Row="1">
@@ -48,53 +49,53 @@
 
                 <StackPanel Margin="0 0 10 0"  >
                     <uc:HeaderHintTbl Margin="10  "
-                         Text="{Binding ContestEdit.name, Mode=TwoWay}"
-                          HintText="Name Contest ..."
-                          TextHeader="Name"/>
+                                 Text="{Binding ContestEdit.name, Mode=TwoWay ,UpdateSourceTrigger=PropertyChanged}"
+                                  HintText="Name Contest ..."
+                                  TextHeader="Name"/>
 
                     <uc:HeaderHintTbl Margin="10"
-                             Text="{Binding ContestEdit.introduce, Mode=TwoWay}" 
-                          HintText="Introduct contest ..."
-                          TextHeader="Introduct"/>
+                                     Text="{Binding ContestEdit.introduce, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                                  HintText="Introduct contest ..."
+                                  TextHeader="Introduct"/>
 
                     <uc:HeaderHintTbl Margin="10 "
-                            Text="{Binding ContestEdit.status, Mode=TwoWay}"
-                          HintText="Status Contest ..."
-                          TextHeader="status"/>
+                                    Text="{Binding ContestEdit.status, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                  HintText="Status Contest ..."
+                                  TextHeader="status"/>
 
                 </StackPanel>
 
                 <StackPanel Margin="10 0 0 0"
-                Grid.Column="1" >
+                            Grid.Column="1" >
                     <uc:HeaderHintTbl Margin="10  "
-                          Text="{Binding ContestEdit.title, Mode=TwoWay}"
-                          HintText="Title Contest ..."
-                          TextHeader="Title"/>
+                                  Text="{Binding ContestEdit.title, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                  HintText="Title Contest ..."
+                                  TextHeader="Title"/>
 
                     <uc:HeaderHintTbl Margin="10 "
-                          Text="{Binding ContestEdit.keywords, Mode=TwoWay}"
-                          HintText="Description contest ..."
-                          TextHeader="Description"/>
+                                  Text="{Binding ContestEdit.keywords, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                  HintText="Description contest ..."
+                                  TextHeader="Description"/>
 
                     <uc:HeaderHintTbl Margin="10 "
-                          Text="{Binding ContestEdit.description, Mode=TwoWay}"
-                          HintText="Keywords Contest ..."
-                          TextHeader="Keywords"/>
+                                  Text="{Binding ContestEdit.description, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                  HintText="Keywords Contest ..."
+                                  TextHeader="Keywords"/>
 
                 </StackPanel>
             </Grid>
             <StackPanel Orientation="Horizontal" 
-                        Margin="0 20 20 20"
-                        HorizontalAlignment="Right"
-                        Grid.Row="2">
+                                Margin="0 20 20 20"
+                                HorizontalAlignment="Right"
+                                Grid.Row="2">
                 <Button Content="Cancel" 
-                        Style="{StaticResource btnCancel}">
+                         Style="{StaticResource btnCancel}">
                 </Button>
 
-                <Button Content="Save" 
-                        Command="{Binding UpdateContestCommand }" 
-                        CommandParameter="{Binding ElementName=_this}"
-                        Style="{StaticResource btnOk}">
+                <Button         Content="Save" 
+                                Command="{Binding UpdateContestCommand }" 
+                                CommandParameter="{Binding ElementName=_this}"
+                                Style="{StaticResource btnSave}">
                 </Button>
             </StackPanel>
 

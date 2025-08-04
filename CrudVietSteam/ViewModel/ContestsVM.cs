@@ -174,6 +174,8 @@ namespace CrudVietSteam.ViewModel
         public ICommand PrevPageCommand { get; set; }
         public ICommand AddContestCommand { get; set; }
         public ICommand EditContestCommand { get; set; }
+        public ICommand DeleteItemCommand { get; set; }
+
         #endregion
 
 
@@ -193,16 +195,31 @@ namespace CrudVietSteam.ViewModel
             PrevPageCommand = new VfxCommand(OnPrevPage, CanPrevPage);
             AddContestCommand = new VfxCommand(AddContest, o => true);
             EditContestCommand = new VfxCommand(OnEdit, o => true);
+            DeleteItemCommand = new VfxCommand(OnDelete, o => true);
         }
 
-    
+        private async void OnDelete(object obj)
+        {
+            var data = obj as ContestsDTO;
+            if (data != null)
+            {
+                var result = MessageBox.Show("Bạn có chắc chắn muốn xóa cuộc thi này không?", "Xác nhận xóa", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (result == MessageBoxResult.Yes)
+                {
+                    Contests.Remove(data);
+                    await App.vietstemService.DeleteContestAsync(data); // Gọi API để xóa cuộc thi
+                    OnLoad();
+                }
+            }
+        }
+
         private void OnEdit(object obj)
         {
             var contestObj = obj as ContestsDTO;
             if (contestObj != null)
             {
                 var contestEdit = new ContestsDTO
-                { 
+                {
                     // gán đối tượng vừa được select cho các trường dữ liệu của ContestDTO
                     id = contestObj.id,
                     name = contestObj.name,
@@ -233,33 +250,6 @@ namespace CrudVietSteam.ViewModel
                 OnLoad();
 
             }
-            //var contest = obj as ContestsDTO;
-            //if (contest != null)
-            //{
-            //    SelectedContest = new ContestsDTO
-            //    {
-            //        id = contest.id,
-            //        name = contest.name,
-            //        introduce = contest.introduce,
-            //        rule = contest.rule,
-            //        guide = contest.guide,
-            //        fromGrade = contest.fromGrade,
-            //        toGrade = contest.toGrade,
-            //        status = contest.status,
-            //        description = contest.description,
-            //        title = contest.title,
-            //        keywords = contest.keywords,
-            //        accountId = contest.accountId,
-            //        cityId = contest.cityId,
-            //        createdAt = contest.createdAt,
-            //        updatedAt = DateTime.Now
-            //    };
-            //    EditContest editContest = new EditContest();
-            //    editContest.DataContext = this; // Gán DataContext cho cửa sổ EditContest
-            //    editContest.ShowDialog(); // Hiển thị cửa sổ EditContest
-            //    }
-
-
         }
 
         public async void AddContest(object obj)
@@ -291,14 +281,13 @@ namespace CrudVietSteam.ViewModel
                 updatedAt = DateTime.Now
             };
             var result = await App.vietstemService.CreateContestAsync(addContestInfor);
+            MessageBox.Show("Thêm dữ liệu thành công !", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
             if (result != null)
             {
                 Contests.Clear();
                 OnLoad();
-                Debug.WriteLine("Thêm cuộc thi thành công: " + result.name);
                 // Cập nhật lại danh sách cuộc thi sau khi thêm mới
                 AddSuccess?.Invoke(this, new EventArgs());
-                MessageBox.Show("Đóng giao diện Add Information Thành Công");
             }
             else
             {

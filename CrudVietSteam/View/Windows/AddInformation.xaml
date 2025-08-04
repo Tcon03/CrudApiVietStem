@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:CrudVietSteam.View"
         mc:Ignorable="d" 
         x:Name="_this"
+        Icon="/Image/ctest.png"
         xmlns:Vmd="clr-namespace:CrudVietSteam.ViewModel"
         xmlns:uc="clr-namespace:CrudVietSteam.View.UserControls"
         xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"

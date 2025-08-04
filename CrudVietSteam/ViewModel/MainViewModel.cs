@@ -1,12 +1,15 @@
 ﻿using CrudVietSteam.Command;
 using CrudVietSteam.View;
+using CrudVietSteam.View.Windows;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using static CrudVietSteam.ViewModel.MainViewModel;
 
 namespace CrudVietSteam.ViewModel
 {
@@ -27,6 +30,8 @@ namespace CrudVietSteam.ViewModel
             {
                 _currentViewType = value;
                 RaisePropertyChange(nameof(CurrentViewType));
+                Debug.WriteLine("CurrentView is value :" + value);
+
             }
         }
         private object _currentView;
@@ -70,9 +75,22 @@ namespace CrudVietSteam.ViewModel
 
         private void OnAdd(object obj)
         {
-            AddInformation addInformation = new AddInformation();
-            addInformation.ShowDialog();
+            switch (CurrentViewType)
+            {
+                case ViewType.ContestView:
+                    // Open Add Contest Window
+                    var addContestWindow = new AddInformation();
+                    addContestWindow.ShowDialog();
+                    break;
+                case ViewType.CityView:
+                    var cityWindow = new CityInfor();
+                    cityWindow.ShowDialog();
+                    break;
+
+
+            }
         }
+
 
         public void SwitchView(ViewType viewType)
         {
@@ -82,16 +100,15 @@ namespace CrudVietSteam.ViewModel
                 case ViewType.ContestView:
                     CurrentView = contestVM;
                     CurrentTitle = "Contest Management";
-
                     break;
                 case ViewType.CityView:
-                    //CurrentView = new CityVM(); // Assuming you have a CityVM similar to ContestsVM
+                    CurrentView = new CityVM();
                     CurrentTitle = "City Management";
+
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(viewType), viewType, null);
             }
-
         }
 
 

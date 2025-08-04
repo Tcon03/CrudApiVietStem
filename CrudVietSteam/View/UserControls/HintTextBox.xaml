@@ -7,50 +7,46 @@
              mc:Ignorable="d" 
              x:Name="root"
              d:DesignHeight="40" d:DesignWidth="300">
-  
 
-    <Border CornerRadius="8"
-            Margin="2"
-            BorderThickness="1"
-            BorderBrush="Gray"
-            Background="White">
 
-        <Grid>
 
-            <TextBox Style="{StaticResource tbxHint}"
-                 x:Name="tbxWord"
-                     MinWidth="300"
-                 Text="{Binding ElementName=root,Path=Text,
-                 Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
-            </TextBox>
+    <Grid>
 
-            <TextBlock IsHitTestVisible="False"
-                       HorizontalAlignment="Left"
-                       VerticalAlignment="Center"
-                       Foreground="Gray"
-                       Margin="5"
-                       FontWeight="DemiBold"
-                       FontStyle="Italic"
-                       d:Text="example ..."
-                       Text="{Binding ElementName=root,Path=HintText,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                       FontSize="13">
+        <TextBox Style="{StaticResource tbxControl}"
+                     x:Name="tbxWord"
+                     Text="{Binding ElementName=root,Path=Text,
+                     Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+            <TextBox.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="7" />
+                </Style>
+            </TextBox.Resources>
+        </TextBox>
 
-                <TextBlock.Style>
-                    <Style TargetType="{x:Type TextBlock}">
-                        <Setter Property="Visibility" Value="Collapsed"/>
-                        <!--trigger là 1 sự kiện xảy ra sự kiện khi liên kết với thuộc tính tbx User nhập vào -->
-                        <Style.Triggers>
-                            <!--data là dữ liệu text của TextBox tbxWord -->
-                            <DataTrigger Binding="{Binding Text,ElementName=tbxWord }"
+        <TextBlock    IsHitTestVisible="False"
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Center" 
+                      Foreground="{DynamicResource TextSecondaryGray}"
+                      Margin="15 0"
+                      FontStyle="Italic"
+                      d:Text="example..."
+                      Text="{Binding ElementName=root,Path=HintText,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                      FontSize="14">
+            <TextBlock.Style>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <!--trigger là 1 sự kiện xảy ra sự kiện khi liên kết với thuộc tính tbx User nhập vào -->
+                    <Style.Triggers>
+                        <!--data là dữ liệu text của TextBox tbxWord -->
+                        <DataTrigger Binding="{Binding Text,ElementName=tbxWord }"
                                          Value="">
-                                <Setter Property="Visibility"
+                            <Setter Property="Visibility"
                                             Value="Visible" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBlock.Style>
-            </TextBlock>
-        </Grid>
-    </Border>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+    </Grid>
 
 </UserControl>

@@ -47,6 +47,7 @@
     <!--Button Add Information-->
     <Style TargetType="{x:Type Button}" x:Key="btnAdd" >
         <Setter Property="Width" Value="180"/>
+        <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Height" Value="45"/>
         <Setter Property="Margin" Value="5"/>
         <Setter Property="Background" Value="{DynamicResource ColorButtonPurpule}"/>
@@ -84,13 +85,17 @@
         <Setter Property="Height" Value="45"/>
     </Style>
 
+    <Style TargetType="Button" x:Key="btnSave" BasedOn="{StaticResource btnOk}">
+        <Setter Property="Background" Value="{DynamicResource ColorButtonPurpule}"/>
+    </Style>
+
     <!--Btn Cancel-->
     <Style TargetType="Button" BasedOn="{StaticResource btnSearch}" x:Key="btnCancel">
         <Setter Property="Width" Value="100"/>
         <Setter Property="Foreground" Value="Red"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Margin" Value="10"/>
-        <Setter Property="FontSize" Value="15"/> 
+        <Setter Property="FontSize" Value="15"/>
         <Setter Property="Height" Value="45"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -110,8 +115,8 @@
     </Style>
 
 
-    <!--Button Edit on datagrid -->
-    <Style x:Key="btnIconEdit" TargetType="{x:Type Button}">
+    <!--Button NextPage on datagrid -->
+    <Style x:Key="btnIconNext" TargetType="{x:Type Button}">
         <Setter Property="Background" Value="#433878"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="Foreground" Value="Gray"/>
@@ -141,9 +146,9 @@
     </Style>
 
     <!--btn actions-->
-    <Style TargetType="Button" x:Key="btnDelete" BasedOn="{StaticResource btnIconEdit}">
+    <!--<Style TargetType="Button" x:Key="btnDelete" BasedOn="{StaticResource btnIconNext}">
         <Setter Property="Background" Value="#CC2B52"/>
-    </Style>
+    </Style>-->
 
 
     <!--BTN CLOSE AddInfor-->
@@ -197,7 +202,6 @@
         <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="Foreground" Value="{DynamicResource PrimaryColor}"/>
         <Setter Property="BorderBrush" Value="Transparent" />
-
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -224,14 +228,14 @@
     </Style>
 
 
-    <Style x:Key="btnSideBar"  TargetType="{x:Type Button}" >
-        <Setter Property="MinWidth" Value="200"/>
+    <Style x:Key="btnSideBar"  TargetType="Button" >
+        <Setter Property="MinWidth" Value="100"/>
         <Setter Property="MinHeight" Value="45"/>
         <Setter Property="Margin" Value="0 5 0 0"/>
+        <Setter Property="FontWeight" Value="Medium"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="White"/>
-        <Setter Property="FontFamily" Value="/Font/#Roboto"/>
-        <Setter Property="Template" >
+        <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Border Background="{TemplateBinding Background}" 

@@ -4,6 +4,7 @@ using CrudVietSteam.View;
 using CrudVietSteam.View.Windows;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -29,7 +30,7 @@ namespace CrudVietSteam.ViewModel
             }
         }
 
-        public ICommand UpdateContestCommand { get; }
+        public ICommand UpdateContestCommand { get; set; }
         //public EventHandler UpdateSuccess;
 
 
@@ -40,26 +41,27 @@ namespace CrudVietSteam.ViewModel
             // contest là đối tượng được truyền vào từ View khi mở cửa sổ sửa
             ContestEdit = contest;
             UpdateContestCommand = new VfxCommand(OnUpdateContest, CanUpdate);
+            ContestEdit.PropertyChanged += (s, e) =>
+            {
+                (UpdateContestCommand as VfxCommand)?.RaiseCanExecuteChanged();
+            };
         }
 
         private bool CanUpdate(object arg)
         {
-            return !string.IsNullOrEmpty(ContestEdit.name) || !string.IsNullOrEmpty(ContestEdit.introduce) ||
-                    !string.IsNullOrEmpty(ContestEdit.status) || !string.IsNullOrEmpty(ContestEdit.description) ||
-                    !string.IsNullOrEmpty(ContestEdit.title) || !string.IsNullOrEmpty(ContestEdit.keywords);
+            return !string.IsNullOrWhiteSpace(ContestEdit.name) &&
+                   !string.IsNullOrWhiteSpace(ContestEdit.introduce) &&
+                   !string.IsNullOrWhiteSpace(ContestEdit.status) &&
+                   !string.IsNullOrWhiteSpace(ContestEdit.description) &&
+                   !string.IsNullOrWhiteSpace(ContestEdit.title) &&
+                   !string.IsNullOrWhiteSpace(ContestEdit.keywords);
         }
 
 
         private async void OnUpdateContest(object obj)
         {
-            if (!CanUpdate(obj))
-            {
-                MessageBox.Show("Vui lòng nhập thông tin không được bỏ trống !!", "Thông báo ", MessageBoxButton.OK, MessageBoxImage.Information);
-                return;
-            }
             try
             {
-
                 await App.vietstemService.UpdateContestAsync(ContestEdit);
 
                 MessageBox.Show("Cập nhật thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);

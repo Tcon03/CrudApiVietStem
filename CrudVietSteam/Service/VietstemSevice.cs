@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Web.Configuration;
 using System.Web.Management;
 using System.Windows;
+using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 
 namespace CrudVietSteam.Service
@@ -44,8 +45,8 @@ namespace CrudVietSteam.Service
         {
             try
             {
-                // cần endpoint của phần nào thì truyền vào url
-                var response = await _client.GetAsync(url);
+                var accessToken = _tokenManager.LoadToken();
+                var response = await _client.GetAsync($"{url}?access_token={accessToken}");
                 Debug.WriteLine("======= GetData ====== \n" + response);
                 if (response.IsSuccessStatusCode)
                 {
@@ -69,7 +70,7 @@ namespace CrudVietSteam.Service
         }
 
         /// <summary>
-        /// Post Data Api
+        /// Post Data Api - Create Data
         /// </summary>
         public async Task<T> PostData<T>(string url, object obj)
         {
@@ -107,8 +108,10 @@ namespace CrudVietSteam.Service
                 return default;
             }
         }
-
-        public async Task<T>PutData<T>(string url, object obj)
+        /// <summary>
+        /// Update Data Api
+        /// </summary>
+        public async Task<T> PutData<T>(string url, object obj)
         {
             try
             {
@@ -140,6 +143,38 @@ namespace CrudVietSteam.Service
                 return default;
             }
         }
+
+        public async Task<T> DeleteData<T>(string url)
+        {
+            try
+            {
+                //1 cần endpoint của phần nào thì truyền vào url 
+                var accessToken = _tokenManager.LoadToken();
+                string urlWithToken = $"{url}?access_token={accessToken}";
+                //2. Gửi Request Delete lên server
+                var response = await _client.DeleteAsync(urlWithToken);
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsStringAsync();
+                    Debug.WriteLine("===== Result Delete Data =====\n" + result);
+                    MessageBox.Show("Xóa dữ liệu thành công !!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                    //3. Chuyển đổi kết quả trả về từ server sang kiểu T 
+                    return JsonConvert.DeserializeObject<T>(result);
+                }
+                else
+                {
+                    var errorResult = await response.Content.ReadAsStringAsync();
+                    Debug.WriteLine("====== Error Result Delete Data ========\n" + errorResult);
+                    return default;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hiện tại đã xảy ra lỗi delete dữ liệu \n" + ex.Message);
+                return default;
+            }
+        }
+
         #endregion
 
         /// <summary>
@@ -215,13 +250,15 @@ namespace CrudVietSteam.Service
             */
             try
             {
+                var accessToken = _tokenManager.LoadToken();
+
                 var fiterObject = new
                 {
                     limit = pageSize,
                     offset = (currentPage - 1) * pageSize // lấy số page hiện tại trừ đi 1 và nhân với số phần tử 
                 };
                 var convertFilter = JsonConvert.SerializeObject(fiterObject);
-                string urlWithFilter = $"{_config.GetContestEndpoint}?filter={convertFilter}";
+                string urlWithFilter = $"{_config.GetContestEndpoint}?filter={convertFilter}&access_token={accessToken}";
                 var resultPagging = await GetDataAsync<ObservableCollection<ContestsDTO>>(urlWithFilter);
                 return resultPagging;
             }
@@ -296,10 +333,7 @@ namespace CrudVietSteam.Service
         {
             try
             {
-                var accessToken = _tokenManager.LoadToken();
-                var urlWithToken = $"{_config.GetContestEndpoint}?access_token={accessToken}"; // Thêm access token vào URL
-
-                var resultContest = await PostData<ContestsDTO>(urlWithToken, contest);
+                var resultContest = await PostData<ContestsDTO>(_config.GetContestEndpoint, contest);
                 Debug.WriteLine("===== Result Create Contest =====\n" + resultContest);
                 return resultContest;
 
@@ -339,14 +373,30 @@ namespace CrudVietSteam.Service
             Debug.WriteLine("===== Result Update Contest =====\n" + response.name);
             return response;
         }
+        public async Task<ContestsDTO> DeleteContestAsync(ContestsDTO contest)
+        {
+            try
+            {
+                string urlDelete = $"{_config.GetContestEndpoint}/{contest.id}";
+                var response = await DeleteData<ContestsDTO>(urlDelete);
+                Debug.WriteLine("===== Result Delete Contest =====\n" + response.id);
+                return response;
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hiện tại đã xảy ra lỗi delete dữ liệu \n" + ex.Message);
+                return null;
+            }
+        }
+
 
 
         public async Task<ObservableCollection<CityDTO>> GetCityAsync()
         {
             try
             {
-                var accessToken = _tokenManager.LoadToken();
-                var url = $"{_config.GetCityEndpoint}?access_token={accessToken}"; // Thêm access token vào URL
+                string url = $"{_config.GetCityEndpoint}"; // Endpoint để lấy danh sách thành phố  
                 var response = await GetDataAsync<ObservableCollection<CityDTO>>(url);
                 Debug.WriteLine("===== Result Get City =====\n" + response);
                 return response;
@@ -357,6 +407,8 @@ namespace CrudVietSteam.Service
                 return null;
             }
         }
+
+
     }
 
 
