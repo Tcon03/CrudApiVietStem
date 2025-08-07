@@ -306,24 +306,7 @@ namespace CrudVietSteam.Service
                 return 0;
             }
 
-            //string urlGetContest = "http://localhost:3000/api/Contests/count";
-            //var response = await _client.GetAsync(urlGetContest);
-            //if (response.IsSuccessStatusCode)
-            //{
-            //    var result = await response.Content.ReadAsStringAsync();
-            //    Debug.WriteLine("=====Result Get Count =====\n" + result);
-            //    // Chuyển đổi kết quả về kiểu int
-            //    // C1 . int counts = int.Parse(result);
-            //    var convertResult = JsonConvert.DeserializeObject<Item>(result);
-            //    Debug.WriteLine("Lấy dữ liệu thành công " + convertResult.count);
-            //    return convertResult.count; // Trả về số lượng bản ghi
-            //}
-            //else
-            //{
-            //    var errorrResult = await response.Content.ReadAsStringAsync();
-            //    Debug.WriteLine("====== Errorr Result Get Count Data========\n" + errorrResult);
-            //    return 0;
-            //}
+
         }
 
         /// <summary>
@@ -391,7 +374,9 @@ namespace CrudVietSteam.Service
         }
 
 
-
+        /// <summary>
+        /// //////////////////////////////////////// City Service ////////////////////////////////////////
+        /// </summary>
         public async Task<ObservableCollection<CityDTO>> GetCityAsync()
         {
             try
@@ -408,7 +393,31 @@ namespace CrudVietSteam.Service
             }
         }
 
-
+        /// <summary>
+        /// Get City Count 
+        /// </summary>
+        /// <returns></returns>
+        public async Task<int> GetCityCountAsync()
+        {
+            try
+            {
+                string url = $"{_config.GetCityEndpoint}/count"; // Endpoint để lấy số lượng thành phố 
+                var response = await GetDataAsync<ItemCount>(url);
+                return response.count;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Errorr Get City :\n" + ex.Message);
+                return 0;
+            }
+        }
+        public async Task<CityDTO> DeleteCityAsync(CityDTO city)
+        {
+            string urlDelete = $"{_config.GetCityEndpoint}/{city.id}";
+            var response = await DeleteData<CityDTO>(urlDelete);
+            MessageBox.Show("Xóa thành phố thành công !!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+            return response;
+        }
     }
 
 

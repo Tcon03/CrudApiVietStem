@@ -25,11 +25,10 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <!--Item MenuItem-->
-
         <Grid>
             <Grid.RowDefinitions>
                 <!--sidebar-->
@@ -79,7 +78,7 @@
         </Grid>
 
 
-        <!--Item Information-->
+        <!--Item Information Cột 2-->
         <Border Grid.Column="1"
                 BorderBrush="Gray"
                 BorderThickness="1"
@@ -115,8 +114,8 @@
                            FontSize="50"/>-->
 
                     <Button HorizontalAlignment="Right" 
-                            Margin="25"
-                            Command="{Binding AddInfor}"
+                            Margin="0 20 20 20 "
+                            Command="{Binding AddInforCommand}"
                             CommandParameter="{Binding ElementName=_this}"
                             Style="{StaticResource btnAdd }">
                         <StackPanel Orientation="Horizontal">
@@ -133,7 +132,7 @@
 
                     </Button>
                 </Grid>
-                <!--Item 2-->
+                <!--Item 2 gạch ngang-->
                 <!--<Grid Grid.Row="1">
                 <StackPanel Margin="10" Orientation="Horizontal" HorizontalAlignment="Left">
 
@@ -161,35 +160,109 @@
                        BorderBrush="LightGray">
                 </Separator>
 
-                <!--Item 3-->
-                <Grid Grid.Row="2" >
+                <!--Item 3 Search-->
+                <Grid Grid.Row="2" 
+                      Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
 
-                    <StackPanel HorizontalAlignment="Right"
-                            VerticalAlignment="Center"
-                            Orientation="Horizontal">
+                    <!--Item Date At-->
+                    <DatePicker SelectedDate="{Binding CreatedAt ,Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}"
+                               Grid.Column="1"
+                               FontSize="15"
+                               VerticalContentAlignment="Center"
+                               Margin="10 0 10 0"
+                               Height="40">
 
+                        <DatePicker.Resources>
+                            <Style TargetType="{x:Type DatePickerTextBox}">
+                                <Setter Property="Control.Template">
+                                    <Setter.Value>
+                                        <ControlTemplate>
+                                            <TextBox x:Name="PART_TextBox" 
+                                                  BorderThickness="0"
+                                                  Padding="15 -11"
+                                                  VerticalAlignment="Center"
+                                                 Text="{Binding Path=SelectedDate,
+                                                    RelativeSource={RelativeSource 
+                                                    AncestorType={x:Type DatePicker}}, StringFormat=dd/MM/yyyy}" />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DatePicker.Resources>
+                    </DatePicker>
+
+                    <!--Item 2-->
+                    <TextBlock Text="đến" 
+                               VerticalAlignment="Center"
+                               FontSize="17"
+                               Grid.Column="2"/>
+                    <!-- 3. Date End -->
+                    <DatePicker 
+                                 Grid.Column="3"
+                                 Margin="10 0 20 0"
+                                 FontSize="15"
+                                 Height="40"
+                                 SelectedDate="{Binding UpdatedAt , Mode=TwoWay ,UpdateSourceTrigger=PropertyChanged}"
+                                 VerticalContentAlignment="Center"
+                                 VerticalAlignment="Center">
+                        <DatePicker.Resources>
+                            <Style TargetType="{x:Type DatePickerTextBox}">
+                                <Setter Property="Control.Template">
+                                    <Setter.Value>
+                                        <ControlTemplate>
+                                            <TextBox x:Name="PART_TextBox" 
+                                               BorderThickness="0"
+                                                Padding="15 -11"
+                                               VerticalAlignment="Center"
+                                               Text="{Binding Path=SelectedDate,
+                                               RelativeSource={RelativeSource 
+                                               AncestorType={x:Type DatePicker}},StringFormat=dd/MM/yyyy}" />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DatePicker.Resources>
+                    </DatePicker>
+
+                    <!--ITEM TextBox Search-->
+                    <Grid Grid.Column="4">
                         <UC:HintTextBox  
-                           HintText="Search Contest Id ..."
-                           Margin=" 0 "/>
+                               HintText="Search Contest Id ..."
+                               Text="{Binding Keywords,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                               Margin=" 0 "/>
+                    </Grid>
 
-
+                    <!--Item Button Search-->
+                    <Grid  Grid.Column="5">
                         <Button Style="{StaticResource btnSearch }"
-                                  Margin="10 0 20 0">
+                                Command="{Binding SearchData }" 
+                                CommandParameter="{Binding ElementName=_this}"
+                                Margin="15 0 20 0">
                             <StackPanel Orientation="Horizontal" >
-                                <Icon:PackIconMaterial Kind="Magnify" 
-                                      Width="30" 
-                                      VerticalAlignment="Center"
-                                      Margin="0 0"
-                                  Foreground="White"/>
+                                <Icon:PackIconMaterial 
+                                            Kind="Magnify" 
+                                            Width="30" 
+                                            VerticalAlignment="Center"
+                                            Margin="0 0"
+                                            Foreground="White"/>
                                 <TextBlock FontFamily="/Font/Roboto.ttf#Roboto Black"
-                                       FontSize="18"
-                                       Text="Search"/>
+                                             FontSize="18"
+                                             Text="Search"/>
                             </StackPanel>
                         </Button>
-                    </StackPanel>
+                    </Grid>
                 </Grid>
 
-                <!--Item 4-->
+                <!--Item 4 Convert InterFace-->
+
                 <ContentControl Grid.Row="3"
                                 Content="{Binding CurrentView}">
                 </ContentControl>

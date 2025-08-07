@@ -23,16 +23,14 @@
         <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBlack}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="HorizontalAlignment" Value="Left" />
-        <Setter Property="MinHeight" Value="40"/>
+        <Setter Property="MinHeight" Value="35"/>
         <Setter Property="MinWidth" Value="300"/>
         <Setter Property="FontSize" Value="14" />
         <Setter Property="VerticalAlignment" Value="Center" />
-        <!-- Thêm Padding để chữ không bị dính vào viền -->
         <Setter Property="Padding" Value="12"/>
 
     </Style>
-
-
+   
     <!--<TextBox.Resources>
         <Style TargetType="{x:Type Border}">
             <Setter Property="CornerRadius"

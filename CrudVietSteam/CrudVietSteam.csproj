@@ -188,7 +188,11 @@
     <Compile Include="ViewModel\EditContestVM.cs" />
     <Compile Include="ViewModel\LoginVM.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\PaggingVM.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="View\UserControls\SearchDateUC.xaml.cs">
+      <DependentUpon>SearchDateUC.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Windows\AddInformation.xaml.cs">
       <DependentUpon>AddInformation.xaml</DependentUpon>
     </Compile>
@@ -234,6 +238,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\StyleTextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\SearchDateUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:CrudVietSteam.View.UserControls"
              mc:Ignorable="d" 
              x:Name="root"
-             d:DesignHeight="40" d:DesignWidth="300">
+             d:DesignHeight="35" d:DesignWidth="300">
 
 
 

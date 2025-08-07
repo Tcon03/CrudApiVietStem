@@ -73,7 +73,7 @@
                                       TextHeader="Name"/>
 
                     <uc:HeaderHintTbl Margin="10"
-                                        Text="{Binding Introduce ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                      Text="{Binding Introduce ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                       HintText="Introduct contest ..."
                                       TextHeader="Introduct"/>
 

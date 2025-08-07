@@ -41,10 +41,7 @@ namespace CrudVietSteam.ViewModel
             // contest là đối tượng được truyền vào từ View khi mở cửa sổ sửa
             ContestEdit = contest;
             UpdateContestCommand = new VfxCommand(OnUpdateContest, CanUpdate);
-            ContestEdit.PropertyChanged += (s, e) =>
-            {
-                (UpdateContestCommand as VfxCommand)?.RaiseCanExecuteChanged();
-            };
+          
         }
 
         private bool CanUpdate(object arg)

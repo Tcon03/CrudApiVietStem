@@ -25,11 +25,11 @@
                    FontSize="20"
                    ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                    ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                   Foreground="{DynamicResource  TextPrimaryBlack}"
+                   Foreground="{DynamicResource TextPrimaryBlack}"
                    AutoGenerateColumns="False"
                    CanUserAddRows="False"
                    IsReadOnly="True"
-                   ItemsSource="{Binding CitysList , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                   ItemsSource="{Binding Citys,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
 
                 <!--style của DataGrid-->
                 <DataGrid.CellStyle>
@@ -109,7 +109,7 @@
                     HorizontalAlignment="Right"
                     Orientation="Horizontal">
 
-                    <Button  Command="{Binding PrevPageCommand}" 
+                    <Button  Command="{Binding PreviousPage}" 
                            CommandParameter="{Binding ElementName=root}"
                             Margin="5"
                             Style="{StaticResource btnIconNext}">
@@ -125,7 +125,7 @@
                       <Run Text=" of "/>
                       <Run Text="{Binding TotalPage , Mode=OneWay}"/>
                     </TextBlock>
-                    <Button   Command="{Binding NextPageCommand}"
+                    <Button   Command="{Binding NextPage}"
                             CommandParameter="{Binding ElementName=root}"
                             Style="{StaticResource btnIconNext}"
                             BorderThickness="0">

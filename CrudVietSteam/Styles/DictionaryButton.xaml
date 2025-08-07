@@ -15,7 +15,7 @@
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="FontWeight" Value="DemiBold"/>
         <Setter Property="FontFamily" Value="Font\Nexa.ttf"/>
-        <Setter Property="Height" Value="42"/>
+        <Setter Property="MinHeight" Value="35"/>
         <Setter Property="MinWidth" Value="150"/>
         <Setter Property="Template" >
             <Setter.Value>

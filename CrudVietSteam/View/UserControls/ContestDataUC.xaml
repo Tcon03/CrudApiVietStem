@@ -13,7 +13,7 @@
         <Vmd:ContestsVM/>
     </UserControl.DataContext>
     <Border CornerRadius="10"
-            Background="White">
+            Background="Transparent">
 
         <Grid Margin="5" >
             <Grid.RowDefinitions>
@@ -63,9 +63,9 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Menu HorizontalAlignment="Center" 
-                                  Background="Transparent"
-                                  FontWeight="DemiBold"
-                                  VerticalAlignment="Center">
+                                      Background="Transparent"
+                                      FontWeight="DemiBold"
+                                      VerticalAlignment="Center">
                                     <MenuItem Header="⋮" FontSize="20" >
                                         <!--Item Edit-->
                                         <MenuItem Header="Edit" 
@@ -84,8 +84,6 @@
                                                 <Icon:PackIconMaterial Kind="Delete" Foreground="Red"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
-
-
                                     </MenuItem>
                                 </Menu>
 
@@ -105,7 +103,7 @@
                        Margin="10"
                        VerticalAlignment="Center">
                 <Run Text="Total Records: "/>
-                <Run Text="{Binding TotalRecords,Mode=OneWay,UpdateSourceTrigger =PropertyChanged}"  />
+                <Run Text="{Binding TotalRecords,Mode=OneWay,UpdateSourceTrigger =PropertyChanged}" />
 
                 </TextBlock>
 
@@ -113,10 +111,10 @@
                   HorizontalAlignment="Right"
                   Orientation="Horizontal">
 
-                    <Button  Command="{Binding PrevPageCommand}" 
-                         CommandParameter="{Binding ElementName=root}"
-                          Margin="5"
-                          Style="{StaticResource btnIconNext}">
+                    <Button  Command="{Binding PreviousPage}"
+                             CommandParameter="{Binding ElementName=root}"
+                             Margin="5"
+                             Style="{StaticResource btnIconNext}">
                         <Icon:PackIconMaterial Kind="ChevronLeft" 
                                 Foreground="White"/>
                     </Button>
@@ -129,10 +127,10 @@
                     <Run Text=" of "/>
                     <Run Text="{Binding TotalPage , Mode=OneWay}"/>
                     </TextBlock>
-                    <Button   Command="{Binding NextPageCommand}"
-                          CommandParameter="{Binding ElementName=root}"
-                          Style="{StaticResource btnIconNext}"
-                          BorderThickness="0">
+                    <Button   Command="{Binding NextPage}"
+                              CommandParameter="{Binding ElementName=root}"
+                              Style="{StaticResource btnIconNext}"
+                              BorderThickness="0">
                         <Icon:PackIconMaterial Kind="ChevronRight" 
                                             Foreground="White"/>
                     </Button>
