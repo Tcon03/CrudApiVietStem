@@ -87,7 +87,7 @@ namespace CrudVietSteam.ViewModel
             }
         }
 
-        public bool CanPrevi(object arg)
+        public bool CanPrevi()
         {
             return CurrentPage > 1;
         }
@@ -102,7 +102,7 @@ namespace CrudVietSteam.ViewModel
 
         }
 
-        public bool CanNextPage(object arg)
+        public bool CanNextPage()
         {
             return CurrentPage < TotalPage;
         }

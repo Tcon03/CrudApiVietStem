@@ -7,9 +7,6 @@
              mc:Ignorable="d" 
              x:Name="root"
              d:DesignHeight="35" d:DesignWidth="300">
-
-
-
     <Grid>
 
         <TextBox Style="{StaticResource tbxControl}"

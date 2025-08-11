@@ -12,9 +12,13 @@ namespace CrudVietSteam.Command
         private Action<object> _TargetExecuteMethod;
         private Func<bool> _TargetCanExecuteMethod;
 
-        public VfxCommand(Action<object> executeMethod, Func<object, bool> canExcutedLogin)
+        // 2 constructors để khởi tạo lệnh với phương thức thực thi và điều kiện có thể thực thi 
+        // 1. Chỉ cần phương thức thực thi, không cần điều kiện 
+        // 2. Cần cả phương thức thực thi và điều kiện có thể thực thi
+        public VfxCommand(Action<object> executeMethod)
         {
             _TargetExecuteMethod = executeMethod;
+            
         }
 
         public VfxCommand(Action<object> executeMethod, Func<bool> canExecuteMethod)
@@ -23,7 +27,7 @@ namespace CrudVietSteam.Command
             _TargetCanExecuteMethod = canExecuteMethod;
         }
 
-      
+
 
         public void RaiseCanExecuteChanged()
         {

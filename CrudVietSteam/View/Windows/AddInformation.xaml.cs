@@ -23,17 +23,10 @@ namespace CrudVietSteam.View
         public AddInformation()
         {
             InitializeComponent();
-            ContestsVM ct = this.DataContext as ContestsVM;
-            if (ct != null)
-            {
-                ct.AddSuccess += AddSuccessHandler;
-            }
+           
         }
 
-        private void AddSuccessHandler(object sender, EventArgs e)
-        {
-            Close();
-        }
+    
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {

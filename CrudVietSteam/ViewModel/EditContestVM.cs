@@ -41,17 +41,20 @@ namespace CrudVietSteam.ViewModel
             // contest là đối tượng được truyền vào từ View khi mở cửa sổ sửa
             ContestEdit = contest;
             UpdateContestCommand = new VfxCommand(OnUpdateContest, CanUpdate);
-          
         }
 
-        private bool CanUpdate(object arg)
+        private bool CanUpdate()
         {
-            return !string.IsNullOrWhiteSpace(ContestEdit.name) &&
-                   !string.IsNullOrWhiteSpace(ContestEdit.introduce) &&
-                   !string.IsNullOrWhiteSpace(ContestEdit.status) &&
-                   !string.IsNullOrWhiteSpace(ContestEdit.description) &&
-                   !string.IsNullOrWhiteSpace(ContestEdit.title) &&
-                   !string.IsNullOrWhiteSpace(ContestEdit.keywords);
+
+            if (!string.IsNullOrWhiteSpace(ContestEdit.name) &&
+                      !string.IsNullOrWhiteSpace(ContestEdit.introduce) &&
+                      !string.IsNullOrWhiteSpace(ContestEdit.status) &&
+                      !string.IsNullOrWhiteSpace(ContestEdit.description) &&
+                      !string.IsNullOrWhiteSpace(ContestEdit.title) &&
+                      !string.IsNullOrWhiteSpace(ContestEdit.keywords))
+                return true;
+            MessageBox.Show("Vui lòng nhập đầy đủ thông tin không được bỏ trống !!", "Errorr", MessageBoxButton.OK, MessageBoxImage.Error);
+            return false;
         }
 
 
@@ -72,8 +75,6 @@ namespace CrudVietSteam.ViewModel
             {
                 MessageBox.Show($"Cập nhật thất bại: {ex.Message}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
-
         }
     }
 }

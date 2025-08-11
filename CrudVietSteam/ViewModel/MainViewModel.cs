@@ -30,9 +30,8 @@ namespace CrudVietSteam.ViewModel
             {
                 var oldValue = _currentViewType;
                 _currentViewType = value;
-                Debug.WriteLine($"********** [Debug] Current ViewType  **********:\n {oldValue} => {_currentViewType}");
+                Debug.WriteLine($"********** [Debug] Current ViewType  **********:\n OlderValue : {oldValue} => {_currentViewType}");
                 RaisePropertyChange(nameof(CurrentViewType));
-
 
             }
         }
@@ -68,20 +67,23 @@ namespace CrudVietSteam.ViewModel
                     _createdAt = value;
                     Debug.WriteLine("======= CreatedAt changed to ======== : " + value);
                     RaisePropertyChange(nameof(CreatedAt));
+                    (SearchData as VfxCommand)?.RaiseCanExecuteChanged();
                 }
             }
         }
+        // có thể là null nếu không có giá trị nào được chọn
         private DateTime? _updatedAt;
-        public DateTime? UpdatedAt
+        public DateTime? createTo
         {
             get { return _updatedAt; }
             set
             {
                 if (_updatedAt != value)
                 {
-                    _updatedAt = value;
-                    Debug.WriteLine("==== UpdatedAt changed to:  =====" + value);
-                    RaisePropertyChange(nameof(UpdatedAt));
+                    _updatedAt = value; //luôn là 00:00:00
+                    Debug.WriteLine("====== UpdatedAt changed to: =======" + value);
+                    RaisePropertyChange(nameof(createTo));
+                    (SearchData as VfxCommand)?.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -94,8 +96,9 @@ namespace CrudVietSteam.ViewModel
                 if (_keywords != value)
                 {
                     _keywords = value;
-                    Debug.WriteLine("Keywords changed to: " + value);
+                    Debug.WriteLine(" ======= Keywords changed to ==========: " + value);
                     RaisePropertyChange(nameof(Keywords));
+                    (SearchData as VfxCommand)?.RaiseCanExecuteChanged(); // cập nhật trạng thái của lệnh tìm kiếm khi Keywords thay đổi
                 }
             }
         }
@@ -113,31 +116,41 @@ namespace CrudVietSteam.ViewModel
 
         public MainViewModel()
         {
-            contestVM = new ContestsVM();
+            
+                contestVM = new ContestsVM();
             cityVM = new CityVM();
-            ShowCityView = new VfxCommand(o => SwitchView(ViewType.CityView), o => true);
-            ShowContestView = new VfxCommand(o => SwitchView(ViewType.ContestView), o => true);
-            AddInforCommand = new VfxCommand(OnAdd, o => true);
+            ShowCityView = new VfxCommand(o => SwitchView(ViewType.CityView), () => true);
+            ShowContestView = new VfxCommand(o => SwitchView(ViewType.ContestView), () => true);
+            AddInforCommand = new VfxCommand(OnAdd, () => true);
             SearchData = new VfxCommand(OnSearch, CanSearch);
             // Default display contest view 
             SwitchView(ViewType.ContestView);
 
+
         }
 
-        private bool CanSearch(object arg)
+        private bool CanSearch()
         {
-            throw new NotImplementedException();
+            bool isValidKey = !string.IsNullOrWhiteSpace(Keywords);
+            bool isValidCreatedAt = CreatedAt.HasValue && createTo.HasValue && CreatedAt.Value <= createTo.Value;
+            return isValidKey || isValidCreatedAt;
         }
-
         private void OnSearch(object obj)
         {
             switch (CurrentViewType)
             {
                 case ViewType.ContestView:
-                    contestVM.SearchContest(Keywords, CreatedAt, UpdatedAt);
+
+
+                    contestVM.SearchContest(new Service.DTO.ContestSearch
+                    {
+                        KeyWord = Keywords,
+                        CreatedAtForm = CreatedAt,
+                        CreatedAtTo = createTo
+                    });
                     break;
                 case ViewType.CityView:
-                    cityVM.Searchity(Keywords, CreatedAt, UpdatedAt);
+                    //cityVM.Searchity(Keywords, CreatedAt, UpdatedAt);
                     break;
             }
         }
@@ -147,8 +160,8 @@ namespace CrudVietSteam.ViewModel
             switch (CurrentViewType)
             {
                 case ViewType.ContestView:
-                    // Open Add Contest Window
                     var addContestWindow = new AddInformation();
+                    addContestWindow.DataContext = contestVM; // gán DataContext cho cửa sổ AddInformation
                     addContestWindow.ShowDialog();
                     break;
                 case ViewType.CityView:
@@ -160,15 +173,18 @@ namespace CrudVietSteam.ViewModel
 
         public void SwitchView(ViewType viewType)
         {
+            // gán CurrentViewType cho viewType để biết được view nào đang được hiển thị
             CurrentViewType = viewType;
             switch (viewType)
             {
                 case ViewType.ContestView:
+                    // gán dữ liệu cho object CurrentView
                     CurrentView = contestVM;
                     CurrentTitle = "Contest Management";
 
                     break;
                 case ViewType.CityView:
+                    //Gán dữ liệu cho object City -> CurrentView
                     CurrentView = cityVM;
                     CurrentTitle = "City Management";
 

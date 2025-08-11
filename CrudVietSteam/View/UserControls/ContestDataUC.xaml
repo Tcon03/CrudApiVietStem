@@ -9,12 +9,9 @@
              x:Name="root"
              mc:Ignorable="d" 
              d:DesignHeight="550" d:DesignWidth="600">
-    <UserControl.DataContext>
-        <Vmd:ContestsVM/>
-    </UserControl.DataContext>
+   
     <Border CornerRadius="10"
             Background="Transparent">
-
         <Grid Margin="5" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
@@ -32,7 +29,7 @@
                  AutoGenerateColumns="False"
                  CanUserAddRows="False"
                  IsReadOnly="True"
-                 ItemsSource="{Binding Contests , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                 ItemsSource="{Binding Contests,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
                 <!--style của DataGrid-->
                 <DataGrid.CellStyle>
@@ -46,19 +43,18 @@
                                 <Setter Property="Background" Value="{DynamicResource BlueLightColor}"/>
                             </Trigger>
                         </Style.Triggers>
-
                     </Style>
                 </DataGrid.CellStyle>
 
                 <DataGrid.Columns>
 
                     <!--display the data from ContestsDTO-->
-                    <DataGridTextColumn Header="ID"  Binding="{Binding id}" Width="50"/>
-                    <DataGridTextColumn Header="Name" Binding="{Binding name}" Width="150"/>
-                    <DataGridTextColumn Header="Title" Binding="{Binding title}" Width="*"/>
-                    <DataGridTextColumn Header="Description" Binding="{Binding description}" Width="200"/>
-                    <DataGridTextColumn Header="Status" Binding="{Binding status}" Width="120"/>
-                    <DataGridTemplateColumn   Width="50" >
+                    <DataGridTextColumn Header="ID"  Binding="{Binding id}" Width="50" CanUserResize="False"/>
+                    <DataGridTextColumn Header="Name" Binding="{Binding name}" Width="*"/>
+                    <DataGridTextColumn Header="Title" Binding="{Binding title}" Width="2*"/>
+                    <DataGridTextColumn Header="Description" Binding="{Binding description}" Width="*"/>
+                    <DataGridTextColumn Header="Status" Binding="{Binding status}" Width="*"/>
+                    <DataGridTemplateColumn   Width="50" CanUserResize="False" >
                         <!--Custom Actions-->
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>

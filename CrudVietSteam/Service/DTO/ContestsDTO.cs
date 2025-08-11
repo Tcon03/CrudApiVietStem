@@ -8,8 +8,9 @@ using System.Windows.Controls;
 
 namespace CrudVietSteam.Service.DTO
 {
-    public class ContestsDTO :ViewModelBase
+    public class ContestsDTO : ViewModelBase
     {
+        #region
         private string _name;
         public string name
         {
@@ -156,8 +157,8 @@ namespace CrudVietSteam.Service.DTO
             }
         }
 
-        private DateTime _createdAt;
-        public DateTime createdAt
+        private DateTime? _createdAt;
+        public DateTime? createdAt
         {
             get => _createdAt;
             set
@@ -167,8 +168,8 @@ namespace CrudVietSteam.Service.DTO
             }
         }
 
-        private DateTime _updatedAt;
-        public DateTime updatedAt
+        private DateTime? _updatedAt;
+        public DateTime? updatedAt
         {
             get => _updatedAt;
             set
@@ -178,8 +179,15 @@ namespace CrudVietSteam.Service.DTO
             }
         }
     }
+    #endregion
     public class Item
     {
         public int count { get; set; }
+    }
+    public class ContestSearch
+    {
+        public string KeyWord { get; set; }
+        public DateTime? CreatedAtForm { get; set; }
+        public DateTime? CreatedAtTo { get; set; }
     }
 }

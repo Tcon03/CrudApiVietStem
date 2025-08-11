@@ -17,7 +17,7 @@
         ResizeMode="NoResize"
         Title="AddInformation"
         Height="450" Width="800">
- <!--<Grid>
+    <!--<Grid>
      <StackPanel VerticalAlignment="Center">
          <TextBox Margin="10" Text="{Binding ContestEdit.name, Mode=TwoWay}" />
          <TextBox Margin="10" Text="{Binding ContestEdit.introduce, Mode=TwoWay}" />
@@ -31,9 +31,6 @@
                  Command="{Binding UpdateContestCommand}" />
      </StackPanel>
  </Grid>-->
-    <Window.DataContext>
-        <Vmd:ContestsVM/>
-    </Window.DataContext>
     <Border MouseDown="Border_MouseDown"
             CornerRadius="15"
             Background="White" >
@@ -52,8 +49,8 @@
                            FontWeight="Bold"
                            Margin="20 10"/>
                 <Button Style="{StaticResource btnClose}" 
-                        Click="btnClose_Click"
-                        >
+                        Click="btnClose_Click">
+
                     <Icon:PackIconMaterial Kind="Close" 
                             Width="20" 
                             Height="20" 
@@ -107,7 +104,10 @@
                         Margin="0 20 20 20"
                         HorizontalAlignment="Right"
                         Grid.Row="2">
-                <Button Content="Cancel" Style="{StaticResource btnCancel}">
+                <Button Content="Cancel" 
+                        Click="btnClose_Click"
+                        Style="{StaticResource btnCancel}">
+                   
                 </Button>
 
                 <Button Content="OK" 

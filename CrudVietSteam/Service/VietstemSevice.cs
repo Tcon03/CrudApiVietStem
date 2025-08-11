@@ -1,5 +1,6 @@
 ﻿using CrudVietSteam.Model;
 using CrudVietSteam.Service.DTO;
+using CrudVietSteam.ViewModel;
 using Newtonsoft.Json;
 using System;
 using System.CodeDom;
@@ -20,7 +21,7 @@ using System.Windows.Documents;
 
 namespace CrudVietSteam.Service
 {
-    public class VietstemSevice
+    public class VietstemSevice : PaggingVM
     {
         public readonly ApiConfiguration _config;
 
@@ -115,10 +116,8 @@ namespace CrudVietSteam.Service
         {
             try
             {
-                //1 cần endpoint của phần nào thì truyền vào url 
                 var accessToken = _tokenManager.LoadToken();
                 string urlWithToken = $"{url}?access_token={accessToken}";
-                //2. cần truyền vào object obj để post dữ liệu lên server và chuyển đổi sang chuỗi json
                 var convertObj = JsonConvert.SerializeObject(obj);
                 var jsonContent = new StringContent(convertObj, Encoding.UTF8, _config.ContentType);
                 //3 . Gửi Request Post lên server
@@ -264,7 +263,7 @@ namespace CrudVietSteam.Service
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Hiện tại đã xảy ra lỗi get dữ liệu \n" + ex.Message);
+                Debug.WriteLine("Hiện tại đã xảy ra lỗi get dữ liệu hàm PageSize \n" + ex.Message);
                 return null;
             }
             //var convertFilter = JsonConvert.SerializeObject(fiterObject);
@@ -302,7 +301,7 @@ namespace CrudVietSteam.Service
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Hiện tại đã xảy ra lỗi get dữ liệu \n" + ex.Message);
+                MessageBox.Show("Hiện tại đã xảy ra lỗi get dữ liệu Count \n" + ex.Message);
                 return 0;
             }
 
@@ -323,7 +322,7 @@ namespace CrudVietSteam.Service
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Hiện tại đã xảy ra lỗi tạo dữ liệu \n" + ex.Message);
+                MessageBox.Show("Errorr Create Data Contest\n" + ex.Message);
                 return null;
             }
             //var convertConterst = JsonConvert.SerializeObject(contest);
@@ -350,11 +349,18 @@ namespace CrudVietSteam.Service
         /// </summary>
         public async Task<ContestsDTO> UpdateContestAsync(ContestsDTO contestUpdate)
         {
-            string urlUpdate = $"{_config.GetContestEndpoint}/{contestUpdate.id}"; // Thêm ID vào URL để cập nhật
-
-            var response = await PutData<ContestsDTO>(urlUpdate, contestUpdate);
-            Debug.WriteLine("===== Result Update Contest =====\n" + response.name);
-            return response;
+            try
+            {
+                string urlUpdate = $"{_config.GetContestEndpoint}/{contestUpdate.id}"; // Thêm ID vào URL để cập nhật
+                var response = await PutData<ContestsDTO>(urlUpdate, contestUpdate);
+                Debug.WriteLine("===== Result Update Contest =====\n" + response.name);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Errorr Update Data Count \n" + ex.Message);
+                return null;
+            }
         }
         public async Task<ContestsDTO> DeleteContestAsync(ContestsDTO contest)
         {
@@ -372,6 +378,50 @@ namespace CrudVietSteam.Service
                 return null;
             }
         }
+
+        public async Task<ObservableCollection<ContestsDTO>> SeachContestAsync(ContestSearch filterCt)
+        {
+            try
+            {
+                Dictionary<string, object> filter = new Dictionary<string, object>();
+                if (!string.IsNullOrWhiteSpace(filterCt.KeyWord))
+                {
+                    filter["name"] = new { like = filterCt.KeyWord };
+                }
+
+                if (filterCt.CreatedAtForm != null && filterCt.CreatedAtTo != null)
+                {
+                    filter["createdAt"] = new
+                    {
+                        between = new[]
+                        {
+                            filterCt.CreatedAtForm.Value.ToString("yyyy-MM-ddT00:00:00.000Z"),
+                            filterCt. CreatedAtTo.Value.ToString("yyyy-MM-ddT23:59:59.999Z")
+                        }
+                    };
+                }
+                var filterObj = new
+                {
+                    where = filter,
+                    limit = PageSize,
+                    offset = (CurrentPage - 1) * PageSize
+                };
+                var accessToken = _tokenManager.LoadToken();
+                var convertWhere = JsonConvert.SerializeObject(filterObj);
+                Debug.WriteLine("======= Convert Where ========\n" + convertWhere);
+                var urlSearch = $"{_config.GetContestEndpoint}?filter={convertWhere}&{accessToken}";
+                var result = await GetDataAsync<ObservableCollection<ContestsDTO>>(urlSearch);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hiện tại đã xảy ra lỗi tìm kiếm dữ liệu \n" + ex.Message);
+                return null;
+            }
+        }
+
+
+
 
 
         /// <summary>
@@ -407,16 +457,30 @@ namespace CrudVietSteam.Service
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Errorr Get City :\n" + ex.Message);
+                MessageBox.Show("Errorr Get City Count :\n" + ex.Message);
                 return 0;
             }
         }
         public async Task<CityDTO> DeleteCityAsync(CityDTO city)
         {
-            string urlDelete = $"{_config.GetCityEndpoint}/{city.id}";
-            var response = await DeleteData<CityDTO>(urlDelete);
-            MessageBox.Show("Xóa thành phố thành công !!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
-            return response;
+            try
+            {
+
+                string urlDelete = $"{_config.GetCityEndpoint}/{city.id}";
+                var response = await DeleteData<CityDTO>(urlDelete);
+                MessageBox.Show("Xóa thành phố thành công !!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(" Errorr Delete Data City \n" + ex.Message);
+                return null;
+            }
+        }
+
+        public override void LoadData()
+        {
+            MessageBox.Show("Load Data Method is not implemented in VietstemService", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
     }
 

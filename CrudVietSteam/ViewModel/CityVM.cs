@@ -23,8 +23,8 @@ namespace CrudVietSteam.ViewModel
         {
             Citys = new ObservableCollection<CityDTO>();
             LoadData();
-            DeleteCityCommand = new VfxCommand(OnDelete, o => true);
-            EditCityCommand = new VfxCommand(OnEdit, o => true);
+            DeleteCityCommand = new VfxCommand(OnDelete, () => true);
+            EditCityCommand = new VfxCommand(OnEdit, () => true);
         }
 
         private void OnEdit(object obj)
@@ -73,7 +73,6 @@ namespace CrudVietSteam.ViewModel
                     {
                         Citys.Add(city);
                     }
-
                 }
             }
             catch (Exception ex)
@@ -86,8 +85,9 @@ namespace CrudVietSteam.ViewModel
             }
         }
 
-       public async void Searchity(string keyWord, DateTime? creatAt, DateTime? updateAt)
+        public async void Searchity()
         {
+
         }
     }
 }

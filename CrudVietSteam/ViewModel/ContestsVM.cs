@@ -95,6 +95,7 @@ namespace CrudVietSteam.ViewModel
                 if (_name != value)
                 {
                     _name = value;
+                    Debug.WriteLine("Change Name :" + value);
                     RaisePropertyChange(nameof(Name));
                 }
             }
@@ -148,6 +149,7 @@ namespace CrudVietSteam.ViewModel
             set
             {
                 _title = value;
+                Debug.WriteLine("Value thay đổi nè " + value);
                 RaisePropertyChange(nameof(Title));
             }
         }
@@ -161,6 +163,7 @@ namespace CrudVietSteam.ViewModel
             set
             {
                 _keyword = value;
+                Debug.WriteLine("Value thay đổi nè " + value);
                 RaisePropertyChange(nameof(Keywords));
             }
         }
@@ -168,7 +171,19 @@ namespace CrudVietSteam.ViewModel
 
         #endregion
 
-        public ObservableCollection<ContestsDTO> Contests { get; set; }
+        private ObservableCollection<ContestsDTO> _contests;
+        public ObservableCollection<ContestsDTO> Contests
+        {
+            get { return _contests; }
+            set
+            {
+                if (_contests != value)
+                {
+                    _contests = value;
+                    RaisePropertyChange(nameof(Contests));
+                }
+            }
+        }
 
         #region Commands
         public ICommand AddContestCommand { get; set; }
@@ -189,15 +204,31 @@ namespace CrudVietSteam.ViewModel
 
         private void InitializeCommands()
         {
-            AddContestCommand = new VfxCommand(AddContest, o => true);
-            EditContestCommand = new VfxCommand(OnEdit, o => true);
-            DeleteItemCommand = new VfxCommand(OnDelete, o => true);
+            AddContestCommand = new VfxCommand(AddContest, () => true);
+            EditContestCommand = new VfxCommand(OnEdit, () => true);
+            DeleteItemCommand = new VfxCommand(OnDelete, () => true);
         }
 
-        public async void SearchContest(string keyWord , DateTime? creatAt ,DateTime? updateAt )
+
+
+        public async void SearchContest(ContestSearch filter)
         {
-            
+            var dataSearch = await App.vietstemService.SeachContestAsync(filter);
+            if (dataSearch == null)
+            {
+                return;
+            }
+            TotalRecords = dataSearch.Count;
+            TotalPage = (int)Math.Ceiling((double)TotalRecords / PageSize);
+            Contests.Clear();
+            foreach (var item in dataSearch)
+            {
+                Contests.Add(item);
+            }
+            Debug.WriteLine("Count sau Add: " + Contests.Count); // = dataSearch.Count
         }
+
+
         private async void OnDelete(object obj)
         {
             var data = obj as ContestsDTO;
@@ -243,7 +274,7 @@ namespace CrudVietSteam.ViewModel
                 // show cửa sổ và truyền dataContext cho cửa sổ này 
                 EditContest edit = new EditContest
                 {
-                    DataContext = editVM // Gán DataContext cho cửa sổ EditContest
+                    DataContext = editVM // Gán DataContext cho cửa sổ EditContest Để sử dụng các thuộc tính chỉnh sửa ở đấy 
                 };
                 edit.ShowDialog(); // Hiển thị cửa sổ EditContest 
 
@@ -255,14 +286,14 @@ namespace CrudVietSteam.ViewModel
         public async void AddContest(object obj)
         {
 
-
-            if (string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(Introduce) ||
-               string.IsNullOrEmpty(Status) || string.IsNullOrEmpty(Description) ||
-               string.IsNullOrEmpty(Title) || string.IsNullOrEmpty(Keywords))
+            if ((string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(Introduce) ||
+                  string.IsNullOrEmpty(Status) || string.IsNullOrEmpty(Description) ||
+                    string.IsNullOrEmpty(Title) || string.IsNullOrEmpty(Keywords)))
             {
-                MessageBox.Show("Thông tin cuộc thi không được để trống.");
+                MessageBox.Show("Vui lòng nhập thông tin đầy đủ không được để trống ");
                 return;
             }
+
             var addContestInfor = new ContestsDTO
             {
                 name = Name,
@@ -280,14 +311,19 @@ namespace CrudVietSteam.ViewModel
                 createdAt = DateTime.Now,
                 updatedAt = DateTime.Now
             };
+
+
             var result = await App.vietstemService.CreateContestAsync(addContestInfor);
             MessageBox.Show("Thêm dữ liệu thành công !", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
             if (result != null)
             {
                 Contests.Clear();
                 LoadData();
-                // Cập nhật lại danh sách cuộc thi sau khi thêm mới
-                AddSuccess?.Invoke(this, new EventArgs());
+
+                if (obj is Window win)
+                {
+                    win.Close();
+                }
             }
             else
             {
@@ -296,11 +332,6 @@ namespace CrudVietSteam.ViewModel
 
 
         }
-        /// <summary>
-        /// PrevPage Page Check if can go to pevious page
-        /// </summary>
-        /// 
-
 
 
         public override async void LoadData()
