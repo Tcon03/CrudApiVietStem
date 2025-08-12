@@ -4,6 +4,7 @@ using CrudVietSteam.View;
 using CrudVietSteam.View.Windows;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -29,7 +30,7 @@ namespace CrudVietSteam.ViewModel
             }
         }
 
-        public ICommand UpdateContestCommand { get; }
+        public ICommand UpdateContestCommand { get; set; }
         //public EventHandler UpdateSuccess;
 
 
@@ -42,24 +43,25 @@ namespace CrudVietSteam.ViewModel
             UpdateContestCommand = new VfxCommand(OnUpdateContest, CanUpdate);
         }
 
-        private bool CanUpdate(object arg)
+        private bool CanUpdate()
         {
-            return !string.IsNullOrEmpty(ContestEdit.name) || !string.IsNullOrEmpty(ContestEdit.introduce) ||
-                    !string.IsNullOrEmpty(ContestEdit.status) || !string.IsNullOrEmpty(ContestEdit.description) ||
-                    !string.IsNullOrEmpty(ContestEdit.title) || !string.IsNullOrEmpty(ContestEdit.keywords);
+
+            if (!string.IsNullOrWhiteSpace(ContestEdit.name) &&
+                      !string.IsNullOrWhiteSpace(ContestEdit.introduce) &&
+                      !string.IsNullOrWhiteSpace(ContestEdit.status) &&
+                      !string.IsNullOrWhiteSpace(ContestEdit.description) &&
+                      !string.IsNullOrWhiteSpace(ContestEdit.title) &&
+                      !string.IsNullOrWhiteSpace(ContestEdit.keywords))
+                return true;
+            MessageBox.Show("Vui lòng nhập đầy đủ thông tin không được bỏ trống !!", "Errorr", MessageBoxButton.OK, MessageBoxImage.Error);
+            return false;
         }
 
 
         private async void OnUpdateContest(object obj)
         {
-            if (!CanUpdate(obj))
-            {
-                MessageBox.Show("Vui lòng nhập thông tin không được bỏ trống !!", "Thông báo ", MessageBoxButton.OK, MessageBoxImage.Information);
-                return;
-            }
             try
             {
-
                 await App.vietstemService.UpdateContestAsync(ContestEdit);
 
                 MessageBox.Show("Cập nhật thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -73,8 +75,6 @@ namespace CrudVietSteam.ViewModel
             {
                 MessageBox.Show($"Cập nhật thất bại: {ex.Message}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
-
         }
     }
 }

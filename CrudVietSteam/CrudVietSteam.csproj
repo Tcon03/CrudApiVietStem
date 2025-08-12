@@ -188,6 +188,7 @@
     <Compile Include="ViewModel\EditContestVM.cs" />
     <Compile Include="ViewModel\LoginVM.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\PaggingVM.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\Windows\AddInformation.xaml.cs">
       <DependentUpon>AddInformation.xaml</DependentUpon>
@@ -214,6 +215,9 @@
     </Compile>
     <Compile Include="View\VietstemMain.xaml.cs">
       <DependentUpon>VietstemMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Windows\CityInfor.xaml.cs">
+      <DependentUpon>CityInfor.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Windows\EditContest.xaml.cs">
       <DependentUpon>EditContest.xaml</DependentUpon>
@@ -262,6 +266,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Windows\CityInfor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Windows\EditContest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -305,7 +313,13 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Image\viet.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Image\5.password.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\add chart.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Image\city.png">
@@ -315,6 +329,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Image\contestGuide.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\ctEdit.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\ctest.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Image\email  Contact.png">

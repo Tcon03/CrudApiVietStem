@@ -60,7 +60,7 @@ namespace CrudVietSteam.ViewModel
 
 
 
-        private bool CanExcutedLogin(object obj)
+        private bool CanExcutedLogin()
         {
             if (string.IsNullOrEmpty(EmailVM) || string.IsNullOrEmpty(PasswordVM))
             {

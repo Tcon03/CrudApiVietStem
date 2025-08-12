@@ -10,29 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace testInterFace
+namespace CrudVietSteam.View.Windows
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for CityInfor.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class CityInfor : Window
     {
-        public MainWindow()
+        public CityInfor()
         {
             InitializeComponent();
-        }
-
-        private void BtnClose_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Header_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-
         }
     }
 }

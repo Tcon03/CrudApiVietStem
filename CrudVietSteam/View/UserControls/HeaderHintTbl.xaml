@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:CrudVietSteam.View.UserControls"
              mc:Ignorable="d" 
               x:Name="root"
-             d:DesignHeight="70" d:DesignWidth="250">
+             d:DesignHeight="70" d:DesignWidth="300">
     <Grid Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -15,49 +15,43 @@
         <Grid>
             <TextBlock d:Text="Example Information ..."
                        HorizontalAlignment="Left"
-                       Foreground="Black"
-                       FontWeight="DemiBold"
                        Text="{Binding ElementName=root,Path=TextHeader}"
-                       Margin="5"
-                       FontSize="15"/>
+                       Style="{StaticResource FormLabel}"  />
         </Grid>
 
-        <Border Grid.Row="1" 
-                BorderBrush="Gray"
-                BorderThickness="1"
-                Background="White"
-                CornerRadius="6">
-            <Grid>
-                <TextBox Style="{StaticResource tbxHint}"
+        <Grid Grid.Row="1" >
+            <TextBox    Style="{StaticResource tbxControl }"
                          x:Name="txbWord"
-                         Text="{Binding ElementName=root,Path=Text,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                         Width="300">
-                </TextBox>
-                
-                <TextBlock IsHitTestVisible="False"
+                         Text="{Binding ElementName=root,Path=Text,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                <TextBox.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="7" />
+                    </Style>
+                </TextBox.Resources>
+            </TextBox>
+
+            <TextBlock     IsHitTestVisible="False"
                            HorizontalAlignment="Left"
-                           VerticalAlignment="Center"
-                           Foreground="{DynamicResource PrimaryGrayColor }"
-                           Margin="15 5"
+                           VerticalAlignment="Center" 
+                           Foreground="{DynamicResource TextSecondaryGray}"
+                           Margin="15 0"
                            FontStyle="Italic"
                            d:Text="example..."
                            Text="{Binding ElementName=root, Path=HintText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                           FontSize="13">
-                    <TextBlock.Style>
-                        <Style TargetType="{x:Type TextBlock}">
-                            <Setter Property="Visibility" Value="Collapsed"/>
-                            <Style.Triggers>
-                                <DataTrigger  Binding="{Binding ElementName=txbWord,Path=Text}"
+                           FontSize="14">
+                <TextBlock.Style>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger  Binding="{Binding ElementName=txbWord,Path=Text}"
                                               Value="">
-                                    <Setter Property="Visibility" Value="Visible"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBlock.Style>
-                </TextBlock>
-            </Grid>
-        </Border>
-
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </Grid>
 
     </Grid>
 </UserControl>

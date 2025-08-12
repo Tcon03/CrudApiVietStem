@@ -24,8 +24,7 @@ namespace CrudVietSteam.View.Windows
         public EditContest()
         {
             InitializeComponent();
-            //editContestVM = new EditContestVM();
-            //editContestVM.UpdateSuccess += UpdateSuccessHandler;
+
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
@@ -38,9 +37,5 @@ namespace CrudVietSteam.View.Windows
             DragMove();
         }
 
-        //private void UpdateSuccessHandler(object sender, EventArgs e)
-        //{
-        //    Close();
-        //}
     }
 }

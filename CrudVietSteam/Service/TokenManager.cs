@@ -38,6 +38,7 @@ namespace CrudVietSteam.Service
             // nếu  đọc file đấy là chuối json thì chuổi đổi nó sang object  và trả về object đó 
 
             var readFile = File.ReadAllText(TkFile);
+
             return readFile;
         }
 

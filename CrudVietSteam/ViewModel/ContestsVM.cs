@@ -6,8 +6,10 @@ using System;
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Common;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -18,71 +20,71 @@ namespace CrudVietSteam.ViewModel
     /// <summary>
     /// Get data Api display contest data
     /// </summary>
-    public class ContestsVM : ViewModelBase
+    public class ContestsVM : PaggingVM
     {
 
         #region Properties
-        private int _pageSize = 15; // Số lượng bản ghi trên mỗi trang 
-        public int PageSize
-        {
-            get { return _pageSize; }
-            set
-            {
-                if (_pageSize != value)
-                {
-                    _pageSize = value;
-                    //OnLoad(); // Tải lại dữ liệu khi thay đổi PageSize 
-                    Debug.WriteLine("PageSize changed to: " + _pageSize);
-                    RaisePropertyChange(nameof(PageSize)); // Thông báo thay đổi thuộc tính PageSize
-                }
-            }
-        }
-        private int _currentPage = 1; // Trang hiện tại 
-        public int CurrentPage
-        {
-            get { return _currentPage; }
-            set
-            {
-                if (_currentPage != value)
-                {
-                    _currentPage = value;
-                    Debug.WriteLine("CurrentPage changed to: " + _currentPage);
-                    OnLoad(); // Tải lại dữ liệu khi thay đổi CurrentPage  
-                    RaisePropertyChange(nameof(CurrentPage));
-                }
-            }
-        }
-        private int _totalPage; // Tổng số trang, mặc định là 1 
-        public int TotalPage
-        {
-            get { return _totalPage; }
-            set
-            {
-                if (_totalPage != value)
-                {
-                    _totalPage = value;
-                    Debug.WriteLine("TotalPage changed to: " + _totalPage);
-                    RaisePropertyChange(nameof(TotalPage));
-                }
-            }
-        }
-        private int _totalRecords = 0; // Tổng số bản ghi, mặc định là 0 vì chưa có gửi api lên  
-        public int TotalRecords
-        {
-            get
-            {
-                return _totalRecords;
-            }
-            set
-            {
-                if (_totalRecords != value)
-                {
-                    _totalRecords = value;
-                    Debug.WriteLine("TotalRecords changed to: " + _totalRecords);
-                    RaisePropertyChange(nameof(TotalRecords)); // Thông báo thay đổi thuộc tính TotalRecords
-                }
-            }
-        }
+        //private int _pageSize = 15; // Số lượng bản ghi trên mỗi trang 
+        //public int PageSize
+        //{
+        //    get { return _pageSize; }
+        //    set
+        //    {
+        //        if (_pageSize != value)
+        //        {
+        //            _pageSize = value;
+        //            //OnLoad(); // Tải lại dữ liệu khi thay đổi PageSize 
+        //            Debug.WriteLine("PageSize changed to: " + _pageSize);
+        //            RaisePropertyChange(nameof(PageSize)); // Thông báo thay đổi thuộc tính PageSize
+        //        }
+        //    }
+        //}
+        //private int _currentPage = 1; // Trang hiện tại 
+        //public int CurrentPage
+        //{
+        //    get { return _currentPage; }
+        //    set
+        //    {
+        //        if (_currentPage != value)
+        //        {
+        //            _currentPage = value;
+        //            Debug.WriteLine("CurrentPage changed to: " + _currentPage);
+        //            OnLoad(); // Tải lại dữ liệu khi thay đổi CurrentPage  
+        //            RaisePropertyChange(nameof(CurrentPage));
+        //        }
+        //    }
+        //}
+        //private int _totalPage; // Tổng số trang, mặc định là 1 
+        //public int TotalPage
+        //{
+        //    get { return _totalPage; }
+        //    set
+        //    {
+        //        if (_totalPage != value)
+        //        {
+        //            _totalPage = value;
+        //            Debug.WriteLine("TotalPage changed to: " + _totalPage);
+        //            RaisePropertyChange(nameof(TotalPage));
+        //        }
+        //    }
+        //}
+        //private int _totalRecords = 0; // Tổng số bản ghi, mặc định là 0 vì chưa có gửi api lên  
+        //public int TotalRecords
+        //{
+        //    get
+        //    {
+        //        return _totalRecords;
+        //    }
+        //    set
+        //    {
+        //        if (_totalRecords != value)
+        //        {
+        //            _totalRecords = value;
+        //            Debug.WriteLine("TotalRecords changed to: " + _totalRecords);
+        //            RaisePropertyChange(nameof(TotalRecords)); // Thông báo thay đổi thuộc tính TotalRecords
+        //        }
+        //    }
+        //}
 
         private string _name;
         public string Name
@@ -93,6 +95,7 @@ namespace CrudVietSteam.ViewModel
                 if (_name != value)
                 {
                     _name = value;
+                    Debug.WriteLine("Change Name :" + value);
                     RaisePropertyChange(nameof(Name));
                 }
             }
@@ -146,6 +149,7 @@ namespace CrudVietSteam.ViewModel
             set
             {
                 _title = value;
+                Debug.WriteLine("Value thay đổi nè " + value);
                 RaisePropertyChange(nameof(Title));
             }
         }
@@ -159,23 +163,34 @@ namespace CrudVietSteam.ViewModel
             set
             {
                 _keyword = value;
+                Debug.WriteLine("Value thay đổi nè " + value);
                 RaisePropertyChange(nameof(Keywords));
             }
         }
 
 
-
         #endregion
 
-        public ObservableCollection<ContestsDTO> Contests { get; set; }
+        private ObservableCollection<ContestsDTO> _contests;
+        public ObservableCollection<ContestsDTO> Contests
+        {
+            get { return _contests; }
+            set
+            {
+                if (_contests != value)
+                {
+                    _contests = value;
+                    RaisePropertyChange(nameof(Contests));
+                }
+            }
+        }
 
         #region Commands
-        public ICommand NextPageCommand { get; set; }
-        public ICommand PrevPageCommand { get; set; }
         public ICommand AddContestCommand { get; set; }
         public ICommand EditContestCommand { get; set; }
-        #endregion
+        public ICommand DeleteItemCommand { get; set; }
 
+        #endregion
 
         public EventHandler AddSuccess;
 
@@ -184,25 +199,58 @@ namespace CrudVietSteam.ViewModel
         {
             Contests = new ObservableCollection<ContestsDTO>();
             InitializeCommands();
-            OnLoad();
+            LoadData(); // Gọi hàm LoadData để tải dữ liệu khi khởi tạo ViewModel
         }
 
         private void InitializeCommands()
         {
-            NextPageCommand = new VfxCommand(OnNextPage, CanNextPage);
-            PrevPageCommand = new VfxCommand(OnPrevPage, CanPrevPage);
-            AddContestCommand = new VfxCommand(AddContest, o => true);
-            EditContestCommand = new VfxCommand(OnEdit, o => true);
+            AddContestCommand = new VfxCommand(AddContest, () => true);
+            EditContestCommand = new VfxCommand(OnEdit, () => true);
+            DeleteItemCommand = new VfxCommand(OnDelete, () => true);
         }
 
-    
+
+
+        public async void SearchContest(ContestSearch filter)
+        {
+            var dataSearch = await App.vietstemService.SeachContestAsync(filter);
+            if (dataSearch == null)
+            {
+                return;
+            }
+            TotalRecords = dataSearch.Count;
+            TotalPage = (int)Math.Ceiling((double)TotalRecords / PageSize);
+            Contests.Clear();
+            foreach (var item in dataSearch)
+            {
+                Contests.Add(item);
+            }
+            Debug.WriteLine("Count sau Add: " + Contests.Count); // = dataSearch.Count
+        }
+
+
+        private async void OnDelete(object obj)
+        {
+            var data = obj as ContestsDTO;
+            if (data != null)
+            {
+                var result = MessageBox.Show("Bạn có chắc chắn muốn xóa cuộc thi này không?", "Xác nhận xóa", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (result == MessageBoxResult.Yes)
+                {
+                    Contests.Remove(data);
+                    await App.vietstemService.DeleteContestAsync(data); // Gọi API để xóa cuộc thi
+                    LoadData();
+                }
+            }
+        }
+
         private void OnEdit(object obj)
         {
             var contestObj = obj as ContestsDTO;
             if (contestObj != null)
             {
                 var contestEdit = new ContestsDTO
-                { 
+                {
                     // gán đối tượng vừa được select cho các trường dữ liệu của ContestDTO
                     id = contestObj.id,
                     name = contestObj.name,
@@ -226,53 +274,26 @@ namespace CrudVietSteam.ViewModel
                 // show cửa sổ và truyền dataContext cho cửa sổ này 
                 EditContest edit = new EditContest
                 {
-                    DataContext = editVM // Gán DataContext cho cửa sổ EditContest
+                    DataContext = editVM // Gán DataContext cho cửa sổ EditContest Để sử dụng các thuộc tính chỉnh sửa ở đấy 
                 };
                 edit.ShowDialog(); // Hiển thị cửa sổ EditContest 
 
-                OnLoad();
+                LoadData();
 
             }
-            //var contest = obj as ContestsDTO;
-            //if (contest != null)
-            //{
-            //    SelectedContest = new ContestsDTO
-            //    {
-            //        id = contest.id,
-            //        name = contest.name,
-            //        introduce = contest.introduce,
-            //        rule = contest.rule,
-            //        guide = contest.guide,
-            //        fromGrade = contest.fromGrade,
-            //        toGrade = contest.toGrade,
-            //        status = contest.status,
-            //        description = contest.description,
-            //        title = contest.title,
-            //        keywords = contest.keywords,
-            //        accountId = contest.accountId,
-            //        cityId = contest.cityId,
-            //        createdAt = contest.createdAt,
-            //        updatedAt = DateTime.Now
-            //    };
-            //    EditContest editContest = new EditContest();
-            //    editContest.DataContext = this; // Gán DataContext cho cửa sổ EditContest
-            //    editContest.ShowDialog(); // Hiển thị cửa sổ EditContest
-            //    }
-
-
         }
 
         public async void AddContest(object obj)
         {
 
-
-            if (string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(Introduce) ||
-               string.IsNullOrEmpty(Status) || string.IsNullOrEmpty(Description) ||
-               string.IsNullOrEmpty(Title) || string.IsNullOrEmpty(Keywords))
+            if ((string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(Introduce) ||
+                  string.IsNullOrEmpty(Status) || string.IsNullOrEmpty(Description) ||
+                    string.IsNullOrEmpty(Title) || string.IsNullOrEmpty(Keywords)))
             {
-                MessageBox.Show("Thông tin cuộc thi không được để trống.");
+                MessageBox.Show("Vui lòng nhập thông tin đầy đủ không được để trống ");
                 return;
             }
+
             var addContestInfor = new ContestsDTO
             {
                 name = Name,
@@ -290,15 +311,19 @@ namespace CrudVietSteam.ViewModel
                 createdAt = DateTime.Now,
                 updatedAt = DateTime.Now
             };
+
+
             var result = await App.vietstemService.CreateContestAsync(addContestInfor);
+            MessageBox.Show("Thêm dữ liệu thành công !", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
             if (result != null)
             {
                 Contests.Clear();
-                OnLoad();
-                Debug.WriteLine("Thêm cuộc thi thành công: " + result.name);
-                // Cập nhật lại danh sách cuộc thi sau khi thêm mới
-                AddSuccess?.Invoke(this, new EventArgs());
-                MessageBox.Show("Đóng giao diện Add Information Thành Công");
+                LoadData();
+
+                if (obj is Window win)
+                {
+                    win.Close();
+                }
             }
             else
             {
@@ -307,72 +332,24 @@ namespace CrudVietSteam.ViewModel
 
 
         }
-        /// <summary>
-        /// PrevPage Page Check if can go to pevious page
-        /// </summary>
-        /// 
-        #region Pagging
-        private bool CanPrevPage()
-        {
-            return CurrentPage > 1;
-        }
-
-        /// <summary>
-        /// PrevPage Page Go to previous page
-        /// </summary>
-        private void OnPrevPage(object obj)
-        {
-            if (CurrentPage > 1)
-            {
-                CurrentPage--;
-            }
-            else
-            {
-                Debug.WriteLine("Đã ở trang đầu tiên, không thể chuyển về trang trước.");
-            }
-        }
 
 
-        /// <summary>
-        /// Check if can go to nextPage 
-        /// </summary>
-        private bool CanNextPage()
-        {
-            return CurrentPage < TotalPage;
-        }
-
-        /// <summary>
-        /// Nextpage default
-        /// </summary>
-        private void OnNextPage(object obj)
-        {
-            CurrentPage++;
-        }
-
-        #endregion
-        private async void OnLoad()
+        public override async void LoadData()
         {
             try
             {
                 //1. Get Total Records from Api
-                var totalRecords = await App.vietstemService.GetCountContestAsync();
+                TotalRecords = await App.vietstemService.GetCountContestAsync();
 
-                if (totalRecords > 0)
+                if (TotalRecords > 0)
                 {
-                    TotalRecords = totalRecords; // Cập nhật tổng số bản ghi
-                    RaisePropertyChange(nameof(TotalRecords));
                     //  Amount TotalRecord / Amount PageSize (30/1)
                     TotalPage = (int)Math.Ceiling((double)TotalRecords / PageSize); // Tính tổng số trang dựa trên tổng số bản ghi và PageSize
-                    RaisePropertyChange(nameof(TotalPage));
-
-                    Debug.WriteLine(" ====== Tổng số Page ==== :" + TotalPage);
-
-                    Debug.WriteLine("Tổng số bản ghi Item: " + TotalRecords);
-
                     //2. Get dữ liệu từ API với PageSize và CurrentPage
                     var dataApi = await App.vietstemService.GetDataContest(PageSize, CurrentPage);
                     if (dataApi == null)
                     {
+                        Debug.WriteLine("Không có dữ liệu để hiển thị.");
                         return;
                     }
 
@@ -394,11 +371,10 @@ namespace CrudVietSteam.ViewModel
             }
             finally
             {
-                // Cập nhật lại trạng thái của các nút Next/Prev sau mỗi lần tải
-                (NextPageCommand as VfxCommand)?.RaiseCanExecuteChanged();
-                (PrevPageCommand as VfxCommand)?.RaiseCanExecuteChanged();
+                RefreshPageCommand();
             }
-
         }
+
+
     }
 }

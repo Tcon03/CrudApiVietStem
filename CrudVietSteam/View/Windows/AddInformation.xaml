@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:CrudVietSteam.View"
         mc:Ignorable="d" 
         x:Name="_this"
+        Icon="/Image/ctest.png"
         xmlns:Vmd="clr-namespace:CrudVietSteam.ViewModel"
         xmlns:uc="clr-namespace:CrudVietSteam.View.UserControls"
         xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
@@ -16,7 +17,7 @@
         ResizeMode="NoResize"
         Title="AddInformation"
         Height="450" Width="800">
- <!--<Grid>
+    <!--<Grid>
      <StackPanel VerticalAlignment="Center">
          <TextBox Margin="10" Text="{Binding ContestEdit.name, Mode=TwoWay}" />
          <TextBox Margin="10" Text="{Binding ContestEdit.introduce, Mode=TwoWay}" />
@@ -30,9 +31,6 @@
                  Command="{Binding UpdateContestCommand}" />
      </StackPanel>
  </Grid>-->
-    <Window.DataContext>
-        <Vmd:ContestsVM/>
-    </Window.DataContext>
     <Border MouseDown="Border_MouseDown"
             CornerRadius="15"
             Background="White" >
@@ -51,8 +49,8 @@
                            FontWeight="Bold"
                            Margin="20 10"/>
                 <Button Style="{StaticResource btnClose}" 
-                        Click="btnClose_Click"
-                        >
+                        Click="btnClose_Click">
+
                     <Icon:PackIconMaterial Kind="Close" 
                             Width="20" 
                             Height="20" 
@@ -72,7 +70,7 @@
                                       TextHeader="Name"/>
 
                     <uc:HeaderHintTbl Margin="10"
-                                        Text="{Binding Introduce ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                      Text="{Binding Introduce ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                       HintText="Introduct contest ..."
                                       TextHeader="Introduct"/>
 
@@ -106,7 +104,10 @@
                         Margin="0 20 20 20"
                         HorizontalAlignment="Right"
                         Grid.Row="2">
-                <Button Content="Cancel" Style="{StaticResource btnCancel}">
+                <Button Content="Cancel" 
+                        Click="btnClose_Click"
+                        Style="{StaticResource btnCancel}">
+                   
                 </Button>
 
                 <Button Content="OK" 
