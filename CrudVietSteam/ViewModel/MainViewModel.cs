@@ -112,21 +112,35 @@ namespace CrudVietSteam.ViewModel
         public ICommand ShowCityView { get; set; }
         public ICommand AddInforCommand { get; set; }
         public ICommand SearchData { get; set; }
+        public ICommand ClearCommand { get; set; }
 
 
         public MainViewModel()
         {
-            
-                contestVM = new ContestsVM();
+
+            contestVM = new ContestsVM();
             cityVM = new CityVM();
             ShowCityView = new VfxCommand(o => SwitchView(ViewType.CityView), () => true);
             ShowContestView = new VfxCommand(o => SwitchView(ViewType.ContestView), () => true);
             AddInforCommand = new VfxCommand(OnAdd, () => true);
             SearchData = new VfxCommand(OnSearch, CanSearch);
+            ClearCommand = new VfxCommand(OnClear, () => true);
+
             // Default display contest view 
             SwitchView(ViewType.ContestView);
 
 
+        }
+
+        private async void OnClear(object obj)
+        {
+            Keywords = string.Empty;
+            CreatedAt = null;
+            createTo = null;
+            // Gọi lại lệnh tìm kiếm để cập nhật dữ liệu
+            (SearchData as VfxCommand)?.RaiseCanExecuteChanged();
+              await contestVM.LoadData(); // Tải lại dữ liệu sau khi xóa bộ lọc
+            Debug.WriteLine("======= Clear search filters =======");
         }
 
         private bool CanSearch()
@@ -140,7 +154,6 @@ namespace CrudVietSteam.ViewModel
             switch (CurrentViewType)
             {
                 case ViewType.ContestView:
-
 
                     contestVM.SearchContest(new Service.DTO.ContestSearch
                     {

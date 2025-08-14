@@ -50,7 +50,7 @@ namespace CrudVietSteam.ViewModel
                     int oldValue = _currentPage;
                     _currentPage = value;
                     Debug.WriteLine($"======== [Debug] Current Page Records Changed ========:\n {oldValue} => {_currentPage}");
-                    LoadData();
+                     LoadData();
                     RaisePropertyChange(nameof(CurrentPage));
                 }
 
@@ -112,6 +112,6 @@ namespace CrudVietSteam.ViewModel
             (NextPage as VfxCommand)?.RaiseCanExecuteChanged();
             (PreviousPage as VfxCommand)?.RaiseCanExecuteChanged();
         }
-        public abstract void LoadData();
+        public abstract Task LoadData();
     }
 }

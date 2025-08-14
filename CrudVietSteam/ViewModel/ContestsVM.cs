@@ -24,67 +24,7 @@ namespace CrudVietSteam.ViewModel
     {
 
         #region Properties
-        //private int _pageSize = 15; // Số lượng bản ghi trên mỗi trang 
-        //public int PageSize
-        //{
-        //    get { return _pageSize; }
-        //    set
-        //    {
-        //        if (_pageSize != value)
-        //        {
-        //            _pageSize = value;
-        //            //OnLoad(); // Tải lại dữ liệu khi thay đổi PageSize 
-        //            Debug.WriteLine("PageSize changed to: " + _pageSize);
-        //            RaisePropertyChange(nameof(PageSize)); // Thông báo thay đổi thuộc tính PageSize
-        //        }
-        //    }
-        //}
-        //private int _currentPage = 1; // Trang hiện tại 
-        //public int CurrentPage
-        //{
-        //    get { return _currentPage; }
-        //    set
-        //    {
-        //        if (_currentPage != value)
-        //        {
-        //            _currentPage = value;
-        //            Debug.WriteLine("CurrentPage changed to: " + _currentPage);
-        //            OnLoad(); // Tải lại dữ liệu khi thay đổi CurrentPage  
-        //            RaisePropertyChange(nameof(CurrentPage));
-        //        }
-        //    }
-        //}
-        //private int _totalPage; // Tổng số trang, mặc định là 1 
-        //public int TotalPage
-        //{
-        //    get { return _totalPage; }
-        //    set
-        //    {
-        //        if (_totalPage != value)
-        //        {
-        //            _totalPage = value;
-        //            Debug.WriteLine("TotalPage changed to: " + _totalPage);
-        //            RaisePropertyChange(nameof(TotalPage));
-        //        }
-        //    }
-        //}
-        //private int _totalRecords = 0; // Tổng số bản ghi, mặc định là 0 vì chưa có gửi api lên  
-        //public int TotalRecords
-        //{
-        //    get
-        //    {
-        //        return _totalRecords;
-        //    }
-        //    set
-        //    {
-        //        if (_totalRecords != value)
-        //        {
-        //            _totalRecords = value;
-        //            Debug.WriteLine("TotalRecords changed to: " + _totalRecords);
-        //            RaisePropertyChange(nameof(TotalRecords)); // Thông báo thay đổi thuộc tính TotalRecords
-        //        }
-        //    }
-        //}
+
 
         private string _name;
         public string Name
@@ -239,12 +179,12 @@ namespace CrudVietSteam.ViewModel
                 {
                     Contests.Remove(data);
                     await App.vietstemService.DeleteContestAsync(data); // Gọi API để xóa cuộc thi
-                    LoadData();
+                    await LoadData();
                 }
             }
         }
 
-        private void OnEdit(object obj)
+        private async void OnEdit(object obj)
         {
             var contestObj = obj as ContestsDTO;
             if (contestObj != null)
@@ -278,7 +218,7 @@ namespace CrudVietSteam.ViewModel
                 };
                 edit.ShowDialog(); // Hiển thị cửa sổ EditContest 
 
-                LoadData();
+                await LoadData();
 
             }
         }
@@ -334,7 +274,7 @@ namespace CrudVietSteam.ViewModel
         }
 
 
-        public override async void LoadData()
+        public override async Task LoadData()
         {
             try
             {

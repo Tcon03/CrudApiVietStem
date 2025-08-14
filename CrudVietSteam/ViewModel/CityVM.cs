@@ -43,13 +43,13 @@ namespace CrudVietSteam.ViewModel
                 {
                     Citys.Remove(cityItem);
                     await App.vietstemService.DeleteCityAsync(cityItem);
-                    LoadData();
+                    await LoadData();
                 }
 
             }
         }
 
-        public override async void LoadData()
+        public override async Task LoadData()
         {
             try
             {

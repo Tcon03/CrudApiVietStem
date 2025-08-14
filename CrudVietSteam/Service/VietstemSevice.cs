@@ -478,7 +478,7 @@ namespace CrudVietSteam.Service
             }
         }
 
-        public override void LoadData()
+        public override async Task LoadData()
         {
             MessageBox.Show("Load Data Method is not implemented in VietstemService", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
