@@ -19,4 +19,10 @@ namespace CrudVietSteam.Service.DTO
     {
         public int count { get; set; }
     }
+    public class CitySearch
+    {
+        public string Key { get; set; }
+        public DateTime? CreatedTo { get; set; }
+        public DateTime? CreatedForm { get; set; }
+    }
 }

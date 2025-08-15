@@ -465,7 +465,6 @@ namespace CrudVietSteam.Service
         {
             try
             {
-
                 string urlDelete = $"{_config.GetCityEndpoint}/{city.id}";
                 var response = await DeleteData<CityDTO>(urlDelete);
                 MessageBox.Show("Xóa thành phố thành công !!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -478,6 +477,49 @@ namespace CrudVietSteam.Service
             }
         }
 
+
+        /// <summary>
+        /// Search City Async
+        /// </summary>
+        public async Task<ObservableCollection<CityDTO>> SearchCityAsync(CitySearch filterCity)
+        {
+            try
+            {
+              var filter = new Dictionary<string, object>();
+                if (!string.IsNullOrWhiteSpace(filterCity.Key))
+                {
+                    filter["name"] = new { like = filterCity.Key };
+                }
+                if (filterCity.CreatedForm != null && filterCity.CreatedTo != null)
+                {
+                    filter["createdAt"] = new
+                    {
+                        between = new[]
+                        {
+                            filterCity.CreatedForm.Value.ToString("yyyy-MM-ddT00:00:00.000Z"),
+                            filterCity.CreatedTo.Value.ToString("yyyy-MM-ddT23:59:59.999Z")
+                        }
+                    };
+                }
+                var filterObj = new
+                {
+                    where = filter,
+                    limit = PageSize,
+                    offset = (CurrentPage - 1) * PageSize
+                };
+                var accessToken = _tokenManager.LoadToken();
+                var convertWhere = JsonConvert.SerializeObject(filterObj);
+                Debug.WriteLine("======= Convert Where City ========\n" + convertWhere);
+                var urlSearch = $"{_config.GetCityEndpoint}?filter={convertWhere}&access_token={accessToken}";
+                var result = await GetDataAsync<ObservableCollection<CityDTO>>(urlSearch);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hiện tại đã xảy ra lỗi tìm kiếm dữ liệu thành phố \n" + ex.Message);
+                return null;
+            }
+        }
         public override async Task LoadData()
         {
             MessageBox.Show("Load Data Method is not implemented in VietstemService", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);

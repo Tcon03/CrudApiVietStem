@@ -23,6 +23,7 @@ namespace CrudVietSteam.ViewModel
                 _email = value;
                 Debug.WriteLine("Event Email được kích hoạt " + value);
                 RaisePropertyChange(nameof(EmailVM));
+                (LoginCommand as VfxCommand)?.RaiseCanExecuteChanged(); 
             }
         }
         private string _password;
@@ -34,6 +35,8 @@ namespace CrudVietSteam.ViewModel
                 _password = value;
                 Debug.WriteLine("Event Pass được kích hoạt " + value);
                 RaisePropertyChange(nameof(PasswordVM));
+                (LoginCommand as VfxCommand)?.RaiseCanExecuteChanged();
+
             }
         }
 

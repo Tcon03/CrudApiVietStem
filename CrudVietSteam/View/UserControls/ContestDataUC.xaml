@@ -9,7 +9,29 @@
              x:Name="root"
              mc:Ignorable="d" 
              d:DesignHeight="550" d:DesignWidth="600">
+    <UserControl.Resources>
+        <Style TargetType="MenuItem" x:Key="clickMenu">
+            <!--<Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Background" Value="Red"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="MenuItem">
+                        <Border 
+                            CornerRadius="10" >
 
+                            <ContentPresenter VerticalAlignment="Center"
+                                              HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>-->
+            <Style.Triggers>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="red"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
 
     <Grid Background="Azure"  Margin="10" >
         <Grid.RowDefinitions>
@@ -20,10 +42,11 @@
         <Border CornerRadius="15" 
                     Padding="6"
                     BorderBrush="LightGray"
-                    BorderThickness="2"
-                   SnapsToDevicePixels="True">
-            <DataGrid    VerticalGridLinesBrush="#E5E9EF"
-                         GridLinesVisibility="Horizontal" 
+                    BorderThickness="1"
+                    SnapsToDevicePixels="True">
+            <DataGrid  
+                         GridLinesVisibility="None" 
+                         HeadersVisibility="Column"
                          Background="Transparent"
                          ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                          ScrollViewer.VerticalScrollBarVisibility="Hidden"
@@ -44,22 +67,38 @@
                     </Style>
                 </DataGrid.Resources>
 
+
+                <!--Style in Broad DataGrid-->
                 <DataGrid.CellStyle>
                     <Style TargetType="DataGridCell">
                         <Setter Property="Foreground" 
                                 Value="Black"/>
                         <Setter Property="FontSize"
-                                Value="15"/>
+                                Value="14"/>
                         <Setter Property="FontWeight" 
                                 Value="Normal"/>
                         <Setter Property="MinHeight"
                                 Value="50"/>
-
                         <!--EVENT Selection vào ô thì sẽ đổi màu-->
                         <Style.Triggers>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter Property="Background" 
-                                        Value="{DynamicResource BlueLightColor}"/>
+                                <Setter Property="Background" Value="#E0F7FA"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="DataGridCell">
+                                            <Border 
+                                                    CornerRadius="8"
+                                                    Background="{TemplateBinding Background}">
+
+                                                <ContentPresenter 
+                                                        VerticalAlignment="Center" 
+                                                        HorizontalAlignment="Left"
+                                                        Margin="2 0 "/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
                             </Trigger>
                         </Style.Triggers>
                     </Style>
@@ -73,7 +112,7 @@
                         <Setter Property="Background" 
                                 Value="#F8FAFC"/>
                         <Setter Property="Foreground" 
-                                Value="#2A2F36"/>
+                                Value="{StaticResource TextPrimaryBlack}"/>
                         <Setter Property="FontWeight" 
                                 Value="Medium"/>
                         <Setter Property="Padding"     
@@ -116,14 +155,17 @@
                                         Width="*"/>
 
                     <DataGridTemplateColumn   Width="50" CanUserResize="False" >
+
                         <!--Custom Actions-->
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Menu HorizontalAlignment="Center" 
                                       Background="Transparent"
-                                      FontWeight="DemiBold"
+                                      FontWeight="Bold"
+                                       FontSize="25"
                                       VerticalAlignment="Center">
-                                    <MenuItem Header="⋮" FontSize="20" >
+                                    <MenuItem Header="..."
+                                             Style="{StaticResource clickMenu}" >
                                         <!--Item Edit-->
                                         <MenuItem Header="Edit" 
                                               CommandParameter="{Binding}"

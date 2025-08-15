@@ -49,6 +49,24 @@ namespace CrudVietSteam.ViewModel
             }
         }
 
+        public async void Searchity(CitySearch city)
+        {
+            var result = await App.vietstemService.SearchCityAsync(city);
+            TotalRecords = result.Count;
+            TotalPage = (int)Math.Ceiling((double)TotalRecords / PageSize);
+            if (TotalPage == 0)
+            {
+                Debug.WriteLine("TotalPage is zero, no data to display.");
+                return;
+            }
+            Citys.Clear();
+            foreach (var item in result)
+            {
+                Citys.Add(item);
+            }
+            Debug.WriteLine($"Search results: {result.Count} records found.");
+            RefreshPageCommand();
+        }
         public override async Task LoadData()
         {
             try
@@ -85,9 +103,6 @@ namespace CrudVietSteam.ViewModel
             }
         }
 
-        public async void Searchity()
-        {
 
-        }
     }
 }
