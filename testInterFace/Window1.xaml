@@ -32,25 +32,165 @@
         </Style>
     </Window.Resources>
 
-    <DatePicker 
-             Grid.Column="1"
-             FontSize="15"
-             VerticalContentAlignment="Center"
-             Margin="10 0 10 0"
-             Height="50">
-        <DatePicker.Resources>
-            <Style TargetType="{x:Type DatePickerTextBox}">
-                <Setter Property="Control.Template">
-                    <Setter.Value>
-                        <ControlTemplate>
-                            <TextBox x:Name="PART_TextBox" 
-                                     BorderThickness="0"
-                                     VerticalAlignment="Center"
-                                    Text="{Binding Path=SelectedDate, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-        </DatePicker.Resources>
-    </DatePicker>
+    <Border Background="{StaticResource BgCard}" CornerRadius="12" Padding="6"
+        SnapsToDevicePixels="True" >
+        <DataGrid x:Name="dg"
+              AutoGenerateColumns="False"
+              ItemsSource="{Binding Rows}"
+              Background="{StaticResource BgCard}"
+              Foreground="{StaticResource TextMain}"
+              BorderThickness="0"
+              HeadersVisibility="Column"
+              GridLinesVisibility="None"
+              RowHeaderWidth="0"
+              SelectionMode="Single"
+              SelectionUnit="FullRow"
+              AlternationCount="2"
+              MinRowHeight="56"
+              EnableRowVirtualization="True"
+              EnableColumnVirtualization="True">
+
+            <!-- header -->
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="{StaticResource BgHeader}"/>
+                    <Setter Property="Foreground" Value="{StaticResource TextMain}"/>
+                    <Setter Property="FontWeight" Value="SemiBold"/>
+                    <Setter Property="Padding" Value="14,12"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource StrokeSoft}"/>
+                    <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+
+            <!-- row -->
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="Background" Value="{StaticResource BgRow}"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource StrokeSoft}"/>
+                    <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                    <Style.Triggers>
+                        <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                            <Setter Property="Background" Value="{StaticResource BgRowAlt}"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource BgRowHover}"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="{StaticResource BgRowSelected}"/>
+                            <Setter Property="BorderBrush" Value="#3AAFA8"/>
+                            <Setter Property="BorderThickness" Value="2,0,0,1"/>
+                            <!-- viền trái -->
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+
+            <!-- cell -->
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="Padding" Value="14,8"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Foreground" Value="{StaticResource TextMain}"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                    <Style.Triggers>
+                        <!-- giữ cell trong suốt khi row selected -->
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="BorderBrush" Value="Transparent"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.CellStyle>
+
+            <!-- columns -->
+            <DataGrid.Columns>
+                <!-- Checkbox -->
+                <DataGridTemplateColumn Width="52">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <CheckBox/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <!-- Status chip -->
+                <DataGridTemplateColumn Header="Status" Width="1.2*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Border Style="{StaticResource StatusChip}">
+                                <TextBlock Text="{Binding Status}">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Foreground" Value="{StaticResource TextMain}"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Status}" Value="Success">
+                                                    <Setter Property="Foreground" Value="{Binding Source={StaticResource Chip.Success}, Path=Color}"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="Processing">
+                                                    <Setter Property="Foreground" Value="{Binding Source={StaticResource Chip.Processing}, Path=Color}"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="Pending">
+                                                    <Setter Property="Foreground" Value="{Binding Source={StaticResource Chip.Pending}, Path=Color}"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="Failed">
+                                                    <Setter Property="Foreground" Value="{Binding Source={StaticResource Chip.Failed}, Path=Color}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </Border>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <!-- Email -->
+                <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="2*">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="{StaticResource TextMain}"/>
+                            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <!-- Amount (căn phải) -->
+                <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat={}{0:C}}" Width="*" >
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="{StaticResource TextMain}"/>
+                            <Setter Property="HorizontalAlignment" Value="Right"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <!-- Menu 3 chấm -->
+                <DataGridTemplateColumn Width="52">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Width="32" Height="32" Background="Transparent" BorderBrush="Transparent" Cursor="Hand">
+                                <TextBlock Text="⋯" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" 							Foreground="{StaticResource TextDim}"/>
+                                <Button.ContextMenu>
+                                    <ContextMenu Placement="Bottom">
+                                        <MenuItem Header="View"/>
+                                        <MenuItem Header="Edit"/>
+                                        <Separator/>
+                                        <MenuItem Header="Delete" Foreground="#EF4444"/>
+                                    </ContextMenu>
+                                </Button.ContextMenu>
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Border>
+
 </Window>

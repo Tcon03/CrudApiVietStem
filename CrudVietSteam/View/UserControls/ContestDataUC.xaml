@@ -9,51 +9,112 @@
              x:Name="root"
              mc:Ignorable="d" 
              d:DesignHeight="550" d:DesignWidth="600">
-   
-    <Border CornerRadius="10"
-            Background="Transparent">
-        <Grid Margin="5" >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="auto"/>
-            </Grid.RowDefinitions>
-            <!--thuộc tính cho tiêu đề của DataGrid-->
-            <DataGrid 
-                 MinRowHeight="50"
-                 BorderThickness="0"
-                 Background="Transparent"
-                 FontSize="20"
-                 ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                 ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                 Foreground="{DynamicResource  TextPrimaryBlack}"
-                 AutoGenerateColumns="False"
-                 CanUserAddRows="False"
-                 IsReadOnly="True"
-                 ItemsSource="{Binding Contests,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
-                <!--style của DataGrid-->
+
+    <Grid Background="Azure"  Margin="10" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <!--thuộc tính cho tiêu đề của DataGrid-->
+        <Border CornerRadius="15" 
+                    Padding="6"
+                    BorderBrush="LightGray"
+                    BorderThickness="2"
+                   SnapsToDevicePixels="True">
+            <DataGrid    VerticalGridLinesBrush="#E5E9EF"
+                         GridLinesVisibility="Horizontal" 
+                         Background="Transparent"
+                         ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                         ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                         Foreground="{DynamicResource  TextPrimaryBlack}"
+                         AutoGenerateColumns="False"
+                         BorderThickness="0" 
+                         CanUserAddRows="False"
+                         IsReadOnly="True"
+                         ItemsSource="{Binding Contests,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+
+                <DataGrid.Resources>
+                    <!-- Style chung cho TextBlock trong DataGrid -->
+                    <Style x:Key="DataGridTextBlockStyle" TargetType="TextBlock">
+                        <Setter Property="VerticalAlignment" 
+                                Value="Center"/>
+                        <Setter Property="Padding" 
+                                Value="12 0"/>
+                    </Style>
+                </DataGrid.Resources>
+
                 <DataGrid.CellStyle>
                     <Style TargetType="DataGridCell">
-                        <Setter Property="Foreground" Value="Black"/>
-                        <Setter Property="FontSize" Value="16"/>
-                        <Setter Property="FontWeight" Value="DemiBold"/>
+                        <Setter Property="Foreground" 
+                                Value="Black"/>
+                        <Setter Property="FontSize"
+                                Value="15"/>
+                        <Setter Property="FontWeight" 
+                                Value="Normal"/>
+                        <Setter Property="MinHeight"
+                                Value="50"/>
+
                         <!--EVENT Selection vào ô thì sẽ đổi màu-->
                         <Style.Triggers>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter Property="Background" Value="{DynamicResource BlueLightColor}"/>
+                                <Setter Property="Background" 
+                                        Value="{DynamicResource BlueLightColor}"/>
                             </Trigger>
                         </Style.Triggers>
                     </Style>
                 </DataGrid.CellStyle>
 
+
+
+                <!--style Header-->
+                <DataGrid.ColumnHeaderStyle>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Background" 
+                                Value="#F8FAFC"/>
+                        <Setter Property="Foreground" 
+                                Value="#2A2F36"/>
+                        <Setter Property="FontWeight" 
+                                Value="Medium"/>
+                        <Setter Property="Padding"     
+                                Value="12 10"/>
+                        <Setter Property="FontSize" 
+                                Value="20"/>
+                        <Setter Property="BorderBrush" 
+                                Value="#E5E9EF"/>
+                        <Setter Property="BorderThickness"
+                                Value="0,0,0,1"/>
+                    </Style>
+                </DataGrid.ColumnHeaderStyle>
+
+
                 <DataGrid.Columns>
 
                     <!--display the data from ContestsDTO-->
-                    <DataGridTextColumn Header="ID"  Binding="{Binding id}" Width="50" CanUserResize="False"/>
-                    <DataGridTextColumn Header="Name" Binding="{Binding name}" Width="*"/>
-                    <DataGridTextColumn Header="Title" Binding="{Binding title}" Width="2*"/>
-                    <DataGridTextColumn Header="Description" Binding="{Binding description}" Width="*"/>
-                    <DataGridTextColumn Header="Status" Binding="{Binding status}" Width="*"/>
+                    <DataGridTextColumn Header="ID"  
+                                        ElementStyle="{StaticResource DataGridTextBlockStyle}"
+                                        Binding="{Binding id}" 
+                                        Width="50" CanUserResize="False"/>
+                    <DataGridTextColumn Header="Name" 
+                                        ElementStyle="{StaticResource DataGridTextBlockStyle}"
+                                        Binding="{Binding name}"
+                                        Width="*"/>
+
+                    <DataGridTextColumn Header="Title" 
+                                        ElementStyle="{StaticResource DataGridTextBlockStyle}"
+                                        Binding="{Binding title}" 
+                                        Width="2*"/>
+
+                    <DataGridTextColumn Header="Description" 
+                                        ElementStyle="{StaticResource DataGridTextBlockStyle}"
+                                        Binding="{Binding description}"
+                                        Width="*"/>
+
+                    <DataGridTextColumn Header="Status"
+                                        ElementStyle="{StaticResource DataGridTextBlockStyle}"
+                                        Binding="{Binding status}"
+                                        Width="*"/>
+
                     <DataGridTemplateColumn   Width="50" CanUserResize="False" >
                         <!--Custom Actions-->
                         <DataGridTemplateColumn.CellTemplate>
@@ -89,11 +150,12 @@
                     <!-- Thêm các cột khác từ ContestsDTO của bạn ở đây -->
                 </DataGrid.Columns>
             </DataGrid>
+        </Border>
 
-            <Grid Grid.Row="2" 
+        <Grid Grid.Row="2" 
               d:Background="White" >
 
-                <TextBlock HorizontalAlignment="Left"
+            <TextBlock HorizontalAlignment="Left"
                        FontSize="17"
                        FontWeight="Bold"
                        Margin="10"
@@ -101,20 +163,20 @@
                 <Run Text="Total Records: "/>
                 <Run Text="{Binding TotalRecords,Mode=OneWay,UpdateSourceTrigger =PropertyChanged}" />
 
-                </TextBlock>
+            </TextBlock>
 
-                <StackPanel  Margin="20 5"
+            <StackPanel  Margin="20 5"
                   HorizontalAlignment="Right"
                   Orientation="Horizontal">
 
-                    <Button  Command="{Binding PreviousPage}"
+                <Button  Command="{Binding PreviousPage}"
                              CommandParameter="{Binding ElementName=root}"
                              Margin="5"
                              Style="{StaticResource btnIconNext}">
-                        <Icon:PackIconMaterial Kind="ChevronLeft" 
+                    <Icon:PackIconMaterial Kind="ChevronLeft" 
                                 Foreground="White"/>
-                    </Button>
-                    <TextBlock 
+                </Button>
+                <TextBlock 
                              FontSize="18"
                              FontWeight="Bold"
                              VerticalAlignment="Center"
@@ -122,18 +184,17 @@
                     <Run Text="{Binding CurrentPage , Mode=OneWay}"/> 
                     <Run Text=" of "/>
                     <Run Text="{Binding TotalPage , Mode=OneWay}"/>
-                    </TextBlock>
-                    <Button   Command="{Binding NextPage}"
+                </TextBlock>
+                <Button   Command="{Binding NextPage}"
                               CommandParameter="{Binding ElementName=root}"
                               Style="{StaticResource btnIconNext}"
                               BorderThickness="0">
-                        <Icon:PackIconMaterial Kind="ChevronRight" 
+                    <Icon:PackIconMaterial Kind="ChevronRight" 
                                             Foreground="White"/>
-                    </Button>
+                </Button>
 
-                </StackPanel>
-            </Grid>
+            </StackPanel>
         </Grid>
-    </Border>
+    </Grid>
 
 </UserControl>
