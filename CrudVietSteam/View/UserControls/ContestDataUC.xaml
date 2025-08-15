@@ -20,7 +20,6 @@
         <Border CornerRadius="15" 
                     Padding="6"
                     BorderBrush="LightGray"
-                              
                     BorderThickness="2"
                    SnapsToDevicePixels="True">
             <DataGrid    VerticalGridLinesBrush="#E5E9EF"
