@@ -258,7 +258,7 @@ namespace CrudVietSteam.ViewModel
             if (result != null)
             {
                 Contests.Clear();
-                LoadData();
+                await LoadData();
 
                 if (obj is Window win)
                 {
