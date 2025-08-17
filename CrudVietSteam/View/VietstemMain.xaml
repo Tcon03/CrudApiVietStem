@@ -24,7 +24,9 @@
             <UC:ContestDataUC/>
         </DataTemplate>
     </Window.Resources>
-    <Grid>
+    
+
+    <Grid Background="#F1F5F9">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
@@ -41,7 +43,7 @@
 
             <Border Grid.Row="1"
                     CornerRadius="0 20 20 0"
-                    Background="{DynamicResource ColorButtonPurpule}">
+                    Background="#0A2540">
 
                 <StackPanel Orientation="Vertical" 
                             Margin="0 70 0 70">
@@ -273,9 +275,11 @@
                                    Width="30" 
                                    VerticalAlignment="Center"
                                    Margin="0 0"
-                                   Foreground="White"/>
-                            <TextBlock FontFamily="/Font/Roboto.ttf#Roboto Black"
-                                  FontSize="18"
+                                   Foreground="Black"/>
+                            <TextBlock
+                                FontFamily="/Font/Roboto.ttf#Roboto Black"
+                                  FontSize="20" 
+                                  Foreground="Black"
                                   Text="Clear"/>
                             </StackPanel>
 

@@ -5,8 +5,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Configuration;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Media3D;
@@ -15,21 +17,73 @@ namespace CrudVietSteam.ViewModel
 {
     public class CityVM : PaggingVM
     {
+        private bool? _isSelectedAll;
+        public bool? IsAllSelected
+        {
+            get => _isSelectedAll;
+            set
+            {
+                if (_isSelectedAll != value)
+                {
+                    _isSelectedAll = value;
+                    Debug.WriteLine($"==== IsSelectAll changed to ======= : {_isSelectedAll}");
+                    RaisePropertyChange(nameof(IsAllSelected));
+                }
+            }
+        }
         public ObservableCollection<CityDTO> Citys { get; set; }
         public ICommand DeleteCityCommand { get; set; }
         public ICommand EditCityCommand { get; set; }
-
+        public ICommand SeletedAllCommand { get; set; }
+        public ICommand SeletedItemCommand { get; set; }
         public CityVM()
         {
             Citys = new ObservableCollection<CityDTO>();
             LoadData();
             DeleteCityCommand = new VfxCommand(OnDelete, () => true);
             EditCityCommand = new VfxCommand(OnEdit, () => true);
+            SeletedAllCommand = new VfxCommand(OnSelectedAll, () => true);
+            SeletedItemCommand = new VfxCommand(OnSelectedItem, () => true);
+            IsAllSelected = false; // Khởi tạo IsAllSelected là false
+        }
+
+        private void OnSelectedItem(object obj)
+        {
+
+           
+        }
+
+        private void OnSelectedAll(object obj)
+        {
+            if (IsAllSelected == true)
+            {
+                foreach (var item in Citys)
+                {
+                    item.IsChecked = true;
+                }
+            }
+            else
+            {
+                foreach (var item in Citys)
+                {
+                    item.IsChecked = false;
+                }
+            }
+
         }
 
         private void OnEdit(object obj)
         {
             var cityItem = obj as CityDTO;
+            var cityEdit = new CityDTO
+            {
+                id = cityItem.id,
+                name = cityItem.name,
+                mtp = cityItem.mtp,
+                createdAt = cityItem.createdAt,
+                type = cityItem.type,
+                updatedAt = cityItem.updatedAt
+            };
 
         }
 
@@ -45,7 +99,6 @@ namespace CrudVietSteam.ViewModel
                     await App.vietstemService.DeleteCityAsync(cityItem);
                     await LoadData();
                 }
-
             }
         }
 

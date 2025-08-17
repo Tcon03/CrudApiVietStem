@@ -33,7 +33,7 @@
  </Grid>-->
     <Border MouseDown="Border_MouseDown"
             CornerRadius="15"
-            Background="White" >
+            Background="#FFFFFF" >
         <Grid>
 
             <Grid.RowDefinitions>

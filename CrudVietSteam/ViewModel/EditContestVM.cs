@@ -68,7 +68,7 @@ namespace CrudVietSteam.ViewModel
                 if (obj is Window window)
                 {
                     window.DialogResult = true;
-                    window.Close();
+                    window.Close(); 
                 }
             }
             catch (Exception ex)
