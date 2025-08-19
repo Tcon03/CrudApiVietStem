@@ -6,7 +6,6 @@
         xmlns:local="clr-namespace:CrudVietSteam.View"
         mc:Ignorable="d" 
         x:Name="_this"
-        Icon="/Image/ctest.png"
         xmlns:Vmd="clr-namespace:CrudVietSteam.ViewModel"
         xmlns:uc="clr-namespace:CrudVietSteam.View.UserControls"
         xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
@@ -33,14 +32,17 @@
  </Grid>-->
     <Border MouseDown="Border_MouseDown"
             CornerRadius="15"
-            Background="#FFFFFF" >
+            BorderThickness="1"
+            BorderBrush="MediumPurple"
+            Background="White" >
         <Grid>
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
-                <RowDefinition/>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
+            
             <Grid Grid.Row="0" >
                 <TextBlock Text="Contest Information" 
                            FontSize="30" 
@@ -57,14 +59,17 @@
                             Foreground="Red"/>
                 </Button>
             </Grid>
-            <Grid Margin="40 0 40 0 " Grid.Row="1">
+            
+            
+            <Grid Margin="40 0 0 0" 
+                  Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Margin="0 0 10 0"  >
-                    <uc:HeaderHintTbl Margin="10  "
+                <StackPanel Margin="0 0 10 0">
+                    <uc:HeaderHintTbl Margin="10 "
                                       Text="{Binding Name ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                       HintText="Name Contest ..."
                                       TextHeader="Name"/>
@@ -83,7 +88,7 @@
 
                 <StackPanel Margin="10 0 0 0"
                             Grid.Column="1" >
-                    <uc:HeaderHintTbl Margin="10  "
+                    <uc:HeaderHintTbl Margin="10 "
                                       Text="{Binding Title ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                       HintText="Title Contest ..."
                                       TextHeader="Title"/>
@@ -100,14 +105,15 @@
 
                 </StackPanel>
             </Grid>
+            
             <StackPanel Orientation="Horizontal" 
-                        Margin="0 20 20 20"
+                        Margin="0 20 30 20"
                         HorizontalAlignment="Right"
                         Grid.Row="2">
+                
                 <Button Content="Cancel" 
                         Click="btnClose_Click"
                         Style="{StaticResource btnCancel}">
-                   
                 </Button>
 
                 <Button Content="OK" 

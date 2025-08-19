@@ -17,8 +17,10 @@
                 ResizeMode="NoResize"
                 Height="450" Width="800">
     <Border MouseDown="Border_MouseDown"
-                 CornerRadius="15"
-                 Background="#FFFF" >
+            CornerRadius="15"
+            BorderThickness="1"
+            BorderBrush="MediumPurple"
+            Background="#FFFF" >
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
@@ -41,7 +43,8 @@
                                         Foreground="Black"/>
                 </Button>
             </Grid>
-            <Grid Margin="40 0 40 0 " Grid.Row="1">
+            <Grid Grid.Row="1" 
+                  Margin="40 0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -85,7 +88,7 @@
                 </StackPanel>
             </Grid>
             <StackPanel Orientation="Horizontal" 
-                                Margin="0 20 20 20"
+                                Margin="0 20 30 20"
                                 HorizontalAlignment="Right"
                                 Grid.Row="2">
                 <Button Content="Cancel" 

@@ -234,8 +234,8 @@
             </TextBlock>
 
             <StackPanel  Margin="20 5"
-                  HorizontalAlignment="Right"
-                  Orientation="Horizontal">
+                          HorizontalAlignment="Right"
+                          Orientation="Horizontal">
 
                 <Button  Command="{Binding PreviousPage}"
                          CommandParameter="{Binding ElementName=root}"
@@ -249,9 +249,9 @@
                              FontWeight="Bold"
                              VerticalAlignment="Center"
                              Margin=" 5">
-                    <Run Text="{Binding CurrentPage , Mode=OneWay}"/> 
+                    <Run Text="{Binding CurrentPage , Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"/> 
                     <Run Text=" of "/>
-                    <Run Text="{Binding TotalPage , Mode=OneWay}"/>
+                    <Run Text="{Binding TotalPage , Mode=OneWay ,UpdateSourceTrigger=PropertyChanged}"/>
                 </TextBlock>
                 <Button   Command="{Binding NextPage}"
                           CommandParameter="{Binding ElementName=root}"

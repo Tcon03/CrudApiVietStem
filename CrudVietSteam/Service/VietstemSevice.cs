@@ -386,7 +386,7 @@ namespace CrudVietSteam.Service
                 Dictionary<string, object> filter = new Dictionary<string, object>();
                 if (!string.IsNullOrWhiteSpace(filterCt.KeyWord))
                 {
-                    filter["name"] = new { like = filterCt.KeyWord };
+                    filter["name"] = new { like = $"%{filterCt.KeyWord}%" };
                 }
 
                 if (filterCt.CreatedAtForm != null && filterCt.CreatedAtTo != null)
@@ -411,6 +411,7 @@ namespace CrudVietSteam.Service
                 Debug.WriteLine("======= Convert Where ========\n" + convertWhere);
                 var urlSearch = $"{_config.GetContestEndpoint}?filter={convertWhere}&{accessToken}";
                 var result = await GetDataAsync<ObservableCollection<ContestsDTO>>(urlSearch);
+
                 return result;
             }
             catch (Exception ex)

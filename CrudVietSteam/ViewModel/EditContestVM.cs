@@ -45,7 +45,6 @@ namespace CrudVietSteam.ViewModel
 
         private bool CanUpdate()
         {
-
             if (!string.IsNullOrWhiteSpace(ContestEdit.name) &&
                       !string.IsNullOrWhiteSpace(ContestEdit.introduce) &&
                       !string.IsNullOrWhiteSpace(ContestEdit.status) &&
