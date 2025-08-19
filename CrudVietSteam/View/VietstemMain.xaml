@@ -24,7 +24,9 @@
             <UC:ContestDataUC/>
         </DataTemplate>
     </Window.Resources>
-    <Grid>
+
+
+    <Grid Background="#F1F5F9">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
@@ -41,16 +43,18 @@
 
             <Border Grid.Row="1"
                     CornerRadius="0 20 20 0"
-                    Background="{DynamicResource ColorButtonPurpule}">
+                    Background="#0A2540">
 
                 <StackPanel Orientation="Vertical" 
                             Margin="0 70 0 70">
-                    <Button Command="{Binding ShowContestView}" 
-                            Style="{StaticResource btnSideBar}"
-                            CommandParameter="{Binding ElementName=_this}">
+                    <RadioButton Command="{Binding ShowContestView}"
+                                 Style="{StaticResource btnSideBar}"
+                                 GroupName="SideBarNav"
+                                 IsChecked="True"
+                                CommandParameter="{Binding ElementName=_this}">
 
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="/Image/contest.png" 
+                            <Image Source="/Image/contest1.png" 
                                    Height="40"
                                    Margin="10 0"
                                    Stretch="Uniform"/>
@@ -59,13 +63,14 @@
                                        FontSize="25"
                                        Margin="5"/>
                         </StackPanel>
-                    </Button>
+                    </RadioButton>
 
-                    <Button  Style="{StaticResource btnSideBar}"
+                    <RadioButton Style="{StaticResource btnSideBar}"
                               Command="{Binding ShowCityView}" 
+                              GroupName="SideBarNav"
                               CommandParameter="{Binding ElementName=_this}">
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="/Image/city.png" 
+                            <Image Source="/Image/city1.png" 
                                    Height="40"
                                    Margin="10 0"
                                    Stretch="Uniform"/>
@@ -74,7 +79,7 @@
                                        FontSize="25"
                                        Margin="10 0"/>
                         </StackPanel>
-                    </Button>
+                    </RadioButton>
                 </StackPanel>
             </Border>
         </Grid>
@@ -82,9 +87,6 @@
 
         <!--Item Information Cột 2-->
         <Border Grid.Column="1"
-                BorderBrush="Gray"
-                BorderThickness="1"
-                CornerRadius="20"
                 Margin="10 " >
 
             <Grid>
@@ -270,15 +272,17 @@
                                 Command="{Binding ClearCommand}"
                             Style="{StaticResource btnClear}">
                             <StackPanel Orientation="Horizontal">
-                                
-                            <Icon:PackIconMaterial 
+
+                                <Icon:PackIconMaterial 
                                    Kind="Delete" 
                                    Width="30" 
                                    VerticalAlignment="Center"
                                    Margin="0 0"
-                                   Foreground="White"/>
-                            <TextBlock FontFamily="/Font/Roboto.ttf#Roboto Black"
-                                  FontSize="18"
+                                   Foreground="Black"/>
+                                <TextBlock
+                                FontFamily="/Font/Roboto.ttf#Roboto Black"
+                                  FontSize="20" 
+                                  Foreground="Black"
                                   Text="Clear"/>
                             </StackPanel>
 
@@ -289,6 +293,7 @@
                 <!--Item 4 Convert InterFace-->
 
                 <ContentControl Grid.Row="3"
+                                Margin="10"
                                 Content="{Binding CurrentView}">
                 </ContentControl>
 

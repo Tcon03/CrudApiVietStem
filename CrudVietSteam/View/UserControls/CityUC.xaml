@@ -5,24 +5,31 @@
                          xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                          xmlns:local="clr-namespace:CrudVietSteam.View.UserControls"
                          mc:Ignorable="d" 
+                         x:Name="root"
                          xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
                          xmlns:viewModel ="clr-namespace:CrudVietSteam.ViewModel"
                          d:DesignHeight="550" d:DesignWidth="600">
-    <UserControl.DataContext>
+    <!--<UserControl.DataContext>
         <viewModel:CityVM/>
-    </UserControl.DataContext>
-    <Border Background="Transparent"
-             CornerRadius="20">
-        <Grid Margin="6">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="auto"/>
-            </Grid.RowDefinitions>
-            <DataGrid 
+    </UserControl.DataContext>-->
+
+
+    <Grid Margin="6">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Border Background="White"
+                BorderBrush="LightGray" 
+                BorderThickness="1"
+                 CornerRadius="20">
+            <DataGrid  
+                   Margin="10"
                    MinRowHeight="50"
-                   BorderThickness="0"
+                   HeadersVisibility="Column"
+                   BorderThickness="0" 
                    Background="Transparent"
-                   FontSize="20"
+                   GridLinesVisibility="None"
                    ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                    ScrollViewer.VerticalScrollBarVisibility="Hidden"
                    Foreground="{DynamicResource TextPrimaryBlack}"
@@ -34,29 +41,72 @@
                 <!--style của DataGrid-->
                 <DataGrid.CellStyle>
                     <Style TargetType="DataGridCell">
-                        <Setter Property="Foreground" Value="Black"/>
-                        <Setter Property="FontSize" Value="16"/>
-                        <Setter Property="FontWeight" Value="DemiBold"/>
+                        <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBlack}"/>
+                        <Setter Property="FontSize" Value="15"/>
                         <!--EVENT Selection vào ô thì sẽ đổi màu-->
                         <Style.Triggers>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter Property="Background" Value="{DynamicResource BlueLightColor}"/>
+                                <Setter Property="Background" Value="#E0F7FA"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="DataGridCell">
+                                            <Border 
+                                            CornerRadius="8"
+                                            SnapsToDevicePixels="True"
+                                            Background="{TemplateBinding Background}">
+
+                                                <ContentPresenter 
+                                                VerticalAlignment="Center" 
+                                                Margin="12 0 0 0"
+                                                HorizontalAlignment="Left"/>
+
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
                             </Trigger>
                         </Style.Triggers>
-
                     </Style>
                 </DataGrid.CellStyle>
 
+                <DataGrid.Resources>
+                    <Style TargetType="TextBlock" x:Key="TextBlockStyleData" >
+                        <Setter Property="VerticalAlignment" 
+                                Value="Center"/>
+                        <Setter Property="Padding" 
+                                Value="12"/>
+                    </Style>
+                </DataGrid.Resources>
+
+                <DataGrid.ColumnHeaderStyle>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Foreground"
+                                Value="{StaticResource TextPrimaryBlack}"/>
+                        <Setter Property="Padding" 
+                                Value="12 10"/>
+                        <Setter Property="BorderThickness"
+                                Value="0 0 0 0"/>
+                        <Setter Property="FontSize" 
+                                Value="20"/>
+                        <Setter Property="FontWeight" 
+                                Value="DemiBold"/>
+                        <Setter Property="BorderBrush" 
+                                Value="Transparent"/>
+
+                    </Style>
+                </DataGrid.ColumnHeaderStyle>
 
 
                 <DataGrid.Columns>
 
-                    <DataGridTemplateColumn>
+                    <DataGridTemplateColumn >
                         <!--check box Header Click all Record-->
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
-                                <CheckBox IsChecked="{Binding DataContext.IsAllSelected, RelativeSource={RelativeSource AncestorType=DataGrid}, Mode=TwoWay}"
-                                        Command="{Binding DataContext.checkAllSelected, RelativeSource={RelativeSource AncestorType=DataGrid}}">
+                                <CheckBox   
+                                           IsChecked="{Binding DataContext.IsAllSelected, RelativeSource={RelativeSource AncestorType=DataGrid}, Mode=TwoWay}"
+                                           Command="{Binding DataContext.SeletedAllCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}">
                                 </CheckBox>
                             </DataTemplate>
                         </DataGridTemplateColumn.HeaderTemplate>
@@ -64,27 +114,44 @@
                         <!--check box item record-->
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox 
-                                    Command="{Binding DataContext.SelectedItemCheck, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                    IsChecked="{Binding IsChecked,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                <CheckBox  HorizontalAlignment="Center" 
+                                           VerticalAlignment="Center"
+                                            Command="{Binding DataContext.SeletedItemCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                            IsChecked="{Binding IsChecked,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
 
                     </DataGridTemplateColumn>
 
                     <!--display the data from ContestsDTO-->
-                    <DataGridTextColumn Header="ID"  Binding="{Binding id}" Width="50"/>
-                    <DataGridTextColumn Header="Name" Binding="{Binding name}" Width="*"/>
-                    <DataGridTextColumn Header="Type" Binding="{Binding type}" Width="*"/>
-                    <DataGridTextColumn Header="MTP" Binding="{Binding mtp}"  Width="*"/>
+                    <DataGridTextColumn Header="ID"  
+                                        ElementStyle="{StaticResource TextBlockStyleData}"
+                                        Binding="{Binding id ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                                        CanUserResize="False"
+                                        Width="50">
+
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Name" 
+                                        ElementStyle="{StaticResource TextBlockStyleData}"
+                                        Binding="{Binding name ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                                        Width="*"/>
+
+                    <DataGridTextColumn Header="Type"
+                                        ElementStyle="{StaticResource TextBlockStyleData}"
+                                        Binding="{Binding type ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                        Width="*"/>
+                    <DataGridTextColumn Header="MTP"
+                                        ElementStyle="{StaticResource TextBlockStyleData}"
+                                        Binding="{Binding mtp ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  
+                                        Width="*"/>
                     <DataGridTemplateColumn   Width="50" >
                         <!--Custom Actions-->
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Menu HorizontalAlignment="Center" 
-                                    Background="Transparent"
-                                    FontWeight="DemiBold"
-                                    VerticalAlignment="Center">
+                                      Background="Transparent"
+                                      FontWeight="DemiBold"
+                                      VerticalAlignment="Center">
                                     <MenuItem Header="⋮" FontSize="20" >
                                         <!--Item Edit-->
                                         <MenuItem Header="Edit" 
@@ -104,7 +171,6 @@
                                             </MenuItem.Icon>
                                         </MenuItem>
 
-
                                     </MenuItem>
                                 </Menu>
 
@@ -114,11 +180,11 @@
                     <!-- Thêm các cột khác từ ContestsDTO của bạn ở đây -->
                 </DataGrid.Columns>
             </DataGrid>
+        </Border>
 
-            <Grid Grid.Row="2" 
-                d:Background="White" >
-
-                <TextBlock HorizontalAlignment="Left"
+        <Grid Grid.Row="2" 
+                  d:Background="White" >
+            <TextBlock HorizontalAlignment="Left"
                          FontSize="17"
                          FontWeight="Bold"
                          Margin="10"
@@ -126,20 +192,20 @@
                   <Run Text="Total Records: "/>
                   <Run Text="{Binding TotalRecords,Mode=OneWay,UpdateSourceTrigger =PropertyChanged}"  />
 
-                </TextBlock>
+            </TextBlock>
 
-                <StackPanel  Margin="20 5"
-                    HorizontalAlignment="Right"
-                    Orientation="Horizontal">
+            <StackPanel  Margin="20 5"
+                         HorizontalAlignment="Right"
+                         Orientation="Horizontal">
 
-                    <Button  Command="{Binding PreviousPage}" 
-                           CommandParameter="{Binding ElementName=root}"
-                            Margin="5"
-                            Style="{StaticResource btnIconNext}">
-                        <Icon:PackIconMaterial Kind="ChevronLeft" 
-                                  Foreground="White"/>
-                    </Button>
-                    <TextBlock 
+                <Button  Command="{Binding PreviousPage}" 
+                         CommandParameter="{Binding ElementName=root}"
+                         Margin="5"
+                         Style="{StaticResource btnIconNext}">
+                    <Icon:PackIconMaterial Kind="ChevronLeft" 
+                                           Foreground="White"/>
+                </Button>
+                <TextBlock 
                                FontSize="18"
                                FontWeight="Bold"
                                VerticalAlignment="Center"
@@ -147,19 +213,19 @@
                       <Run Text="{Binding CurrentPage , Mode=OneWay}"/> 
                       <Run Text=" of "/>
                       <Run Text="{Binding TotalPage , Mode=OneWay}"/>
-                    </TextBlock>
-                    <Button   Command="{Binding NextPage}"
-                            CommandParameter="{Binding ElementName=root}"
-                            Style="{StaticResource btnIconNext}"
-                            BorderThickness="0">
-                        <Icon:PackIconMaterial Kind="ChevronRight" 
+                </TextBlock>
+                <Button   Command="{Binding NextPage}"
+                          CommandParameter="{Binding ElementName=root}"
+                          Style="{StaticResource btnIconNext}"
+                          BorderThickness="0">
+                    <Icon:PackIconMaterial Kind="ChevronRight" 
                                               Foreground="White"/>
-                    </Button>
+                </Button>
 
-                </StackPanel>
-            </Grid>
-
-
+            </StackPanel>
         </Grid>
-    </Border>
+
+
+    </Grid>
+
 </UserControl>

@@ -9,21 +9,46 @@
              x:Name="root"
              mc:Ignorable="d" 
              d:DesignHeight="550" d:DesignWidth="600">
+    <UserControl.Resources>
+        <Style TargetType="MenuItem" x:Key="clickMenu">
+            <!--<Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Background" Value="Red"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="MenuItem">
+                        <Border 
+                            CornerRadius="10" >
 
+                            <ContentPresenter VerticalAlignment="Center"
+                                              HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>-->
+            <Style.Triggers>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="red"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
 
-    <Grid Background="Azure"  Margin="10" >
+    <Grid Background="Azure"  >
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <!--thuộc tính cho tiêu đề của DataGrid-->
-        <Border CornerRadius="15" 
+        <Border     CornerRadius="15" 
                     Padding="6"
+                    Margin="5"
                     BorderBrush="LightGray"
-                    BorderThickness="2"
-                   SnapsToDevicePixels="True">
-            <DataGrid    VerticalGridLinesBrush="#E5E9EF"
-                         GridLinesVisibility="Horizontal" 
+                    BorderThickness="1"
+                    SnapsToDevicePixels="True">
+            <DataGrid  
+                         GridLinesVisibility="None" 
+                         HeadersVisibility="Column"
+                         Margin="10"
                          Background="Transparent"
                          ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                          ScrollViewer.VerticalScrollBarVisibility="Hidden"
@@ -44,22 +69,42 @@
                     </Style>
                 </DataGrid.Resources>
 
+
+                <!--Style in Broad DataGrid-->
                 <DataGrid.CellStyle>
                     <Style TargetType="DataGridCell">
                         <Setter Property="Foreground" 
                                 Value="Black"/>
                         <Setter Property="FontSize"
-                                Value="15"/>
+                                Value="14"/>
                         <Setter Property="FontWeight" 
                                 Value="Normal"/>
                         <Setter Property="MinHeight"
                                 Value="50"/>
-
+                        
+                       
                         <!--EVENT Selection vào ô thì sẽ đổi màu-->
                         <Style.Triggers>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter Property="Background" 
-                                        Value="{DynamicResource BlueLightColor}"/>
+                                <Setter Property="Background" Value="#E0F7FA"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="DataGridCell">
+                                            <Border 
+                                                    CornerRadius="8"
+                                                    SnapsToDevicePixels="True"
+                                                    Background="{TemplateBinding Background}">
+
+                                                <ContentPresenter 
+                                                        VerticalAlignment="Center" 
+                                                        Margin="12 0 0 0"
+                                                        HorizontalAlignment="Left"
+                                                        />
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
                             </Trigger>
                         </Style.Triggers>
                     </Style>
@@ -67,13 +112,13 @@
 
 
 
-                <!--style Header-->
+                <!--style Header DataGrid-->
                 <DataGrid.ColumnHeaderStyle>
                     <Style TargetType="DataGridColumnHeader">
                         <Setter Property="Background" 
                                 Value="#F8FAFC"/>
                         <Setter Property="Foreground" 
-                                Value="#2A2F36"/>
+                                Value="{StaticResource TextPrimaryBlack}"/>
                         <Setter Property="FontWeight" 
                                 Value="Medium"/>
                         <Setter Property="Padding"     
@@ -88,42 +133,65 @@
                 </DataGrid.ColumnHeaderStyle>
 
 
+                <!--Column and Row Definitions for DataGrid-->
                 <DataGrid.Columns>
+
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <CheckBox VerticalAlignment="Center" HorizontalAlignment="Center" >
+
+                                </CheckBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox
+                                          VerticalAlignment="Center" 
+                                          HorizontalAlignment="Center"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+
 
                     <!--display the data from ContestsDTO-->
                     <DataGridTextColumn Header="ID"  
                                         ElementStyle="{StaticResource DataGridTextBlockStyle}"
-                                        Binding="{Binding id}" 
+                                        Binding="{Binding id , Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}" 
                                         Width="50" CanUserResize="False"/>
                     <DataGridTextColumn Header="Name" 
                                         ElementStyle="{StaticResource DataGridTextBlockStyle}"
-                                        Binding="{Binding name}"
+                                        Binding="{Binding name  , Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}"
                                         Width="*"/>
 
                     <DataGridTextColumn Header="Title" 
                                         ElementStyle="{StaticResource DataGridTextBlockStyle}"
-                                        Binding="{Binding title}" 
+                                        Binding="{Binding title , Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}" 
                                         Width="2*"/>
 
                     <DataGridTextColumn Header="Description" 
                                         ElementStyle="{StaticResource DataGridTextBlockStyle}"
-                                        Binding="{Binding description}"
+                                        Binding="{Binding description  , Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}"
                                         Width="*"/>
 
                     <DataGridTextColumn Header="Status"
                                         ElementStyle="{StaticResource DataGridTextBlockStyle}"
-                                        Binding="{Binding status}"
+                                        Binding="{Binding status , Mode=TwoWay , UpdateSourceTrigger=PropertyChanged }"
                                         Width="*"/>
 
                     <DataGridTemplateColumn   Width="50" CanUserResize="False" >
+
                         <!--Custom Actions-->
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Menu HorizontalAlignment="Center" 
                                       Background="Transparent"
-                                      FontWeight="DemiBold"
+                                      FontWeight="Bold"
+                                       FontSize="25"
                                       VerticalAlignment="Center">
-                                    <MenuItem Header="⋮" FontSize="20" >
+                                    <MenuItem Header="..."
+                                             Style="{StaticResource clickMenu}" >
                                         <!--Item Edit-->
                                         <MenuItem Header="Edit" 
                                               CommandParameter="{Binding}"
@@ -166,13 +234,13 @@
             </TextBlock>
 
             <StackPanel  Margin="20 5"
-                  HorizontalAlignment="Right"
-                  Orientation="Horizontal">
+                          HorizontalAlignment="Right"
+                          Orientation="Horizontal">
 
                 <Button  Command="{Binding PreviousPage}"
-                             CommandParameter="{Binding ElementName=root}"
-                             Margin="5"
-                             Style="{StaticResource btnIconNext}">
+                         CommandParameter="{Binding ElementName=root}"
+                         Margin="5"
+                         Style="{StaticResource btnIconNext}">
                     <Icon:PackIconMaterial Kind="ChevronLeft" 
                                 Foreground="White"/>
                 </Button>
@@ -181,16 +249,16 @@
                              FontWeight="Bold"
                              VerticalAlignment="Center"
                              Margin=" 5">
-                    <Run Text="{Binding CurrentPage , Mode=OneWay}"/> 
+                    <Run Text="{Binding CurrentPage , Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"/> 
                     <Run Text=" of "/>
-                    <Run Text="{Binding TotalPage , Mode=OneWay}"/>
+                    <Run Text="{Binding TotalPage , Mode=OneWay ,UpdateSourceTrigger=PropertyChanged}"/>
                 </TextBlock>
                 <Button   Command="{Binding NextPage}"
-                              CommandParameter="{Binding ElementName=root}"
-                              Style="{StaticResource btnIconNext}"
-                              BorderThickness="0">
+                          CommandParameter="{Binding ElementName=root}"
+                          Style="{StaticResource btnIconNext}"
+                          BorderThickness="0">
                     <Icon:PackIconMaterial Kind="ChevronRight" 
-                                            Foreground="White"/>
+                                           Foreground="White"/>
                 </Button>
 
             </StackPanel>

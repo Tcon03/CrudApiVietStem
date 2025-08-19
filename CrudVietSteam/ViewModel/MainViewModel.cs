@@ -30,7 +30,7 @@ namespace CrudVietSteam.ViewModel
             {
                 var oldValue = _currentViewType;
                 _currentViewType = value;
-                Debug.WriteLine($"********** [Debug] Current ViewType  **********:\n OlderValue : {oldValue} => {_currentViewType}");
+                Debug.WriteLine($"********** [Debug] Current ViewType có giá trị   **********:\n OlderValue : {oldValue} => {_currentViewType}");
                 RaisePropertyChange(nameof(CurrentViewType));
 
             }
@@ -68,6 +68,7 @@ namespace CrudVietSteam.ViewModel
                     Debug.WriteLine("======= CreatedAt changed to ======== : " + value);
                     RaisePropertyChange(nameof(CreatedAt));
                     (SearchData as VfxCommand)?.RaiseCanExecuteChanged();
+                    (ClearCommand as VfxCommand)?.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -84,6 +85,7 @@ namespace CrudVietSteam.ViewModel
                     Debug.WriteLine("====== UpdatedAt changed to: =======" + value);
                     RaisePropertyChange(nameof(createTo));
                     (SearchData as VfxCommand)?.RaiseCanExecuteChanged();
+                    (ClearCommand as VfxCommand)?.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -99,6 +101,8 @@ namespace CrudVietSteam.ViewModel
                     Debug.WriteLine(" ======= Keywords changed to ==========: " + value);
                     RaisePropertyChange(nameof(Keywords));
                     (SearchData as VfxCommand)?.RaiseCanExecuteChanged(); // cập nhật trạng thái của lệnh tìm kiếm khi Keywords thay đổi
+                    (ClearCommand as VfxCommand)?.RaiseCanExecuteChanged();
+
                 }
             }
         }
@@ -124,7 +128,7 @@ namespace CrudVietSteam.ViewModel
             ShowContestView = new VfxCommand(o => SwitchView(ViewType.ContestView), () => true);
             AddInforCommand = new VfxCommand(OnAdd, () => true);
             SearchData = new VfxCommand(OnSearch, CanSearch);
-            ClearCommand = new VfxCommand(OnClear, () => true);
+            ClearCommand = new VfxCommand(OnClear, CanClear);
 
             // Default display contest view 
             SwitchView(ViewType.ContestView);
@@ -132,15 +136,35 @@ namespace CrudVietSteam.ViewModel
 
         }
 
-        private async void OnClear(object obj)
+        private bool CanClear()
+        {
+            bool isValid = !string.IsNullOrEmpty(Keywords);
+            bool IsDate = CreatedAt.HasValue && createTo.HasValue;
+            return isValid || IsDate;
+        }
+
+        private void ClearSearchFilters()
         {
             Keywords = string.Empty;
             CreatedAt = null;
             createTo = null;
-            // Gọi lại lệnh tìm kiếm để cập nhật dữ liệu
-            (SearchData as VfxCommand)?.RaiseCanExecuteChanged();
-              await contestVM.LoadData(); // Tải lại dữ liệu sau khi xóa bộ lọc
             Debug.WriteLine("======= Clear search filters =======");
+        }
+        private async void OnClear(object obj)
+        {
+            switch (CurrentViewType)
+            {
+                case ViewType.ContestView:
+
+                    ClearSearchFilters();
+                    await contestVM.LoadData();
+                    break;
+
+                case ViewType.CityView:
+                    ClearSearchFilters();
+                    await cityVM.LoadData();
+                    break;
+            }
         }
 
         private bool CanSearch()
@@ -163,7 +187,12 @@ namespace CrudVietSteam.ViewModel
                     });
                     break;
                 case ViewType.CityView:
-                    //cityVM.Searchity(Keywords, CreatedAt, UpdatedAt);
+                    cityVM.Searchity(new Service.DTO.CitySearch
+                    {
+                        Key = Keywords,
+                        CreatedForm = CreatedAt,
+                        CreatedTo = createTo
+                    });
                     break;
             }
         }

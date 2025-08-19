@@ -45,7 +45,6 @@ namespace CrudVietSteam.ViewModel
 
         private bool CanUpdate()
         {
-
             if (!string.IsNullOrWhiteSpace(ContestEdit.name) &&
                       !string.IsNullOrWhiteSpace(ContestEdit.introduce) &&
                       !string.IsNullOrWhiteSpace(ContestEdit.status) &&
@@ -68,7 +67,7 @@ namespace CrudVietSteam.ViewModel
                 if (obj is Window window)
                 {
                     window.DialogResult = true;
-                    window.Close();
+                    window.Close(); 
                 }
             }
             catch (Exception ex)

@@ -18,4 +18,14 @@
         <GradientStop Color="#00F2FF" Offset="0.0" />
         <GradientStop Color="#4C28E1" Offset="1.0" />
     </LinearGradientBrush>
+    
+    <LinearGradientBrush x:Key="GenerateButtonAdd" StartPoint="0,0.5" EndPoint="1,0.5">
+        <GradientStop Color="#00C6FF" Offset="0.0" />
+        <GradientStop Color="#0072FF" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="GeminiActionButtonBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#FF7A59" Offset="0.0" />
+        <GradientStop Color="#FFB2A6" Offset="1.0" />
+    </LinearGradientBrush>
 </ResourceDictionary>
