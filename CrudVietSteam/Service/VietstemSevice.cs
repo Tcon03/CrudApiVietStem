@@ -379,6 +379,7 @@ namespace CrudVietSteam.Service
             }
         }
 
+        //Search Contest Search Async
         public async Task<ObservableCollection<ContestsDTO>> SeachContestAsync(ContestSearch filterCt)
         {
             try
@@ -486,10 +487,10 @@ namespace CrudVietSteam.Service
         {
             try
             {
-              var filter = new Dictionary<string, object>();
+                var filter = new Dictionary<string, object>();
                 if (!string.IsNullOrWhiteSpace(filterCity.Key))
                 {
-                    filter["name"] = new { like = filterCity.Key };
+                    filter["name"] = new { like = $"%{filterCity.Key}" };
                 }
                 if (filterCity.CreatedForm != null && filterCity.CreatedTo != null)
                 {
@@ -524,6 +525,22 @@ namespace CrudVietSteam.Service
         public override async Task LoadData()
         {
             MessageBox.Show("Load Data Method is not implemented in VietstemService", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
+
+        public async Task<CityDTO> UpdateCityAsync(CityDTO cityEdit)
+        {
+            try
+            {
+
+                string urlUpdate = $"{_config.GetCityEndpoint}/{cityEdit.id}";
+                var response = await PutData<CityDTO>(urlUpdate, cityEdit);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Errorr Update Data City \n" + ex.Message);
+                return null;
+            }
         }
     }
 

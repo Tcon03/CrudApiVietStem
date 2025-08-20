@@ -3,10 +3,79 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CrudVietSteam.View.Windows"
+        xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:local="clr-namespace:CrudVietSteam.View.Windows" 
+         xmlns:tblUc="clr-namespace:CrudVietSteam.View.UserControls"
         mc:Ignorable="d"
-        Title="CityInfor" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        AllowsTransparency="True" 
+        WindowStyle="None" 
+        Background="Transparent"
+        Title="CityInfor" 
+        Height="450" 
+        x:Name="_this"
+        WindowStartupLocation="CenterScreen"
+        Width="400">
+    <Border BorderThickness="1"
+            Background="Azure"
+            MouseDown="Border_MouseDown"
+            CornerRadius="15"
+            BorderBrush="{DynamicResource GenerateButtonGradient}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0"  >
+                <TextBlock Text="Edit City"
+                           FontSize="24"
+                           Margin="15 0"
+                           VerticalAlignment="Center"
+                           FontWeight="Bold"
+                           Foreground="#434344"
+                           HorizontalAlignment="Left"/>
+                <Button Style="{StaticResource btnClose}"
+                        Click="btnClose_Click">
+                    <Icon:PackIconMaterial Kind="Close"
+                                           Width="20"
+                                           Height="25"
+                                           FontWeight="ExtraBlack"
+                                           Foreground="Gray"/>
+                </Button>
+            </Grid>
+
+            <StackPanel Grid.Row="1"
+                    Margin="10 0 10 0" 
+                    HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                <tblUc:HeaderHintTbl Margin="5"
+                                         Text="{Binding CityEdit.name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         HintText="City Name..."
+                                         TextHeader="Name"/>
+                <tblUc:HeaderHintTbl Text="{Binding CityEdit.mtp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         HintText="Mtp City..."
+                                         Margin="5"
+                                         TextHeader="Mtp Information"/>
+                <tblUc:HeaderHintTbl Text="{Binding CityEdit.type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         HintText="Type City..."
+                                         Margin="5"
+                                         TextHeader="Type Information"/>
+            </StackPanel>
+            <Grid Grid.Row="2" >
+                <StackPanel Orientation="Horizontal"
+                          HorizontalAlignment="Center"
+                            Margin="10"
+                            VerticalAlignment="Center">
+                    <Button Content="Cancel"
+                            Click="Button_Click"
+                            Style="{StaticResource btnCancel }"/>
+                    <Button Content="Update"
+                        Command="{Binding UpdateCommand}"
+                            CommandParameter="{Binding ElementName=_this}"
+                        Style="{StaticResource btnSave}"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Border>
 </Window>

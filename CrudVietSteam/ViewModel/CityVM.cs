@@ -50,7 +50,7 @@ namespace CrudVietSteam.ViewModel
         private void OnSelectedItem(object obj)
         {
 
-           
+
         }
 
         private void OnSelectedAll(object obj)
@@ -85,20 +85,29 @@ namespace CrudVietSteam.ViewModel
                 updatedAt = cityItem.updatedAt
             };
 
+            var cityEditVM = new CityEditVM(cityEdit);
+
         }
 
         private async void OnDelete(object obj)
         {
-            var cityItem = obj as CityDTO;
-            if (cityItem != null)
+            try
             {
-                var reuslt = MessageBox.Show("Bạn có muốn xóa đối tượng này không ", "Thông báo ", MessageBoxButton.YesNo, MessageBoxImage.Information);
-                if (reuslt == MessageBoxResult.Yes)
+                var cityItem = obj as CityDTO;
+                if (cityItem != null)
                 {
-                    Citys.Remove(cityItem);
-                    await App.vietstemService.DeleteCityAsync(cityItem);
-                    await LoadData();
+                    var reuslt = MessageBox.Show("Bạn có muốn xóa đối tượng này không ", "Thông báo ", MessageBoxButton.YesNo, MessageBoxImage.Information);
+                    if (reuslt == MessageBoxResult.Yes)
+                    {
+                        Citys.Remove(cityItem);
+                        await App.vietstemService.DeleteCityAsync(cityItem);
+                        await LoadData();
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hiện tại đang lỗi !!", "Information", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

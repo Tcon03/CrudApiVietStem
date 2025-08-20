@@ -51,7 +51,7 @@
                                  Style="{StaticResource btnSideBar}"
                                  GroupName="SideBarNav"
                                  IsChecked="True"
-                                CommandParameter="{Binding ElementName=_this}">
+                                  CommandParameter="{Binding ElementName=_this}">
 
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Image/contest1.png" 
