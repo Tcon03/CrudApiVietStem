@@ -24,5 +24,16 @@ namespace CrudVietSteam.View.UserControls
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Button bt = sender as Button;
+            if (bt == null || bt.ContextMenu == null)
+                return;
+            bt.ContextMenu.PlacementTarget = bt;
+            bt.ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Left;
+            bt.ContextMenu.IsOpen = true;
+            e.Handled = true;
+        }
     }
 }

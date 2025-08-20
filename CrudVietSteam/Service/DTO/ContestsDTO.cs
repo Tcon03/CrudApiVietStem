@@ -11,6 +11,16 @@ namespace CrudVietSteam.Service.DTO
     public class ContestsDTO : ViewModelBase
     {
         #region
+        private bool _isChecked;
+        public bool IsChecked
+        {
+            get => _isChecked;
+            set
+            {
+                _isChecked = value;
+                RaisePropertyChange(nameof(IsChecked));
+            }
+        }
         private string _name;
         public string name
         {

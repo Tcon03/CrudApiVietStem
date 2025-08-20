@@ -42,6 +42,7 @@ namespace CrudVietSteam.ViewModel
             set
             {
                 _currentView = value;
+                Debug.WriteLine($"********** [Debug] Current View có giá trị **********: {value}");
                 RaisePropertyChange(nameof(CurrentView));
             }
         }

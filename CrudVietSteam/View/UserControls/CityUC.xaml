@@ -25,7 +25,6 @@
                  CornerRadius="20">
             <DataGrid  
                    Margin="10"
-                   MinRowHeight="50"
                    HeadersVisibility="Column"
                    BorderThickness="0" 
                    Background="Transparent"
@@ -36,66 +35,10 @@
                    AutoGenerateColumns="False"
                    CanUserAddRows="False"
                    IsReadOnly="True"
-                   ItemsSource="{Binding Citys,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
-
-                <!--style của DataGrid-->
-                <DataGrid.CellStyle>
-                    <Style TargetType="DataGridCell">
-                        <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBlack}"/>
-                        <Setter Property="FontSize" Value="15"/>
-                        <!--EVENT Selection vào ô thì sẽ đổi màu-->
-                        <Style.Triggers>
-                            <Trigger Property="IsSelected" Value="True">
-                                <Setter Property="Background" Value="#E0F7FA"/>
-                                <Setter Property="BorderThickness" Value="0"/>
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="DataGridCell">
-                                            <Border 
-                                            CornerRadius="8"
-                                            SnapsToDevicePixels="True"
-                                            Background="{TemplateBinding Background}">
-
-                                                <ContentPresenter 
-                                                VerticalAlignment="Center" 
-                                                Margin="12 0 0 0"
-                                                HorizontalAlignment="Left"/>
-
-                                            </Border>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </DataGrid.CellStyle>
-
-                <DataGrid.Resources>
-                    <Style TargetType="TextBlock" x:Key="TextBlockStyleData" >
-                        <Setter Property="VerticalAlignment" 
-                                Value="Center"/>
-                        <Setter Property="Padding" 
-                                Value="12"/>
-                    </Style>
-                </DataGrid.Resources>
-
-                <DataGrid.ColumnHeaderStyle>
-                    <Style TargetType="DataGridColumnHeader">
-                        <Setter Property="Foreground"
-                                Value="{StaticResource TextPrimaryBlack}"/>
-                        <Setter Property="Padding" 
-                                Value="12 10"/>
-                        <Setter Property="BorderThickness"
-                                Value="0 0 0 0"/>
-                        <Setter Property="FontSize" 
-                                Value="20"/>
-                        <Setter Property="FontWeight" 
-                                Value="DemiBold"/>
-                        <Setter Property="BorderBrush" 
-                                Value="Transparent"/>
-
-                    </Style>
-                </DataGrid.ColumnHeaderStyle>
+                   ItemsSource="{Binding Citys,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                   ColumnHeaderStyle="{StaticResource CustomColumnHeaderStyle}"
+                   RowStyle="{StaticResource DataGridRowHoverStyle}"
+                   CellStyle="{StaticResource CustomDataGridCellStyle}" >
 
 
                 <DataGrid.Columns>
@@ -148,31 +91,32 @@
                         <!--Custom Actions-->
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Menu HorizontalAlignment="Center" 
-                                      Background="Transparent"
-                                      FontWeight="DemiBold"
-                                      VerticalAlignment="Center">
-                                    <MenuItem Header="⋮" FontSize="20" >
-                                        <!--Item Edit-->
-                                        <MenuItem Header="Edit" 
-                                                CommandParameter="{Binding}"
-                                                Command="{Binding DataContext.EditCityCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}">
-                                            <MenuItem.Icon>
-                                                <Icon:PackIconMaterial Kind="Pencil" />
-                                            </MenuItem.Icon>
-                                        </MenuItem>
+                                <Button Content="⋮"
+                                        Click="Button_Click"
+                                        Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                        Style="{StaticResource DataGridActionMenuItemStyle}">
+                                    <Button.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="Edit" 
+                                                     CommandParameter="{Binding}"
+                                                     Command="{Binding PlacementTarget.Tag.EditCityCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
+                                                <MenuItem.Icon>
+                                                    <Icon:PackIconMaterial Kind="Pencil" />
+                                                </MenuItem.Icon>
+                                            </MenuItem>
 
-                                        <!--Item Delete-->
-                                        <MenuItem Header="Delete" Foreground="Red"
-                                                    CommandParameter="{Binding}" 
-                                                    Command="{Binding DataContext.DeleteCityCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}">
-                                            <MenuItem.Icon>
-                                                <Icon:PackIconMaterial Kind="Delete" Foreground="Red"/>
-                                            </MenuItem.Icon>
-                                        </MenuItem>
-
-                                    </MenuItem>
-                                </Menu>
+                                            <!--Item Delete-->
+                                            <MenuItem Header="Delete" Foreground="Red"
+                                                         CommandParameter="{Binding}" 
+                                                         Command="{Binding PlacementTarget.Tag.DeleteCityCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
+                                                <MenuItem.Icon>
+                                                    <Icon:PackIconMaterial Kind="Delete" Foreground="Red"/>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                        </ContextMenu>
+                                    </Button.ContextMenu>
+                                    <!--Item Edit-->
+                                </Button>
 
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -189,7 +133,7 @@
                          FontWeight="Bold"
                          Margin="10"
                          VerticalAlignment="Center">
-                  <Run Text="Total Records: "/>
+                  <Run Text="Total Records : "/>
                   <Run Text="{Binding TotalRecords,Mode=OneWay,UpdateSourceTrigger =PropertyChanged}"  />
 
             </TextBlock>
@@ -206,20 +150,20 @@
                                            Foreground="White"/>
                 </Button>
                 <TextBlock 
-                               FontSize="18"
-                               FontWeight="Bold"
-                               VerticalAlignment="Center"
-                               Margin=" 5">
-                      <Run Text="{Binding CurrentPage , Mode=OneWay}"/> 
+                            FontSize="18"
+                            FontWeight="Medium"
+                            VerticalAlignment="Center"
+                            Margin=" 5">
+                      <Run Text="{Binding CurrentPage , Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"/> 
                       <Run Text=" of "/>
-                      <Run Text="{Binding TotalPage , Mode=OneWay}"/>
+                      <Run Text="{Binding TotalPage , Mode=OneWay ,UpdateSourceTrigger=PropertyChanged}"/>
                 </TextBlock>
                 <Button   Command="{Binding NextPage}"
                           CommandParameter="{Binding ElementName=root}"
                           Style="{StaticResource btnIconNext}"
                           BorderThickness="0">
-                    <Icon:PackIconMaterial Kind="ChevronRight" 
-                                              Foreground="White"/>
+                    <Icon:PackIconMaterial  Kind="ChevronRight" 
+                                            Foreground="White"/>
                 </Button>
 
             </StackPanel>

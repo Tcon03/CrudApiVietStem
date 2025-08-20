@@ -48,6 +48,7 @@
         </Style.Triggers>
     </Style>
 
+    
     <!--Btn Clear Style-->
     <Style TargetType="Button" 
            BasedOn="{StaticResource btnSearch}" 
@@ -64,8 +65,6 @@
         </Style.Triggers>
 
     </Style>
-
-
 
 
 
@@ -177,7 +176,6 @@
            x:Key="btnSave"
            BasedOn="{StaticResource btnOk}">
         <Setter Property="Background" Value="#6366F1"/>
-        <!-- Default -->
         <Setter Property="Foreground" Value="White"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
@@ -273,21 +271,13 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{DynamicResource CloseColor}"/>
-
+                <Setter Property="Background" Value="#E5E7EB"/>
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Background" Value="{DynamicResource CloseColor}"/>
-
+                <Setter Property="Background" Value="#D1D5DB"/>
             </Trigger>
         </Style.Triggers>
     </Style>
-
-
-
-
-
-
 
 
     <!--TextBox UserName and Password-->
@@ -306,9 +296,9 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border         CornerRadius="8"
-                                    Background="{TemplateBinding Background}"
-                                    BorderBrush="{TemplateBinding BorderBrush}">
+                    <Border  CornerRadius="8"
+                             Background="{TemplateBinding Background}"
+                             BorderBrush="{TemplateBinding BorderBrush}">
                         <ContentPresenter
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"/>
@@ -344,8 +334,8 @@
                 <!-- SỬA Ở ĐÂY: ControlTemplate cũng nhắm tới RadioButton -->
                 <ControlTemplate TargetType="RadioButton">
                     <Border Background="{TemplateBinding Background}"
-                        CornerRadius="10"
-                        Padding="{TemplateBinding Padding}">
+                            CornerRadius="10"
+                            Padding="{TemplateBinding Padding}">
                         <ContentPresenter
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"/>
@@ -372,6 +362,8 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+  
 
 
 </ResourceDictionary>
