@@ -15,18 +15,18 @@ using System.Windows.Shapes;
 namespace CrudVietSteam.View.Windows
 {
     /// <summary>
-    /// Interaction logic for CityInfor.xaml
+    /// Interaction logic for CityEditView.xaml
     /// </summary>
-    public partial class CityInfor : Window
+    public partial class CityEditView : Window
     {
-        public CityInfor()
+        public CityEditView()
         {
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            Close();
+            DragMove();
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
@@ -34,9 +34,11 @@ namespace CrudVietSteam.View.Windows
             Close();
         }
 
-        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
+
+
+        private void Button_Click_Cancel(object sender, RoutedEventArgs e)
         {
-            DragMove();
+            Close();
         }
     }
 }

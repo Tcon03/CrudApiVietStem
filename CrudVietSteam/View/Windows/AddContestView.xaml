@@ -1,0 +1,113 @@
+﻿<Window x:Class="CrudVietSteam.View.Windows.AddContestView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CrudVietSteam.View.Windows"
+        mc:Ignorable="d"
+          x:Name="_this"
+        xmlns:Vmd="clr-namespace:CrudVietSteam.ViewModel"
+        xmlns:uc="clr-namespace:CrudVietSteam.View.UserControls"
+        xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen"
+        Background="Transparent"
+        ResizeMode="NoResize"
+        Title="AddInformation"
+        Height="450" Width="800">
+    <Border MouseDown="Border_MouseDown"
+        CornerRadius="15"
+        BorderThickness="1"
+        BorderBrush="MediumPurple"
+        Background="White" >
+        <Grid>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" >
+                <TextBlock Text=" Add Contest Information" 
+                       FontSize="30" 
+                       Foreground="#434344"
+                       HorizontalAlignment="Left"
+                       FontWeight="Bold"
+                       Margin="20 10"/>
+                <Button Style="{StaticResource btnClose}" 
+                    Click="btnClose_Click">
+
+                    <Icon:PackIconMaterial Kind="Close" 
+                        Width="20" 
+                        Height="20" 
+                        Foreground="Red"/>
+                </Button>
+            </Grid>
+
+
+            <Grid Margin="40 0 0 0" 
+              Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Margin="0 0 10 0">
+                    <uc:HeaderHintTbl Margin="10 "
+                                  Text="{Binding Name ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                  HintText="Name Contest ..."
+                                  TextHeader="Name"/>
+
+                    <uc:HeaderHintTbl Margin="10"
+                                  Text="{Binding Introduce ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                  HintText="Introduct contest ..."
+                                  TextHeader="Introduct"/>
+
+                    <uc:HeaderHintTbl Margin="10 "
+                                    Text="{Binding Status ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                  HintText="Status Contest ..."
+                                  TextHeader="status"/>
+
+                </StackPanel>
+
+                <StackPanel Margin="10 0 0 0"
+                        Grid.Column="1" >
+                    <uc:HeaderHintTbl Margin="10 "
+                                  Text="{Binding Title ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                  HintText="Title Contest ..."
+                                  TextHeader="Title"/>
+
+                    <uc:HeaderHintTbl Margin="10 "
+                                  Text="{Binding Description ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                  HintText="Description contest ..."
+                                  TextHeader="Description"/>
+
+                    <uc:HeaderHintTbl Margin="10 "
+                                  Text="{Binding Keywords ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                  HintText="Keywords Contest ..."
+                                  TextHeader="Keywords"/>
+
+                </StackPanel>
+            </Grid>
+
+            <StackPanel Orientation="Horizontal" 
+                    Margin="0 0 30 10"
+                    HorizontalAlignment="Right"
+                    Grid.Row="2">
+
+                <Button Content="Cancel" 
+                    Click="btnClose_Click"
+                    Style="{StaticResource btnCancel}">
+                </Button>
+
+                <Button Content="OK" 
+                    Command="{Binding AddContestCommand}" 
+                    CommandParameter="{Binding ElementName=_this}"
+                    Style="{StaticResource btnOk}">
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

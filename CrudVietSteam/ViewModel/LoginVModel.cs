@@ -11,7 +11,7 @@ using System.Windows.Input;
 
 namespace CrudVietSteam.ViewModel
 {
-    public class LoginVM : ViewModelBase
+    public class LoginVModel : ViewModelBase
     {
         #region Properties
         private string _email;
@@ -56,7 +56,7 @@ namespace CrudVietSteam.ViewModel
 
         public ICommand LoginCommand { get; set; }
         public EventHandler Authenticated;
-        public LoginVM()
+        public LoginVModel()
         {
             LoginCommand = new VfxCommand(OnLogin, CanExcutedLogin);
         }

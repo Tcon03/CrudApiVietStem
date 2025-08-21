@@ -17,7 +17,7 @@
          Title="LoginView" Height="550" Width="700">
 
     <Window.DataContext>
-        <LVM:LoginVM/>
+        <LVM:LoginVModel/>
     </Window.DataContext>
     <Border 
          BorderBrush="MediumSlateBlue"

@@ -16,21 +16,7 @@
         ResizeMode="NoResize"
         Title="AddInformation"
         Height="450" Width="800">
-    <!--<Grid>
-     <StackPanel VerticalAlignment="Center">
-         <TextBox Margin="10" Text="{Binding ContestEdit.name, Mode=TwoWay}" />
-         <TextBox Margin="10" Text="{Binding ContestEdit.introduce, Mode=TwoWay}" />
-         <TextBox  Margin="10" Text="{Binding ContestEdit.status, Mode=TwoWay}" />
-         <TextBox Margin="10" Text="{Binding ContestEdit.title, Mode=TwoWay}" />
-         <TextBox Margin="10" Text="{Binding ContestEdit.keywords, Mode=TwoWay}" />
-         <TextBox  Margin="10" Text="{Binding ContestEdit.description, Mode=TwoWay}" />
-
-         <Button Content="Cập nhật"
-                 CommandParameter="{Binding ElementName=_this}"
-                 Command="{Binding UpdateContestCommand}" />
-     </StackPanel>
- </Grid>-->
-    <Border MouseDown="Border_MouseDown"
+       <Border MouseDown="Border_MouseDown"
             CornerRadius="15"
             BorderThickness="1"
             BorderBrush="MediumPurple"

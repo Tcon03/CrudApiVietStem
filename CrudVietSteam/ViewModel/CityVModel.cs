@@ -1,5 +1,6 @@
 ﻿using CrudVietSteam.Command;
 using CrudVietSteam.Service.DTO;
+using CrudVietSteam.View.Windows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,7 +16,7 @@ using System.Windows.Media.Media3D;
 
 namespace CrudVietSteam.ViewModel
 {
-    public class CityVM : PaggingVM
+    public class CityVModel : PaggingVM
     {
         private bool? _isSelectedAll;
         public bool? IsAllSelected
@@ -36,7 +37,7 @@ namespace CrudVietSteam.ViewModel
         public ICommand EditCityCommand { get; set; }
         public ICommand SeletedAllCommand { get; set; }
         public ICommand SeletedItemCommand { get; set; }
-        public CityVM()
+        public CityVModel()
         {
             Citys = new ObservableCollection<CityDTO>();
             LoadData();
@@ -72,7 +73,7 @@ namespace CrudVietSteam.ViewModel
 
         }
 
-        private void OnEdit(object obj)
+        private async void OnEdit(object obj)
         {
             var cityItem = obj as CityDTO;
             var cityEdit = new CityDTO
@@ -85,7 +86,13 @@ namespace CrudVietSteam.ViewModel
                 updatedAt = cityItem.updatedAt
             };
 
-            var cityEditVM = new CityEditVM(cityEdit);
+            CityEditVM ctVm = new CityEditVM(cityItem);
+            CityEditView ct = new CityEditView
+            {
+                DataContext = ctVm
+            };
+            ct.ShowDialog();
+            await LoadData();
 
         }
 

@@ -531,7 +531,6 @@ namespace CrudVietSteam.Service
         {
             try
             {
-
                 string urlUpdate = $"{_config.GetCityEndpoint}/{cityEdit.id}";
                 var response = await PutData<CityDTO>(urlUpdate, cityEdit);
                 return response;

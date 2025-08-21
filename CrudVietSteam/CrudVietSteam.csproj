@@ -184,13 +184,19 @@
     <Compile Include="Service\VietstemSevice.cs" />
     <Compile Include="test01.cs" />
     <Compile Include="ViewModel\CityEditVM.cs" />
-    <Compile Include="ViewModel\CityVM.cs" />
-    <Compile Include="ViewModel\ContestsVM.cs" />
+    <Compile Include="ViewModel\CityVModel.cs" />
+    <Compile Include="ViewModel\ContestsVModel.cs" />
     <Compile Include="ViewModel\EditContestVM.cs" />
-    <Compile Include="ViewModel\LoginVM.cs" />
+    <Compile Include="ViewModel\LoginVModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\PaggingVM.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="View\Windows\AddCityView.xaml.cs">
+      <DependentUpon>AddCityView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Windows\AddContestView.xaml.cs">
+      <DependentUpon>AddContestView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Windows\AddInformation.xaml.cs">
       <DependentUpon>AddInformation.xaml</DependentUpon>
     </Compile>
@@ -217,8 +223,8 @@
     <Compile Include="View\VietstemMain.xaml.cs">
       <DependentUpon>VietstemMain.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Windows\CityInfor.xaml.cs">
-      <DependentUpon>CityInfor.xaml</DependentUpon>
+    <Compile Include="View\Windows\CityEditView.xaml.cs">
+      <DependentUpon>CityEditView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Windows\EditContest.xaml.cs">
       <DependentUpon>EditContest.xaml</DependentUpon>
@@ -236,6 +242,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\StyleTextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Windows\AddCityView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Windows\AddContestView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -267,7 +281,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Windows\CityInfor.xaml">
+    <Page Include="View\Windows\CityEditView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -20,7 +20,7 @@ namespace CrudVietSteam.ViewModel
     /// <summary>
     /// Get data Api display contest data
     /// </summary>
-    public class ContestsVM : PaggingVM
+    public class ContestsVModel : PaggingVM
     {
 
         #region Properties
@@ -135,7 +135,7 @@ namespace CrudVietSteam.ViewModel
         public EventHandler AddSuccess;
 
 
-        public ContestsVM()
+        public ContestsVModel()
         {
             Contests = new ObservableCollection<ContestsDTO>();
             InitializeCommands();
@@ -183,7 +183,9 @@ namespace CrudVietSteam.ViewModel
                 }
             }
         }
-
+        /// <summary>
+        /// Edit Contest Command
+        /// </summary>
         private async void OnEdit(object obj)
         {
             var contestObj = obj as ContestsDTO;
@@ -208,15 +210,15 @@ namespace CrudVietSteam.ViewModel
                     createdAt = contestObj.createdAt,
                     updatedAt = DateTime.Now
                 };
+                Debug.WriteLine("=====Contest edit Change ===== :\n" + contestEdit.ToString());
+                Debug.WriteLine("=====ContestObj Change ===== :\n" + contestObj.ToString());
 
                 // gọi và truyền các đối tượng này cho class EditContestVM
                 EditContestVM editVM = new EditContestVM(contestEdit);
                 // show cửa sổ và truyền dataContext cho cửa sổ này 
-                EditContest edit = new EditContest
-                {
-                    DataContext = editVM // Gán DataContext cho cửa sổ EditContest Để sử dụng các thuộc tính chỉnh sửa ở đấy 
-                };
-                edit.ShowDialog(); // Hiển thị cửa sổ EditContest 
+                EditContest viewEdit = new EditContest();
+                viewEdit.DataContext = editVM; // Gán DataContext cho cửa sổ EditContest
+                viewEdit.ShowDialog(); // Hiển thị cửa sổ EditContest 
 
                 await LoadData();
 
@@ -227,8 +229,8 @@ namespace CrudVietSteam.ViewModel
         {
 
             if ((string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(Introduce) ||
-                  string.IsNullOrEmpty(Status) || string.IsNullOrEmpty(Description) ||
-                    string.IsNullOrEmpty(Title) || string.IsNullOrEmpty(Keywords)))
+                string.IsNullOrEmpty(Status) || string.IsNullOrEmpty(Description) ||
+                string.IsNullOrEmpty(Title) || string.IsNullOrEmpty(Keywords)))
             {
                 MessageBox.Show("Vui lòng nhập thông tin đầy đủ không được để trống ");
                 return;
@@ -257,7 +259,6 @@ namespace CrudVietSteam.ViewModel
             MessageBox.Show("Thêm dữ liệu thành công !", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
             if (result != null)
             {
-                Contests.Clear();
                 await LoadData();
 
                 if (obj is Window win)
