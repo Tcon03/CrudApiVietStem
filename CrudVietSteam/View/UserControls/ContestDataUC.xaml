@@ -9,17 +9,17 @@
              x:Name="root"
              mc:Ignorable="d" 
              d:DesignHeight="550" d:DesignWidth="600">
-    <UserControl.Resources>
-    </UserControl.Resources>
 
-    <Grid Background="White"  >
+
+    <Grid Background="Transparent"  >
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <!--thuộc tính cho tiêu đề của DataGrid-->
         <Border     CornerRadius="15" 
-                    Padding="6"
+                    Padding="5"
+                    Background="White"
                     Margin="5"
                     BorderBrush="LightGray"
                     BorderThickness="1"
@@ -68,7 +68,7 @@
 
 
                     <!--display the data from ContestsDTO-->
-                    <DataGridTextColumn Header="ID"  
+                    <DataGridTextColumn Header="ID"   
                                         ElementStyle="{StaticResource TextBlockStyleData}"
                                         Binding="{Binding id , Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}" 
                                         Width="50" CanUserResize="False"/>
@@ -136,10 +136,10 @@
         </Border>
 
         <Grid Grid.Row="2" 
-              d:Background="White" >
+               >
 
             <TextBlock HorizontalAlignment="Left"
-                       FontSize="17"
+                       FontSize="20"
                        FontWeight="Bold"
                        Margin="10"
                        VerticalAlignment="Center">
@@ -148,7 +148,7 @@
 
             </TextBlock>
 
-            <StackPanel  Margin="20 5"
+            <StackPanel 
                           HorizontalAlignment="Right"
                           Orientation="Horizontal">
 

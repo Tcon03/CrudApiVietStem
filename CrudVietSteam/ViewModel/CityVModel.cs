@@ -1,5 +1,6 @@
 ﻿using CrudVietSteam.Command;
 using CrudVietSteam.Service.DTO;
+using CrudVietSteam.View.Windows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,8 +16,55 @@ using System.Windows.Media.Media3D;
 
 namespace CrudVietSteam.ViewModel
 {
-    public class CityVM : PaggingVM
+    public class CityVModel : PaggingVM
     {
+
+        private string _name;
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                if (_name != value)
+                {
+                    _name = value;
+                    Debug.WriteLine($"==== Name changed to ======= : {_name}");
+                    RaisePropertyChange(nameof(Name));
+                }
+            }
+        }
+        private string _type;
+        public string Type
+        {
+            get
+            {
+                return _type;
+            }
+            set
+            {
+                if (_type != value)
+                {
+                    _type = value;
+                    Debug.WriteLine($"==== Type changed to ======= : {_type}");
+                    RaisePropertyChange(nameof(Type));
+                }
+            }
+        }
+        private string _mtp;
+        public string Mtp
+        {
+            get => _mtp;
+            set
+            {
+                if (_mtp != value)
+                {
+                    _mtp = value;
+                    Debug.WriteLine($"==== Mtp changed to ======= : {_mtp}");
+                    RaisePropertyChange(nameof(Mtp));
+                }
+            }
+        }
+
         private bool? _isSelectedAll;
         public bool? IsAllSelected
         {
@@ -36,7 +84,8 @@ namespace CrudVietSteam.ViewModel
         public ICommand EditCityCommand { get; set; }
         public ICommand SeletedAllCommand { get; set; }
         public ICommand SeletedItemCommand { get; set; }
-        public CityVM()
+        public ICommand AddCityCommand { get; set; }
+        public CityVModel()
         {
             Citys = new ObservableCollection<CityDTO>();
             LoadData();
@@ -44,7 +93,42 @@ namespace CrudVietSteam.ViewModel
             EditCityCommand = new VfxCommand(OnEdit, () => true);
             SeletedAllCommand = new VfxCommand(OnSelectedAll, () => true);
             SeletedItemCommand = new VfxCommand(OnSelectedItem, () => true);
-            IsAllSelected = false; // Khởi tạo IsAllSelected là false
+            IsAllSelected = false; // Khởi tạo IsAllSelected là false 
+            AddCityCommand = new VfxCommand(OnAddCity, () => true);
+        }
+
+        private async void OnAddCity(object obj)
+        {
+            var cityAdd = new  
+            {
+                id = 0,
+                name = Name,
+                mtp = Mtp,
+                type = Type,
+                createdAt = DateTime.Now,
+                updatedAt = DateTime.Now
+            };
+
+            var result = await App.vietstemService.CreateCityAsync(cityAdd);
+           
+
+            if (result != null)
+            {
+                MessageBox.Show("Thêm thành phố thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                Citys.Add(result);
+                await LoadData();
+                if(obj is Window window)
+                {
+                    window.DialogResult = true; 
+                    window.Close(); 
+                }
+                Debug.WriteLine($"City added successfully: {result.name}");
+            }
+            else
+            {
+                Debug.WriteLine("Failed to add city.");
+                MessageBox.Show("Thêm thành phố thất bại", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void OnSelectedItem(object obj)
@@ -72,7 +156,7 @@ namespace CrudVietSteam.ViewModel
 
         }
 
-        private void OnEdit(object obj)
+        private async void OnEdit(object obj)
         {
             var cityItem = obj as CityDTO;
             var cityEdit = new CityDTO
@@ -85,7 +169,13 @@ namespace CrudVietSteam.ViewModel
                 updatedAt = cityItem.updatedAt
             };
 
-            var cityEditVM = new CityEditVM(cityEdit);
+            CityEditVM ctVm = new CityEditVM(cityItem);
+            CityEditView ct = new CityEditView
+            {
+                DataContext = ctVm
+            };
+            ct.ShowDialog();
+            await LoadData();
 
         }
 

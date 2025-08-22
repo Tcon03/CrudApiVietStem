@@ -157,7 +157,7 @@
            x:Key="btnOk" 
            BasedOn="{StaticResource BaseButton}">
         <Setter Property="Background" 
-                Value="#10B981"/>
+                Value="{DynamicResource GenerateButtonGradient}"/>
         <Style.Triggers>
             <!-- Hover -->
             <Trigger Property="IsMouseOver" Value="True">

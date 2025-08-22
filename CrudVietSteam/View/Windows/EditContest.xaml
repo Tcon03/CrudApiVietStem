@@ -36,7 +36,7 @@
                        FontWeight="Bold"
                        Margin="20 10"/>
                 <Button Style="{StaticResource btnClose}" 
-                            Click="btnClose_Click">
+                          Click="btnClose_Click">
                     <Icon:PackIconMaterial Kind="Close" 
                                         Width="20" 
                                         Height="20" 

@@ -16,20 +16,7 @@
         ResizeMode="NoResize"
         Title="AddInformation"
         Height="450" Width="800">
-    <!--<Grid>
-     <StackPanel VerticalAlignment="Center">
-         <TextBox Margin="10" Text="{Binding ContestEdit.name, Mode=TwoWay}" />
-         <TextBox Margin="10" Text="{Binding ContestEdit.introduce, Mode=TwoWay}" />
-         <TextBox  Margin="10" Text="{Binding ContestEdit.status, Mode=TwoWay}" />
-         <TextBox Margin="10" Text="{Binding ContestEdit.title, Mode=TwoWay}" />
-         <TextBox Margin="10" Text="{Binding ContestEdit.keywords, Mode=TwoWay}" />
-         <TextBox  Margin="10" Text="{Binding ContestEdit.description, Mode=TwoWay}" />
 
-         <Button Content="Cập nhật"
-                 CommandParameter="{Binding ElementName=_this}"
-                 Command="{Binding UpdateContestCommand}" />
-     </StackPanel>
- </Grid>-->
     <Border MouseDown="Border_MouseDown"
             CornerRadius="15"
             BorderThickness="1"
@@ -42,7 +29,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            
+
             <Grid Grid.Row="0" >
                 <TextBlock Text="Contest Information" 
                            FontSize="30" 
@@ -59,8 +46,8 @@
                             Foreground="Red"/>
                 </Button>
             </Grid>
-            
-            
+
+
             <Grid Margin="40 0 0 0" 
                   Grid.Row="1">
                 <Grid.ColumnDefinitions>
@@ -105,12 +92,12 @@
 
                 </StackPanel>
             </Grid>
-            
+
             <StackPanel Orientation="Horizontal" 
                         Margin="0 20 30 20"
                         HorizontalAlignment="Right"
                         Grid.Row="2">
-                
+
                 <Button Content="Cancel" 
                         Click="btnClose_Click"
                         Style="{StaticResource btnCancel}">

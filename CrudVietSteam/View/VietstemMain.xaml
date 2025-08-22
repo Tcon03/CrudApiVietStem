@@ -17,10 +17,10 @@
         <Vm:MainViewModel/>
     </Window.DataContext>
     <Window.Resources>
-        <DataTemplate DataType="{x:Type Vm:CityVM}">
+        <DataTemplate DataType="{x:Type Vm:CityVModel}">
             <UC:CityUC/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type Vm:ContestsVM}">
+        <DataTemplate DataType="{x:Type Vm:ContestsVModel}">
             <UC:ContestDataUC/>
         </DataTemplate>
     </Window.Resources>

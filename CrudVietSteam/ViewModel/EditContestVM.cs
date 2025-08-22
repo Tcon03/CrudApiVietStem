@@ -56,7 +56,9 @@ namespace CrudVietSteam.ViewModel
             return false;
         }
 
-
+        /// <summary>
+        /// Update Contest Edit Command
+        /// </summary>
         private async void OnUpdateContest(object obj)
         {
             try
@@ -67,7 +69,7 @@ namespace CrudVietSteam.ViewModel
                 if (obj is Window window)
                 {
                     window.DialogResult = true;
-                    window.Close(); 
+                    window.Close();
                 }
             }
             catch (Exception ex)

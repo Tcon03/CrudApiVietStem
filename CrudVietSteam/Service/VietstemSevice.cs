@@ -311,7 +311,7 @@ namespace CrudVietSteam.Service
         /// <summary>
         /// Post Data Api reate contest
         /// </summary>
-        public async Task<ContestsDTO> CreateContestAsync(ContestsDTO contest)
+        public async Task<ContestsDTO> CreateContestAsync(object contest)
         {
             try
             {
@@ -531,7 +531,6 @@ namespace CrudVietSteam.Service
         {
             try
             {
-
                 string urlUpdate = $"{_config.GetCityEndpoint}/{cityEdit.id}";
                 var response = await PutData<CityDTO>(urlUpdate, cityEdit);
                 return response;
@@ -541,6 +540,21 @@ namespace CrudVietSteam.Service
                 MessageBox.Show("Errorr Update Data City \n" + ex.Message);
                 return null;
             }
+        }
+
+        public async Task<CityDTO> CreateCityAsync(object city)
+        {
+            try
+            {
+                var response = await PostData<CityDTO>(_config.GetCityEndpoint, city);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Errorr Create Data City \n" + ex.Message);
+                return null;
+            }
+
         }
     }
 

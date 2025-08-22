@@ -111,8 +111,8 @@ namespace CrudVietSteam.ViewModel
 
 
 
-        public ContestsVM contestVM { get; private set; }
-        public CityVM cityVM { get; private set; }
+        public ContestsVModel contestVM { get; private set; }
+        public CityVModel cityVM { get; private set; }
         public ICommand ShowContestView { get; set; }
         public ICommand ShowCityView { get; set; }
         public ICommand AddInforCommand { get; set; }
@@ -123,8 +123,8 @@ namespace CrudVietSteam.ViewModel
         public MainViewModel()
         {
 
-            contestVM = new ContestsVM();
-            cityVM = new CityVM();
+            contestVM = new ContestsVModel();
+            cityVM = new CityVModel();
             ShowCityView = new VfxCommand(o => SwitchView(ViewType.CityView), () => true);
             ShowContestView = new VfxCommand(o => SwitchView(ViewType.ContestView), () => true);
             AddInforCommand = new VfxCommand(OnAdd, () => true);
@@ -151,6 +151,10 @@ namespace CrudVietSteam.ViewModel
             createTo = null;
             Debug.WriteLine("======= Clear search filters =======");
         }
+
+        /// <summary>
+        /// Clear Command
+        /// </summary>
         private async void OnClear(object obj)
         {
             switch (CurrentViewType)
@@ -174,10 +178,16 @@ namespace CrudVietSteam.ViewModel
             bool isValidCreatedAt = CreatedAt.HasValue && createTo.HasValue && CreatedAt.Value <= createTo.Value;
             return isValidKey || isValidCreatedAt;
         }
+
+        /// <summary>
+        /// Command SearchData
+        /// </summary>
         private void OnSearch(object obj)
         {
+            // 1. Kiểm tra CurrentViewType để xác định đang ở view nào
             switch (CurrentViewType)
             {
+                // 2. Nếu đang ở ContestView thì gọi phương thức SearchContest của contestVM
                 case ViewType.ContestView:
 
                     contestVM.SearchContest(new Service.DTO.ContestSearch
@@ -198,17 +208,26 @@ namespace CrudVietSteam.ViewModel
             }
         }
 
+
+        /// <summary>
+        ///  Command Add Data
+        /// </summary>
         private void OnAdd(object obj)
         {
+            // 1. ktra CurrentViewType để biết đang ở view nào
             switch (CurrentViewType)
             {
+                // 2. nếu đang ở ContestView thì mở cửa sổ AddContestView
                 case ViewType.ContestView:
-                    var addContestWindow = new AddInformation();
-                    addContestWindow.DataContext = contestVM; // gán DataContext cho cửa sổ AddInformation
+                    var addContestWindow = new AddContestView();
+                    // gán dữ liệu cho DataContext của cửa sổ AddContestView
+                    addContestWindow.DataContext = contestVM;
                     addContestWindow.ShowDialog();
                     break;
+                // 3. nếu đang ở CityView thì mở cửa sổ AddCityView
                 case ViewType.CityView:
-                    var cityWindow = new CityInfor();
+                    var cityWindow = new AddCityView();
+                    cityWindow.DataContext = cityVM; // gán dữ liệu cho DataContext của cửa sổ AddCityView
                     cityWindow.ShowDialog();
                     break;
             }
@@ -216,7 +235,7 @@ namespace CrudVietSteam.ViewModel
 
         public void SwitchView(ViewType viewType)
         {
-            // gán CurrentViewType cho viewType để biết được view nào đang được hiển thị
+            // Ghi đè CurrentViewType và CurrentView dựa trên ViewType được truyền vào
             CurrentViewType = viewType;
             switch (viewType)
             {
@@ -224,13 +243,11 @@ namespace CrudVietSteam.ViewModel
                     // gán dữ liệu cho object CurrentView
                     CurrentView = contestVM;
                     CurrentTitle = "Contest Management";
-
                     break;
                 case ViewType.CityView:
                     //Gán dữ liệu cho object City -> CurrentView
                     CurrentView = cityVM;
                     CurrentTitle = "City Management";
-
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(viewType), viewType, null);

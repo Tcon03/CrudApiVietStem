@@ -47,7 +47,7 @@
                         <!--check box Header Click all Record-->
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
-                                <CheckBox   
+                                <CheckBox  
                                            IsChecked="{Binding DataContext.IsAllSelected, RelativeSource={RelativeSource AncestorType=DataGrid}, Mode=TwoWay}"
                                            Command="{Binding DataContext.SeletedAllCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}">
                                 </CheckBox>
@@ -57,8 +57,7 @@
                         <!--check box item record-->
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox  HorizontalAlignment="Center" 
-                                           VerticalAlignment="Center"
+                                <CheckBox  
                                             Command="{Binding DataContext.SeletedItemCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
                                             IsChecked="{Binding IsChecked,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                             </DataTemplate>
@@ -99,7 +98,7 @@
                                         <ContextMenu>
                                             <MenuItem Header="Edit" 
                                                      CommandParameter="{Binding}"
-                                                     Command="{Binding PlacementTarget.Tag.EditCityCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
+                                                     Command="{Binding PlacementTarget.Tag.EditCityCommand,RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                                                 <MenuItem.Icon>
                                                     <Icon:PackIconMaterial Kind="Pencil" />
                                                 </MenuItem.Icon>
@@ -126,20 +125,21 @@
             </DataGrid>
         </Border>
 
-        <Grid Grid.Row="2" 
-                  d:Background="White" >
+        <Grid Grid.Row="2" >
+
             <TextBlock HorizontalAlignment="Left"
-                         FontSize="17"
+                         FontSize="20"
                          FontWeight="Bold"
                          Margin="10"
-                         VerticalAlignment="Center">
+                         VerticalAlignment="Bottom">
                   <Run Text="Total Records : "/>
                   <Run Text="{Binding TotalRecords,Mode=OneWay,UpdateSourceTrigger =PropertyChanged}"  />
 
             </TextBlock>
 
-            <StackPanel  Margin="20 5"
+            <StackPanel  
                          HorizontalAlignment="Right"
+                         VerticalAlignment="Bottom"
                          Orientation="Horizontal">
 
                 <Button  Command="{Binding PreviousPage}" 

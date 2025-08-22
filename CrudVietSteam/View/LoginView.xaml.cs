@@ -25,7 +25,7 @@ namespace CrudVietSteam.View
         public LoginView()
         {
             InitializeComponent();
-            LoginVM vm = this.DataContext as LoginVM;
+            LoginVModel vm = this.DataContext as LoginVModel;
             if (vm != null)
             {
                 var curdential = CurdentialHelper.Load();
@@ -72,7 +72,7 @@ namespace CrudVietSteam.View
 
         private void tbxPassword_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            if (DataContext is LoginVM vm)
+            if (DataContext is LoginVModel vm)
             {
                 vm.PasswordVM = tbxPassword.Password;
             }
