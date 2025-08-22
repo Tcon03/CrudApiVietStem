@@ -151,6 +151,10 @@ namespace CrudVietSteam.ViewModel
             createTo = null;
             Debug.WriteLine("======= Clear search filters =======");
         }
+
+        /// <summary>
+        /// Clear Command
+        /// </summary>
         private async void OnClear(object obj)
         {
             switch (CurrentViewType)
@@ -204,6 +208,10 @@ namespace CrudVietSteam.ViewModel
             }
         }
 
+
+        /// <summary>
+        ///  Command Add Data
+        /// </summary>
         private void OnAdd(object obj)
         {
             // 1. ktra CurrentViewType để biết đang ở view nào

@@ -5,21 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CrudVietSteam.View.Windows"
         mc:Ignorable="d"
-           xmlns:Vmd="clr-namespace:CrudVietSteam.ViewModel"
+        xmlns:Vmd="clr-namespace:CrudVietSteam.ViewModel"
         xmlns:uc="clr-namespace:CrudVietSteam.View.UserControls"
         xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
         WindowStyle="None"
+        x:Name="_this"
         AllowsTransparency="True"
         WindowStartupLocation="CenterScreen"
         Background="Transparent"
         ResizeMode="NoResize"
         Title="AddInformation"
-        Height="450" Width="700">
+        Width="400"
+        Height="450" >
+   
     <Border MouseDown="Border_MouseDown"
-        CornerRadius="15"
-        BorderThickness="1"
-        BorderBrush="MediumPurple"
-        Background="White" >
+            CornerRadius="15"
+            BorderThickness="1"
+            BorderBrush="MediumPurple"
+            Background="White" >
         <Grid>
 
             <Grid.RowDefinitions>
@@ -30,62 +33,55 @@
 
             <Grid Grid.Row="0" >
                 <TextBlock Text="Add City Information" 
-                   FontSize="30" 
+                   FontSize="25" 
                    Foreground="#434344"
                    HorizontalAlignment="Left"
                    FontWeight="Bold"
                    Margin="20 10"/>
                 <Button Style="{StaticResource btnClose}" 
-                         Click="btnClose_Click">
+                        Click="btnClose_Click">
                     <Icon:PackIconMaterial Kind="Close" 
                     Width="20" 
                     Height="20" 
-                    Foreground="Red"/>
+                    Foreground="Black"/>
                 </Button>
             </Grid>
 
 
-            <Grid  HorizontalAlignment="Center"
-                   Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-                <StackPanel Margin="0 0 20 0">
+            <Grid  Grid.Row="1" HorizontalAlignment="Center" >
+                <StackPanel >
                     <uc:HeaderHintTbl Margin="10 "
-                              Text="{Binding Name ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                              HintText="Name Contest ..."
+                              Text="{Binding Name,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                              HintText="Name City ..."
                               TextHeader="Name"/>
 
                     <uc:HeaderHintTbl Margin="10"
-                              Text="{Binding Introduce ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                              HintText="Introduct contest ..."
+                              Text="{Binding Mtp,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                              HintText="MTP City ..."
                               TextHeader="Introduct"/>
 
                     <uc:HeaderHintTbl Margin="10 "
-                                Text="{Binding Status ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                              HintText="Status Contest ..."
-                              TextHeader="status"/>
+                              Text="{Binding Type,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                              HintText="Type City ..."
+                              TextHeader="Type"/>
 
                 </StackPanel>
 
             </Grid>
 
             <StackPanel Orientation="Horizontal" 
-                Margin="0 0 20 10"
-                HorizontalAlignment="Right"
+                HorizontalAlignment="Center"
                 Grid.Row="2">
 
                 <Button Content="Cancel" 
-                Click="btnClose_Click"
-                Style="{StaticResource btnCancel}">
+                    Click="btnClose_Click"
+                    Style="{StaticResource btnCancel}">
                 </Button>
 
                 <Button Content="OK" 
-                Command="{Binding AddContestCommand}" 
-                CommandParameter="{Binding ElementName=_this}"
-                Style="{StaticResource btnOk}">
+                        Command="{Binding AddCityCommand}" 
+                        CommandParameter="{Binding ElementName=_this}"
+                        Style="{StaticResource btnOk}">
                 </Button>
             </StackPanel>
         </Grid>

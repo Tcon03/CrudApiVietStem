@@ -16,7 +16,8 @@
         ResizeMode="NoResize"
         Title="AddInformation"
         Height="450" Width="800">
-       <Border MouseDown="Border_MouseDown"
+
+    <Border MouseDown="Border_MouseDown"
             CornerRadius="15"
             BorderThickness="1"
             BorderBrush="MediumPurple"
@@ -28,7 +29,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            
+
             <Grid Grid.Row="0" >
                 <TextBlock Text="Contest Information" 
                            FontSize="30" 
@@ -45,8 +46,8 @@
                             Foreground="Red"/>
                 </Button>
             </Grid>
-            
-            
+
+
             <Grid Margin="40 0 0 0" 
                   Grid.Row="1">
                 <Grid.ColumnDefinitions>
@@ -91,12 +92,12 @@
 
                 </StackPanel>
             </Grid>
-            
+
             <StackPanel Orientation="Horizontal" 
                         Margin="0 20 30 20"
                         HorizontalAlignment="Right"
                         Grid.Row="2">
-                
+
                 <Button Content="Cancel" 
                         Click="btnClose_Click"
                         Style="{StaticResource btnCancel}">
