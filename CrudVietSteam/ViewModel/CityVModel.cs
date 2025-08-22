@@ -99,28 +99,27 @@ namespace CrudVietSteam.ViewModel
 
         private async void OnAddCity(object obj)
         {
-            var cityAdd = new  
+
+            var cityAdd = new CityDTO
             {
-                id = 0,
                 name = Name,
-                mtp = Mtp,
                 type = Type,
+                mtp = Mtp,
                 createdAt = DateTime.Now,
                 updatedAt = DateTime.Now
             };
-
             var result = await App.vietstemService.CreateCityAsync(cityAdd);
-           
+
 
             if (result != null)
             {
                 MessageBox.Show("Thêm thành phố thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
                 Citys.Add(result);
                 await LoadData();
-                if(obj is Window window)
+                if (obj is Window window)
                 {
-                    window.DialogResult = true; 
-                    window.Close(); 
+                    window.DialogResult = true;
+                    window.Close();
                 }
                 Debug.WriteLine($"City added successfully: {result.name}");
             }
