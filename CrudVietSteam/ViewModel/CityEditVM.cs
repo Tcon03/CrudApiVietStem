@@ -45,7 +45,6 @@ namespace CrudVietSteam.ViewModel
         /// <summary>
         /// Updatate City Edit Command
         /// </summary>
-        /// <param name="obj"></param>
         private async void OnUpdate(object obj)
         {
             await App.vietstemService.UpdateCityAsync(CityEdit);

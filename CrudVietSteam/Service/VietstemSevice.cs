@@ -522,10 +522,7 @@ namespace CrudVietSteam.Service
                 return null;
             }
         }
-        public override async Task LoadData()
-        {
-            MessageBox.Show("Load Data Method is not implemented in VietstemService", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
-        }
+       
 
         public async Task<CityDTO> UpdateCityAsync(CityDTO cityEdit)
         {
@@ -542,7 +539,7 @@ namespace CrudVietSteam.Service
             }
         }
 
-        public async Task<CityDTO> CreateCityAsync(object city)
+        public async Task<CityDTO>CreateCityAsync(object city)
         {
             try
             {
@@ -555,6 +552,10 @@ namespace CrudVietSteam.Service
                 return null;
             }
 
+        }
+        public override async Task LoadData()
+        {
+            MessageBox.Show("Load Data Method is not implemented in VietstemService", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
     }
 
