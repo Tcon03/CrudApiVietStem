@@ -55,7 +55,7 @@ namespace CrudVietSteam.Service
             // 1. if filePath not exist then return null 
             if (!File.Exists(filePath))
             {
-                MessageBox.Show("File hiện tại đang rỗng !! Vui lòng đăng nhập tk,mk");
+                MessageBox.Show("File hiện tại đang rỗng !! Vui lòng đăng nhập tk,mk" , "Thông Báo" , MessageBoxButton.OK , MessageBoxImage.Information );
                 return null;
             }
 

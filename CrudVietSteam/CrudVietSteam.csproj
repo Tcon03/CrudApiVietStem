@@ -182,7 +182,6 @@
     <Compile Include="Service\DTO\LoginDTO.cs" />
     <Compile Include="Service\TokenManager.cs" />
     <Compile Include="Service\VietstemSevice.cs" />
-    <Compile Include="test01.cs" />
     <Compile Include="ViewModel\CityEditVM.cs" />
     <Compile Include="ViewModel\CityVModel.cs" />
     <Compile Include="ViewModel\ContestsVModel.cs" />
