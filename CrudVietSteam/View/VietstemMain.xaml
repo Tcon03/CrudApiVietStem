@@ -11,8 +11,10 @@
         WindowStartupLocation="CenterScreen"
         xmlns:Vm="clr-namespace:CrudVietSteam.ViewModel"
         xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"  
-        Icon="/Image/viet.png"
-        Title="VietStem" Height="720" Width="1200">
+        Icon="/Image/Vietst.png"
+        Title="Viet Stem"  
+        Height="720" 
+        Width="1200">
     <Window.DataContext>
         <Vm:MainViewModel/>
     </Window.DataContext>
