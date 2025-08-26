@@ -13,6 +13,7 @@
          WindowStyle="None"
          MouseDown="Window_MouseDown"
          AllowsTransparency="True"
+         Icon="/Image/loginLogo.png"
          Background="Transparent"
          Title="LoginView" Height="550" Width="700">
 
