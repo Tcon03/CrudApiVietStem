@@ -181,23 +181,32 @@ namespace CrudVietSteam.Service
         /// </summary>
         public async Task<bool> LoginAsync(string user, string password)
         {
-            var body = new
-            {
-                email = user,
-                password = password
-            };
-            var loginResult = await PostData<LoginDTO>(_config.LoginEndpoint, body);
-            Debug.WriteLine("======= Login Result ========\n" + loginResult);
-            if (loginResult != null)
+            try
             {
 
-                _tokenManager.SaveToFile(loginResult.id);
-                MessageBox.Show("Đăng nhập thành công ", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
-                return true;
+                var body = new
+                {
+                    email = user,
+                    password = password
+                };
+                var loginResult = await PostData<LoginDTO>(_config.LoginEndpoint, body);
+                Debug.WriteLine("======= Login Result ========\n" + loginResult);
+                if (loginResult != null)
+                {
+
+                    _tokenManager.SaveToFile(loginResult.id);
+                    MessageBox.Show("Đăng nhập thành công ", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return true;
+                }
+                else
+                {
+                    MessageBox.Show("===== Lỗi đăng nhập ==== \n Vui lòng kiểm tra lại tài khoản và mật khẩu !", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("===== Lỗi đăng nhập ==== \n Vui lòng kiểm tra lại tài khoản và mật khẩu !", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Đã xảy ra lỗi đăng nhập" + ex.Message, "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
             //var content = new StringContent(jsonBody, Encoding.UTF8, _config.ContentType);
@@ -370,7 +379,6 @@ namespace CrudVietSteam.Service
                 var response = await DeleteData<ContestsDTO>(urlDelete);
                 Debug.WriteLine("===== Result Delete Contest =====\n" + response.id);
                 return response;
-
             }
             catch (Exception ex)
             {
@@ -522,7 +530,7 @@ namespace CrudVietSteam.Service
                 return null;
             }
         }
-       
+
 
         public async Task<CityDTO> UpdateCityAsync(CityDTO cityEdit)
         {
@@ -539,7 +547,7 @@ namespace CrudVietSteam.Service
             }
         }
 
-        public async Task<CityDTO>CreateCityAsync(object city)
+        public async Task<CityDTO> CreateCityAsync(object city)
         {
             try
             {

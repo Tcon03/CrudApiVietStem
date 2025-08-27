@@ -24,22 +24,31 @@ namespace CrudVietSteam.View
 
         public LoginView()
         {
-            InitializeComponent();
-            LoginVModel vm = this.DataContext as LoginVModel;
-            if (vm != null)
+            try
             {
-                var curdential = CurdentialHelper.Load();
-                // nếu file tồn tại luôn điền mk và tích luôn remember me vào ô check box
-                if (curdential != null)
+
+                InitializeComponent();
+                LoginVModel vm = this.DataContext as LoginVModel;
+                if (vm != null)
                 {
-                    // gán các trường dữ liệu cho email và password bên VMD 
-                    vm.EmailVM = curdential.email;
-                    vm.PasswordVM = curdential.password;
-                    vm.RememberMe = true;
-                    // Gán tên của thuộc tính pass cho bên passVM
-                    tbxPassword.Password = vm.PasswordVM;
+                    var curdential = CurdentialHelper.Load();
+                    // nếu file tồn tại luôn điền mk và tích luôn remember me vào ô check box
+                    if (curdential != null)
+                    {
+                        // gán các trường dữ liệu cho email và password bên VMD 
+                        vm.EmailVM = curdential.email;
+                        vm.PasswordVM = curdential.password;
+                        vm.RememberMe = true;
+                        // Gán tên của thuộc tính pass cho bên passVM
+                        tbxPassword.Password = vm.PasswordVM;
+                    }
+                    vm.Authenticated += Authenticated;
                 }
-                vm.Authenticated += Authenticated;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khởi động chương trình, vui lòng thử lại.\n" + ex.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                Application.Current.Shutdown();
             }
         }
 

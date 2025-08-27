@@ -139,44 +139,52 @@ namespace CrudVietSteam.ViewModel
             AutoUpdater.Start("https://raw.githubusercontent.com/Tcon03/Interface-car-/refs/heads/master/Update.xml");
 
         }
-         
+
 
         /// <summary>
         /// Check For Update Version
         /// </summary>
         private void AutoUpdaterOnCheckForUpdateEvent(UpdateInfoEventArgs args)
         {
-            if (args.Error != null)
+            try
             {
-                MessageBox.Show(args.Error.Message, "Update error");
-                return;
-            }
 
-            // (2) có bản cập nhật?
-            if (args.IsUpdateAvailable)
-            {
-                var result = MessageBox.Show(
-                    $"Có phiên bản mới {args.CurrentVersion}. Bạn đang dùng {args.InstalledVersion}.\nCập nhật ngay?",
-                    "Thông báo cập nhật",
-                    MessageBoxButton.YesNo, MessageBoxImage.Information);
-
-                if (result == MessageBoxResult.Yes)
+                if (args.Error != null)
                 {
-                    try
+                    MessageBox.Show(args.Error.Message, "Update error");
+                    return;
+                }
+
+                // (2) có bản cập nhật?
+                if (args.IsUpdateAvailable)
+                {
+                    var result = MessageBox.Show(
+                        $"Có phiên bản mới {args.CurrentVersion}. Bạn đang dùng {args.InstalledVersion}.\nCập nhật ngay?",
+                        "Thông báo cập nhật",
+                        MessageBoxButton.YesNo, MessageBoxImage.Information);
+
+                    if (result == MessageBoxResult.Yes)
                     {
-                        if (AutoUpdater.DownloadUpdate(args))
-                            Application.Current.Shutdown();
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message, "Lỗi tải/cập nhật");
+                        try
+                        {
+                            if (AutoUpdater.DownloadUpdate(args))
+                                Application.Current.Shutdown();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message, "Lỗi tải/cập nhật");
+                        }
                     }
                 }
+                else
+                {
+                    MessageBox.Show($"Bạn đang dùng phiên bản mới nhất ({args.InstalledVersion}).",
+                                    "Không có cập nhật", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show($"Bạn đang dùng phiên bản mới nhất ({args.InstalledVersion}).",
-                                "Không có cập nhật", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(ex.Message, "Lỗi cập nhật");
             }
         }
 

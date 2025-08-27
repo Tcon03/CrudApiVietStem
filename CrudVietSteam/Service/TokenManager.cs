@@ -10,16 +10,21 @@ namespace CrudVietSteam.Service
 {
     public class TokenManager
     {
+        public string GetTokenFilePath()
+        {
+            string appFolderPath = CurdentialHelper.GetAppFolderPath();
+            string actkPath = Path.Combine(appFolderPath, "accessToken.txt");
+            return actkPath;
+        }
 
-        public const string TkFile = "accessToken.txt";
 
         /// <summary>
         /// save Id accessToken
         /// </summary>
-        public  void SaveToFile(string accessToken)
+        public void SaveToFile(string accessToken)
         {
-            //1. nếu lưu nó từ object thì chuyển đổi nó về chuỗi json 
-            File.WriteAllText(TkFile,accessToken);
+            string tkFile = GetTokenFilePath();
+            File.WriteAllText(tkFile, accessToken);
             Debug.WriteLine("===== Lưu File AccessToken thành công =====");
         }
 
@@ -30,14 +35,16 @@ namespace CrudVietSteam.Service
         /// <returns></returns>
         public string LoadToken()
         {
-            if (!File.Exists(TkFile))
+            string tkFile = GetTokenFilePath();
+            if (!File.Exists(tkFile))
             {
-                Debug.WriteLine($"{TkFile} does not exist");
+                Debug.WriteLine($"{tkFile} does not exist");
                 return null;
             }
             // nếu  đọc file đấy là chuối json thì chuổi đổi nó sang object  và trả về object đó 
 
-            var readFile = File.ReadAllText(TkFile);
+            var readFile = File.ReadAllText(tkFile);
+            Debug.WriteLine($"File AccessToken : {readFile}");
 
             return readFile;
         }
@@ -48,6 +55,7 @@ namespace CrudVietSteam.Service
         /// </summary>
         public void ClearToken()
         {
+            string TkFile = GetTokenFilePath();
             if (File.Exists(TkFile))
             {
                 File.Delete(TkFile);

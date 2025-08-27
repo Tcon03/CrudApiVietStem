@@ -196,7 +196,7 @@ namespace CrudVietSteam.ViewModel
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Hiện tại đang lỗi !!", "Information", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Hiện tại đang lỗi !!" +ex, "Information", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

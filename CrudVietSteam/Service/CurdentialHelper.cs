@@ -15,18 +15,30 @@ namespace CrudVietSteam.Service
 {
     public class CurdentialHelper
     {
-        private static string filePath = "curdential.json";
 
+        public static string accountPath = GetAppFolderPath();
+        public static string folderPath = Path.Combine(accountPath, "curdential.json");
+        public static string GetAppFolderPath()
+        {
+            //1. lấy đường dẫn thư mục AppData
+            string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            Debug.WriteLine("AppData Path : " + appData);
+            string appFolder = Path.Combine(appData, "CrudVietSteam");
+            Debug.WriteLine("App Folder Path : " + appFolder);
+            Directory.CreateDirectory(appFolder); // Tạo thư mục nếu chưa tồn tại
+            return appFolder;
+        }
 
         /// <summary>
         /// Save Account
         /// </summary>
         public static void SaveCurdential(string username, string password)
         {
-            //1 . check if  File Path Exist then don't save it   
-            if (File.Exists(filePath))
+
+            //1 . check if  File Path Exist then don't save it    
+            if (File.Exists(folderPath))
             {
-                var readFile = File.ReadAllText(filePath);
+                var readFile = File.ReadAllText(folderPath);
                 var data = JsonConvert.DeserializeObject<User>(readFile);
                 if (data != null && data.email == username && data.password == password)
                     Debug.WriteLine("File đã tồn tại và bỏ qua bước save ");
@@ -44,7 +56,8 @@ namespace CrudVietSteam.Service
             Debug.WriteLine("==== Save Account ==== \n" + json);
 
             // ghi nội dung vào filePath 
-            File.WriteAllText(filePath, json);
+            File.WriteAllText(folderPath, json);
+            Debug.WriteLine("Lưu tài khoản thành công vào file ");
         }
 
         /// <summary>
@@ -53,14 +66,14 @@ namespace CrudVietSteam.Service
         public static User Load()
         {
             // 1. if filePath not exist then return null 
-            if (!File.Exists(filePath))
+            if (!File.Exists(folderPath))
             {
                 //MessageBox.Show("File hiện tại đang rỗng !! Vui lòng đăng nhập tk,mk" , "Thông Báo" , MessageBoxButton.OK , MessageBoxImage.Information );
                 return null;
             }
 
-            var data = File.ReadAllText(filePath);
-        
+            var data = File.ReadAllText(folderPath);
+            Debug.WriteLine("==== Load Account ==== \n" + data);
             return JsonConvert.DeserializeObject<User>(data);
 
             // C2. lưu dữ liệu vào biến data và chuyển đổi sang đối tượng User
@@ -90,7 +103,7 @@ namespace CrudVietSteam.Service
         /// </summary>
         public static void Clear()
         {
-            File.Delete(filePath);
+            File.Delete(folderPath);
         }
     }
 }
