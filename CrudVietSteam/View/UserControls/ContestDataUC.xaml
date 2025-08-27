@@ -50,7 +50,9 @@
                     <DataGridTemplateColumn>
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
-                                <CheckBox VerticalAlignment="Center"
+                                <CheckBox VerticalAlignment="Center" 
+                                          IsChecked="{Binding DataContext.IsAllSelected, RelativeSource={RelativeSource AncestorType=DataGrid}, Mode=TwoWay}"
+                                          Command="{Binding DataContext.SeletedAllCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
                                           HorizontalAlignment="Left" >
                                 </CheckBox>
                             </DataTemplate>
@@ -58,7 +60,8 @@
 
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox
+                                <CheckBox IsChecked="{Binding DataContext.IsCheck, RelativeSource={RelativeSource AncestorType=DataGrid},Mode=TwoWay}"
+                                      Command="{Binding DataContext.SeletedItemCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
                                           VerticalAlignment="Center" 
                                           HorizontalAlignment="Center"/>
                             </DataTemplate>
@@ -71,7 +74,8 @@
                     <DataGridTextColumn Header="ID"   
                                         ElementStyle="{StaticResource TextBlockStyleData}"
                                         Binding="{Binding id , Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}" 
-                                        Width="50" CanUserResize="False"/>
+                                        Width="50"
+                                        CanUserResize="False"/>
                     <DataGridTextColumn Header="Name" 
                                         ElementStyle="{StaticResource TextBlockStyleData}"
                                         Binding="{Binding name  , Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}"

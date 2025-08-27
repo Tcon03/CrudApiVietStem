@@ -21,11 +21,14 @@ namespace CrudVietSteam.Service
         public static string GetAppFolderPath()
         {
             //1. lấy đường dẫn thư mục AppData
-            string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData); //AppData\Roaming
             Debug.WriteLine("AppData Path : " + appData);
+
+            //2. tạo folder con (CrudVietStem) trong AppData 
             string appFolder = Path.Combine(appData, "CrudVietSteam");
             Debug.WriteLine("App Folder Path : " + appFolder);
-            Directory.CreateDirectory(appFolder); // Tạo thư mục nếu chưa tồn tại
+            // Tạo thư mục nếu chưa tồn tại
+            Directory.CreateDirectory(appFolder); 
             return appFolder;
         }
 

@@ -179,15 +179,14 @@ namespace CrudVietSteam.Service
         /// <summary>
         /// Post Login Api 
         /// </summary>
-        public async Task<bool> LoginAsync(string user, string password)
+        public async Task<bool> LoginAsync(string user, string passwords)
         {
             try
             {
-
                 var body = new
                 {
                     email = user,
-                    password = password
+                    password = passwords
                 };
                 var loginResult = await PostData<LoginDTO>(_config.LoginEndpoint, body);
                 Debug.WriteLine("======= Login Result ========\n" + loginResult);

@@ -132,7 +132,18 @@ namespace CrudVietSteam.ViewModel
 
         private void OnSelectedItem(object obj)
         {
-
+            if (Citys.All(c => c.IsChecked))
+            {
+                IsAllSelected = true;
+            }
+            else if (Citys.All(c => !c.IsChecked))
+            {
+                IsAllSelected = false;
+            }
+            else
+            {
+                IsAllSelected = null; 
+            }
 
         }
 
@@ -196,7 +207,7 @@ namespace CrudVietSteam.ViewModel
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Hiện tại đang lỗi !!" +ex, "Information", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Hiện tại đang lỗi !!" + ex, "Information", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

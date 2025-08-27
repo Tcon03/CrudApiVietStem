@@ -25,6 +25,19 @@ namespace CrudVietSteam.ViewModel
 
         #region Properties
 
+        private bool? _isCheckedAll = false;
+        public bool? IsCheckedAll
+        {
+            get { return _isCheckedAll; }
+            set
+            {
+                if (_isCheckedAll != value)
+                {
+                    _isCheckedAll = value;
+                    RaisePropertyChange(nameof(IsCheckedAll));
+                }
+            }
+        }
 
         private string _name;
         public string Name
@@ -129,6 +142,8 @@ namespace CrudVietSteam.ViewModel
         public ICommand AddContestCommand { get; set; }
         public ICommand EditContestCommand { get; set; }
         public ICommand DeleteItemCommand { get; set; }
+        public ICommand SelectedAllCommand { get; set; }
+        public ICommand SelectedItemCommand { get; set; }
 
         #endregion
 
@@ -147,9 +162,43 @@ namespace CrudVietSteam.ViewModel
             AddContestCommand = new VfxCommand(AddContest, () => true);
             EditContestCommand = new VfxCommand(OnEdit, () => true);
             DeleteItemCommand = new VfxCommand(OnDelete, () => true);
+            SelectedAllCommand = new VfxCommand(OnSelectedAll, () => true);
+            SelectedItemCommand = new VfxCommand(OnSelectedItem, () => true);
         }
 
+        private void OnSelectedItem(object obj)
+        {
+            if (Contests.All(p => p.IsChecked == true))
+            {
+                IsCheckedAll = true;
+            }
+            else if (Contests.All(p => p.IsChecked == false))
+            {
+                IsCheckedAll = false;
+            }
+            else
+            {
+                IsCheckedAll = null; // trạng thái không xác định
+            }
+        }
 
+        private void OnSelectedAll(object obj)
+        {
+            if (IsCheckedAll == true)
+            {
+                foreach (var item in Contests)
+                {
+                    item.IsChecked = true;
+                }
+            }
+            else
+            {
+                foreach (var item in Contests)
+                {
+                    item.IsChecked = false;
+                }
+            }
+        }
 
         public async void SearchContest(ContestSearch filter)
         {
