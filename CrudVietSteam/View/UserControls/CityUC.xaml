@@ -63,7 +63,7 @@
 
                         <!--check box item record-->
                         <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
+                            <DataTemplate> 
 
                                 <CheckBox  
                                     
