@@ -79,12 +79,19 @@ namespace CrudVietSteam.ViewModel
                 }
             }
         }
+
+        public bool IsAnyItemSelected
+        {
+            get => Citys != null && Citys.Any(c => c.IsChecked);
+
+        }
         public ObservableCollection<CityDTO> Citys { get; set; }
         public ICommand DeleteCityCommand { get; set; }
         public ICommand EditCityCommand { get; set; }
         public ICommand SeletedAllCommand { get; set; }
         public ICommand SeletedItemCommand { get; set; }
         public ICommand AddCityCommand { get; set; }
+        public ICommand DeleteAllItem { get; set; }
         public CityVModel()
         {
             Citys = new ObservableCollection<CityDTO>();
@@ -95,6 +102,18 @@ namespace CrudVietSteam.ViewModel
             SeletedItemCommand = new VfxCommand(OnSelectedItem, () => true);
             IsAllSelected = false; // Khởi tạo IsAllSelected là false 
             AddCityCommand = new VfxCommand(OnAddCity, () => true);
+            DeleteAllItem = new VfxCommand(OnDeleteAll, () => true);
+        }
+
+        private void OnDeleteAll(object obj)
+        {
+                var result = MessageBox.Show("Bạn có muốn xóa toàn bộ dữ liệu không ", "Thông báo ", MessageBoxButton.YesNo, MessageBoxImage.Information);
+                if (result == MessageBoxResult.Yes)
+                {
+                    var allItem = Citys.Where(x => x.IsChecked).ToList(); 
+
+                }
+
         }
 
         private async void OnAddCity(object obj)
@@ -142,9 +161,9 @@ namespace CrudVietSteam.ViewModel
             }
             else
             {
-                IsAllSelected = null; 
+                IsAllSelected = null;
             }
-
+            RaisePropertyChange(nameof(IsAnyItemSelected));
         }
 
         private void OnSelectedAll(object obj)
@@ -163,6 +182,7 @@ namespace CrudVietSteam.ViewModel
                     item.IsChecked = false;
                 }
             }
+            RaisePropertyChange(nameof(IsAnyItemSelected));
 
         }
 

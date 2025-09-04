@@ -16,13 +16,18 @@
 
     <Grid Margin="6">
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
+
+
+
         <Border Background="White"
                 BorderBrush="LightGray" 
                 BorderThickness="1"
-                 CornerRadius="20">
+                Grid.Row="1"
+                CornerRadius="20">
             <DataGrid  
                    Margin="10"
                    HeadersVisibility="Column"
@@ -47,19 +52,23 @@
                         <!--check box Header Click all Record-->
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
+
                                 <CheckBox  
                                            IsChecked="{Binding DataContext.IsAllSelected, RelativeSource={RelativeSource AncestorType=DataGrid}, Mode=TwoWay}"
                                            Command="{Binding DataContext.SeletedAllCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}">
                                 </CheckBox>
+
                             </DataTemplate>
                         </DataGridTemplateColumn.HeaderTemplate>
 
                         <!--check box item record-->
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
+
                                 <CheckBox  
                                             Command="{Binding DataContext.SeletedItemCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
                                             IsChecked="{Binding IsChecked,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
 
@@ -86,8 +95,9 @@
                                         ElementStyle="{StaticResource TextBlockStyleData}"
                                         Binding="{Binding mtp ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  
                                         Width="*"/>
-                    <DataGridTemplateColumn   Width="50" >
+                    <DataGridTemplateColumn   Width="50"  >
                         <!--Custom Actions-->
+
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Content="⋮"
@@ -141,6 +151,30 @@
                          HorizontalAlignment="Right"
                          VerticalAlignment="Bottom"
                          Orientation="Horizontal">
+                <Button HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Command="{Binding DeleteAllItem}" 
+                        CommandParameter="{Binding ElementName=root}"
+                         Content="Delete">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource btnClear}">
+                            <!-- Mặc định là ẩn -->
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Setter Property="Margin" Value="0 0 30 0"/>
+                            <Setter Property="FontSize" Value="15"/>
+                            <Setter Property="FontWeight" Value="Bold"/>
+                            
+                            <Setter Property="Foreground" Value="Black"/>
+
+                            <Style.Triggers>
+                                <!-- Khi IsAnyItemSelected là True, thì hiện ra -->
+                                <DataTrigger Binding="{Binding IsAnyItemSelected}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
 
                 <Button  Command="{Binding PreviousPage}" 
                          CommandParameter="{Binding ElementName=root}"

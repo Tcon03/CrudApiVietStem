@@ -53,7 +53,7 @@
                                  Style="{StaticResource btnSideBar}"
                                  GroupName="SideBarNav"
                                  IsChecked="True"
-                                  CommandParameter="{Binding ElementName=_this}">
+                                 CommandParameter="{Binding ElementName=_this}">
 
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Image/contest1.png" 
@@ -118,24 +118,27 @@
                            Text="VietStem"
                            FontWeight="Bold"
                            FontSize="50"/>-->
+                   
 
-                    <Button HorizontalAlignment="Right" 
+                        <Button 
+                            HorizontalAlignment="Right"
                             Margin="0 20 20 20 "
                             Command="{Binding AddInforCommand}"
                             CommandParameter="{Binding ElementName=_this}"
                             Style="{StaticResource btnAdd }">
-                        <StackPanel Orientation="Horizontal">
-                            <Icon:PackIconMaterial Kind="Plus" 
+                            <StackPanel Orientation="Horizontal">
+                                <Icon:PackIconMaterial Kind="Plus" 
                                   Width="20" 
                                   Margin="15 0"
                                   Height="20" 
                                   Foreground="White"/>
-                            <TextBlock FontWeight="Medium"
+                                <TextBlock FontWeight="Medium"
                                        VerticalAlignment="Center"
                                        FontSize="15"
                                        Text="Add Information"/>
-                        </StackPanel>
-                    </Button>
+                            </StackPanel>
+                        </Button>
+                   
                 </Grid>
 
                 <!--Item 2 gạch ngang-->

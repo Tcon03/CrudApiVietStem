@@ -17,8 +17,10 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <!--thuộc tính cho tiêu đề của DataGrid-->
+       
         <Border     CornerRadius="15" 
                     Padding="5"
+                    Grid.Row="0"
                     Background="White"
                     Margin="5"
                     BorderBrush="LightGray"
@@ -55,20 +57,19 @@
                                           Command="{Binding DataContext.SeletedAllCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
                                           HorizontalAlignment="Left" >
                                 </CheckBox>
+
                             </DataTemplate>
                         </DataGridTemplateColumn.HeaderTemplate>
 
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <CheckBox IsChecked="{Binding DataContext.IsCheck, RelativeSource={RelativeSource AncestorType=DataGrid},Mode=TwoWay}"
-                                      Command="{Binding DataContext.SeletedItemCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                          Command="{Binding DataContext.SeletedItemCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
                                           VerticalAlignment="Center" 
                                           HorizontalAlignment="Center"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-
-
 
                     <!--display the data from ContestsDTO-->
                     <DataGridTextColumn Header="ID"   
@@ -95,8 +96,9 @@
                                         ElementStyle="{StaticResource TextBlockStyleData}"
                                         Binding="{Binding status , Mode=TwoWay , UpdateSourceTrigger=PropertyChanged }"
                                         Width="*"/>
-
-                    <DataGridTemplateColumn   Width="50" CanUserResize="False" >
+                    
+                    <DataGridTemplateColumn   Width="50" 
+                                              CanUserResize="False" >
 
                         <!--Custom Actions-->
                         <DataGridTemplateColumn.CellTemplate>
@@ -113,9 +115,9 @@
                                             <MenuItem Header="Edit"
                                                       CommandParameter="{Binding}" 
                                                       Command="{Binding PlacementTarget.Tag.EditContestCommand,
-                                                           RelativeSource={RelativeSource AncestorType=ContextMenu}}">
+                                                             RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                                                 <MenuItem.Icon>
-                                                    <Icon:PackIconMaterial Kind="Pencil" />
+                                                    <Icon:PackIconMaterial Kind="Pencil"/>
                                                 </MenuItem.Icon>
                                             </MenuItem>
                                             <!-- Delete -->
@@ -125,7 +127,8 @@
                                                       Command="{Binding PlacementTarget.Tag.DeleteItemCommand,
                                                                RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                                                 <MenuItem.Icon>
-                                                    <Icon:PackIconMaterial Kind="Delete" Foreground="Red"/>
+                                                    <Icon:PackIconMaterial Kind="Delete" 
+                                                                           Foreground="Red"/>
                                                 </MenuItem.Icon>
                                             </MenuItem>
                                         </ContextMenu>

@@ -24,10 +24,9 @@ namespace CrudVietSteam.Service
     public class VietstemSevice : PaggingVM
     {
         public readonly ApiConfiguration _config;
-
-
         public readonly HttpClient _client;
         public TokenManager _tokenManager;
+
         public VietstemSevice()
         {
             _config = new ApiConfiguration();
