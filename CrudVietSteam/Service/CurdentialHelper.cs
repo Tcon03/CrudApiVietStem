@@ -24,7 +24,6 @@ namespace CrudVietSteam.Service
             string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData); //AppData\Roaming
             Debug.WriteLine("AppData Path : " + appData);
 
-            //2. tạo folder con (CrudVietStem) trong AppData 
             string appFolder = Path.Combine(appData, "CrudVietSteam");
             Debug.WriteLine("App Folder Path : " + appFolder);
             // Tạo thư mục nếu chưa tồn tại
@@ -54,11 +53,9 @@ namespace CrudVietSteam.Service
                 email = username,
                 password = password
             };
-            // chuyển đổi Obj sang định dạng Json
             var json = JsonConvert.SerializeObject(curdential, Formatting.Indented);
             Debug.WriteLine("==== Save Account ==== \n" + json);
 
-            // ghi nội dung vào filePath 
             File.WriteAllText(folderPath, json);
             Debug.WriteLine("Lưu tài khoản thành công vào file ");
         }
@@ -68,10 +65,8 @@ namespace CrudVietSteam.Service
         /// </summary>
         public static User Load()
         {
-            // 1. if filePath not exist then return null 
             if (!File.Exists(folderPath))
             {
-                //MessageBox.Show("File hiện tại đang rỗng !! Vui lòng đăng nhập tk,mk" , "Thông Báo" , MessageBoxButton.OK , MessageBoxImage.Information );
                 return null;
             }
 

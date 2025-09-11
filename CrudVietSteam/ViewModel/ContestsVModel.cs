@@ -160,7 +160,7 @@ namespace CrudVietSteam.ViewModel
         {
             Contests = new ObservableCollection<ContestsDTO>();
             InitializeCommands();
-            LoadData(); // Gọi hàm LoadData để tải dữ liệu khi khởi tạo ViewModel
+            LoadData();
         }
 
         private void InitializeCommands()
@@ -194,7 +194,7 @@ namespace CrudVietSteam.ViewModel
             }
             else
             {
-                _isSelectedAllCT = null; // trạng thái không xác định
+                _isSelectedAllCT = null;
             }
             RaisePropertyChange(nameof(IsAnyItemSelectedCT));
         }
