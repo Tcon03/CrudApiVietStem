@@ -12,13 +12,13 @@ namespace CrudVietSteam.Service.DTO
     {
         #region
         private bool _isChecked;
-        public bool IsChecked
+        public bool IsCheckedCT
         {
             get => _isChecked;
             set
             {
                 _isChecked = value;
-                RaisePropertyChange(nameof(IsChecked));
+                RaisePropertyChange(nameof(IsCheckedCT));
             }
         }
         private string _name;

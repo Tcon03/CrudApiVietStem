@@ -17,13 +17,15 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <!--thuộc tính cho tiêu đề của DataGrid-->
-        <Border     CornerRadius="15" 
-                    Padding="5"
-                    Background="White"
-                    Margin="5"
-                    BorderBrush="LightGray"
-                    BorderThickness="1"
-                    SnapsToDevicePixels="True">
+
+        <Border  CornerRadius="15" 
+                 Padding="5"
+                 Grid.Row="0"
+                 Background="White"
+                 Margin="5"
+                 BorderBrush="LightGray"
+                 BorderThickness="1"
+                 SnapsToDevicePixels="True">
             <DataGrid  
                  GridLinesVisibility="None" 
                  HeadersVisibility="Column"
@@ -50,28 +52,35 @@
                     <DataGridTemplateColumn>
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
-                                <CheckBox VerticalAlignment="Center"
-                                          HorizontalAlignment="Left" >
+                                <CheckBox VerticalAlignment="Center" 
+                                          IsChecked="{Binding DataContext.IsAllSelectedCT,
+                                                        RelativeSource={RelativeSource AncestorType=DataGrid},
+                                                        Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Command="{Binding DataContext.SelectedAllCommandCT,
+                                              RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                           HorizontalAlignment="Left" >
                                 </CheckBox>
                             </DataTemplate>
                         </DataGridTemplateColumn.HeaderTemplate>
 
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox
+                                <CheckBox IsChecked="{Binding IsCheckedCT, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            Command="{Binding DataContext.SelectedItemCommandCT,
+                                                              RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                            CommandParameter="{Binding}" 
                                           VerticalAlignment="Center" 
                                           HorizontalAlignment="Center"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
 
-
-
                     <!--display the data from ContestsDTO-->
                     <DataGridTextColumn Header="ID"   
                                         ElementStyle="{StaticResource TextBlockStyleData}"
                                         Binding="{Binding id , Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}" 
-                                        Width="50" CanUserResize="False"/>
+                                        Width="50"
+                                        CanUserResize="False"/>
                     <DataGridTextColumn Header="Name" 
                                         ElementStyle="{StaticResource TextBlockStyleData}"
                                         Binding="{Binding name  , Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}"
@@ -92,7 +101,8 @@
                                         Binding="{Binding status , Mode=TwoWay , UpdateSourceTrigger=PropertyChanged }"
                                         Width="*"/>
 
-                    <DataGridTemplateColumn   Width="50" CanUserResize="False" >
+                    <DataGridTemplateColumn   Width="50" 
+                                              CanUserResize="False" >
 
                         <!--Custom Actions-->
                         <DataGridTemplateColumn.CellTemplate>
@@ -100,7 +110,7 @@
                                 <Button Content="⋮"
                                         Style="{StaticResource DataGridActionMenuItemStyle}"
                                         Click="Button_Click"
-                                        Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=DataGrid}}">
+                                        Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=DataGrid} ,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
                                     <Button.ContextMenu>
                                         <ContextMenu FontSize="20" 
                                                      Margin="5" 
@@ -109,19 +119,20 @@
                                             <MenuItem Header="Edit"
                                                       CommandParameter="{Binding}" 
                                                       Command="{Binding PlacementTarget.Tag.EditContestCommand,
-                                                           RelativeSource={RelativeSource AncestorType=ContextMenu}}">
+                                                             RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                                                 <MenuItem.Icon>
-                                                    <Icon:PackIconMaterial Kind="Pencil" />
+                                                    <Icon:PackIconMaterial Kind="Pencil"/>
                                                 </MenuItem.Icon>
                                             </MenuItem>
                                             <!-- Delete -->
                                             <MenuItem Header="Delete"
                                                       Foreground="Red"
                                                       CommandParameter="{Binding}"
-                                                      Command="{Binding PlacementTarget.Tag.DeleteItemCommand,
+                                                      Command="{Binding PlacementTarget.Tag.DeleteItemCommand, UpdateSourceTrigger=PropertyChanged ,
                                                                RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                                                 <MenuItem.Icon>
-                                                    <Icon:PackIconMaterial Kind="Delete" Foreground="Red"/>
+                                                    <Icon:PackIconMaterial Kind="Delete" 
+                                                                           Foreground="Red"/>
                                                 </MenuItem.Icon>
                                             </MenuItem>
                                         </ContextMenu>
@@ -135,9 +146,7 @@
             </DataGrid>
         </Border>
 
-        <Grid Grid.Row="2" 
-               >
-
+        <Grid Grid.Row="2" >
             <TextBlock HorizontalAlignment="Left"
                        FontSize="20"
                        FontWeight="Bold"
@@ -151,7 +160,30 @@
             <StackPanel 
                           HorizontalAlignment="Right"
                           Orientation="Horizontal">
+                <Button HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Command="{Binding DeleteAllItemCT}" 
+                        CommandParameter="{Binding ElementName=root}"
+                         Content="Delete">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource btnClear}">
+                            <!-- Mặc định là ẩn -->
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Setter Property="Margin" Value="0 0 30 0"/>
+                            <Setter Property="FontSize" Value="15"/>
+                            <Setter Property="FontWeight" Value="Bold"/>
 
+                            <Setter Property="Foreground" Value="Black"/>
+
+                            <Style.Triggers>
+                                <!-- Khi IsAnyItemSelected là True, thì hiện ra -->
+                                <DataTrigger Binding="{Binding IsAnyItemSelectedCT }" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
                 <Button  Command="{Binding PreviousPage}"
                          CommandParameter="{Binding ElementName=root}"
                          Margin="5"

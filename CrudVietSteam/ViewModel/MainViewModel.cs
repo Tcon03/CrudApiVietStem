@@ -1,17 +1,20 @@
-﻿using CrudVietSteam.Command;
+﻿using AutoUpdaterDotNET;
+using CrudVietSteam.Command;
 using CrudVietSteam.View;
 using CrudVietSteam.View.Windows;
+using Microsoft.Web.WebView2.Core;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using AutoUpdaterDotNET;
+using System.Windows.Threading;
 using static CrudVietSteam.ViewModel.MainViewModel;
-using Microsoft.Web.WebView2.Core;
+
 
 namespace CrudVietSteam.ViewModel
 {
@@ -120,7 +123,7 @@ namespace CrudVietSteam.ViewModel
         public ICommand AddInforCommand { get; set; }
         public ICommand SearchData { get; set; }
         public ICommand ClearCommand { get; set; }
-
+        public string Text { get; private set; }
 
         public MainViewModel()
         {
@@ -135,50 +138,14 @@ namespace CrudVietSteam.ViewModel
 
             // Default display contest view 
             SwitchView(ViewType.ContestView);
-            AutoUpdater.CheckForUpdateEvent += AutoUpdaterOnCheckForUpdateEvent;
-            AutoUpdater.Start("https://raw.githubusercontent.com/Tcon03/Interface-car-/refs/heads/master/Update.xml");
 
         }
-         
+
 
         /// <summary>
         /// Check For Update Version
         /// </summary>
-        private void AutoUpdaterOnCheckForUpdateEvent(UpdateInfoEventArgs args)
-        {
-            if (args.Error != null)
-            {
-                MessageBox.Show(args.Error.Message, "Update error");
-                return;
-            }
-
-            // (2) có bản cập nhật?
-            if (args.IsUpdateAvailable)
-            {
-                var result = MessageBox.Show(
-                    $"Có phiên bản mới {args.CurrentVersion}. Bạn đang dùng {args.InstalledVersion}.\nCập nhật ngay?",
-                    "Thông báo cập nhật",
-                    MessageBoxButton.YesNo, MessageBoxImage.Information);
-
-                if (result == MessageBoxResult.Yes)
-                {
-                    try
-                    {
-                        if (AutoUpdater.DownloadUpdate(args))
-                            Application.Current.Shutdown();
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message, "Lỗi tải/cập nhật");
-                    }
-                }
-            }
-            else
-            {
-                MessageBox.Show($"Bạn đang dùng phiên bản mới nhất ({args.InstalledVersion}).",
-                                "Không có cập nhật", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-        }
+     
 
 
 

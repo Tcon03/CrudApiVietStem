@@ -79,7 +79,7 @@
         <Setter Property="Margin" 
                 Value="5"/>
         <Setter Property="Background" 
-                Value="{DynamicResource GeminiActionButtonBrush}"/>
+                Value="#FF7A59"/>
         <Setter Property="Foreground" 
                 Value="White"/>
         <Setter Property="FontFamily"

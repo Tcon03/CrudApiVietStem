@@ -1,4 +1,5 @@
-﻿using CrudVietSteam.ViewModel;
+﻿using AutoUpdaterDotNET;
+using CrudVietSteam.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,9 +24,8 @@ namespace CrudVietSteam.View
         public VietstemMain()
         {
             InitializeComponent();
-            
-        }
 
-        
+        }
     }
 }
+

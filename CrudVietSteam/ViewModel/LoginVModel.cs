@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace CrudVietSteam.ViewModel
@@ -21,9 +22,9 @@ namespace CrudVietSteam.ViewModel
             set
             {
                 _email = value;
-                Debug.WriteLine("Event Email được kích hoạt " + value);
+                Debug.WriteLine("Event Email được kích hoạt  :\r" + value);
                 RaisePropertyChange(nameof(EmailVM));
-                (LoginCommand as VfxCommand)?.RaiseCanExecuteChanged(); 
+                (LoginCommand as VfxCommand)?.RaiseCanExecuteChanged();
             }
         }
         private string _password;
@@ -33,7 +34,7 @@ namespace CrudVietSteam.ViewModel
             set
             {
                 _password = value;
-                Debug.WriteLine("Event Pass được kích hoạt " + value);
+                Debug.WriteLine("Event Pass được kích hoạt : \r " + value);
                 RaisePropertyChange(nameof(PasswordVM));
                 (LoginCommand as VfxCommand)?.RaiseCanExecuteChanged();
 
@@ -47,7 +48,7 @@ namespace CrudVietSteam.ViewModel
             set
             {
                 _remember = value;
-                Debug.WriteLine("Event Remember được kích hoạt " + value);
+                Debug.WriteLine("Event Remember được kích hoạt : \r" + value);
                 RaisePropertyChange(nameof(_remember));
             }
         }
@@ -75,23 +76,31 @@ namespace CrudVietSteam.ViewModel
         private async void OnLogin(object obj)
         {
             // 1. Check if login is valid 
-            bool login = await App.vietstemService.LoginAsync(EmailVM, PasswordVM);
-            if (login)
+            try
             {
-                if (RememberMe)
+                bool login = await App.vietstemService.LoginAsync(EmailVM, PasswordVM);
+                if (login)
                 {
-                    CurdentialHelper.SaveCurdential(EmailVM, PasswordVM);
-                }
-                else
-                {
-                    CurdentialHelper.Clear();
-                }
+                    if (RememberMe)
+                    {
+                        CurdentialHelper.SaveCurdential(EmailVM, PasswordVM);
+                    }
+                    else
+                    {
+                        CurdentialHelper.Clear();
+                    }
 
-                VietstemMain viet = new VietstemMain();
-                viet.Show();
-                Authenticated?.Invoke(this, new EventArgs());
+                    VietstemMain viet = new VietstemMain();
+                    viet.Show();
+                    Authenticated?.Invoke(this, new EventArgs());
+                }
             }
-
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Lỗi đăng nhập: " + ex.Message);
+                MessageBox.Show("Đăng nhập thất bại. Vui lòng kiểm tra lại email và mật khẩu.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
+
     }
 }
