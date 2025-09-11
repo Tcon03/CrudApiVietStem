@@ -51,7 +51,7 @@ namespace CrudVietSteam.View
                 MessageBox.Show("Lỗi khởi động chương trình, vui lòng thử lại.\n" + ex.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
                 Application.Current.Shutdown();
             }
-            //ConfigureAutoUpdater();
+            ConfigureAutoUpdater();
 
         }
 
@@ -90,18 +90,16 @@ namespace CrudVietSteam.View
             }
         }
 
-        private string AppCastUrl =
-            "https://raw.githubusercontent.com/Tcon03/AutoUpdate-Version/refs/heads/main/VietStemUpdate.xml";
+        private string AppCastUrl = "https://raw.githubusercontent.com/Tcon03/AutoUpdate-Version/refs/heads/main/VietStemUpdate.xml";
 
 
         private void ConfigureAutoUpdater()
         {
-         
-            AutoUpdater.RunUpdateAsAdmin = false;        // Để true nếu app nằm trong Program Files
+            AutoUpdater.ReportErrors = true;
+            AutoUpdater.RunUpdateAsAdmin = false;        
             AutoUpdater.Synchronous = false;
             AutoUpdater.CheckForUpdateEvent += AutoUpdaterOnCheckForUpdateEvent;
-
-            // Gọi kiểm tra update khi khởi động (bạn có thể gọi ở MainWindow Loaded hay menu "Kiểm tra cập nhật" tuỳ ý)
+            AutoUpdater.ClearAppDirectory = true;
             AutoUpdater.Start(AppCastUrl);
         }
 
@@ -131,7 +129,7 @@ namespace CrudVietSteam.View
             if (!args.IsUpdateAvailable)
             {
                 // Để yên cho mượt; khi debug có thể mở thông báo:
-                // Dispatcher.Invoke(() => MessageBox.Show("Bạn đang dùng phiên bản mới nhất."));
+                Dispatcher.Invoke(() => MessageBox.Show("Bạn đang dùng phiên bản mới nhất :" +args.InstalledVersion, "Thông Báo" ,MessageBoxButton.OK ,MessageBoxImage.Information));
                 return;
             }
             Dispatcher.Invoke(() =>
@@ -151,7 +149,6 @@ namespace CrudVietSteam.View
                     {
                         if (AutoUpdater.DownloadUpdate(args))
                         {
-                            // Khi trình cập nhật chạy, app sẽ đóng/khởi động lại
                             Application.Current.Shutdown();
                         }
                     }
