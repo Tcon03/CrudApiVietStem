@@ -45,7 +45,6 @@
                    RowStyle="{StaticResource DataGridRowHoverStyle}"
                    CellStyle="{StaticResource CustomDataGridCellStyle}" >
 
-
                 <DataGrid.Columns>
 
                     <DataGridTemplateColumn >
