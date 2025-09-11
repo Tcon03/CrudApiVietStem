@@ -131,7 +131,6 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <!-- Thêm các cột khác từ ContestsDTO của bạn ở đây -->
                 </DataGrid.Columns>
             </DataGrid>
         </Border>
