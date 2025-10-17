@@ -13,7 +13,8 @@
 ## 🛠️ Công Nghệ Sử Dụng :
 - WPF
 - MVVM
+- HTTP API
 -----------------------------------------------------------------
 ## 📦 Các thư viện : 
 - MahApps.Metro.IconPacks
-- AutoUpdater.NET` 
+- AutoUpdater.NET
