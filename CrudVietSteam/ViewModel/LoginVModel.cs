@@ -64,10 +64,6 @@ namespace CrudVietSteam.ViewModel
 
         }
 
-
-
-
-
         private async void OnLogin(object obj)
         {
             // 1. Check if login is valid  
