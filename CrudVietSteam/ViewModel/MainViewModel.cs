@@ -133,7 +133,6 @@ namespace CrudVietSteam.ViewModel
             AddInforCommand = new VfxCommand(OnAdd, () => true);
             SearchData = new VfxCommand(OnSearch, CanSearch);
             ClearCommand = new VfxCommand(OnClear, CanClear);
-            UpdateService.CheckForUpdate();
             // Default display contest view 
             SwitchView(ViewType.ContestView);
 

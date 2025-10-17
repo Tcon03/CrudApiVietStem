@@ -60,11 +60,13 @@ namespace CrudVietSteam.ViewModel
         public LoginVModel()
         {
             LoginCommand = new VfxCommand(OnLogin, ()=> true);
+            UpdateService.CheckForUpdate();
+
         }
 
 
 
-      
+
 
         private async void OnLogin(object obj)
         {
