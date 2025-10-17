@@ -229,7 +229,7 @@ namespace CrudVietSteam.ViewModel
             // 1. ktra CurrentViewType để biết đang ở view nào
             switch (CurrentViewType)
             {
-                // 2. nếu đang ở ContestView thì mở cửa sổ AddContestView
+                
                 case ViewType.ContestView:
                     var addContestWindow = new AddContestView();
                     // gán dữ liệu cho DataContext của cửa sổ AddContestView
@@ -252,12 +252,12 @@ namespace CrudVietSteam.ViewModel
             switch (viewType)
             {
                 case ViewType.ContestView:
-                    // gán dữ liệu cho object CurrentView
+                  
                     CurrentView = contestVM;
                     CurrentTitle = "Contest Management";
                     break;
                 case ViewType.CityView:
-                    //Gán dữ liệu cho object City -> CurrentView
+                    
                     CurrentView = cityVM;
                     CurrentTitle = "City Management";
                     break;

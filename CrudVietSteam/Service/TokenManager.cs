@@ -41,7 +41,6 @@ namespace CrudVietSteam.Service
                 Debug.WriteLine($"{tkFile} does not exist");
                 return null;
             }
-            // nếu  đọc file đấy là chuối json thì chuổi đổi nó sang object  và trả về object đó 
 
             var readFile = File.ReadAllText(tkFile);
             Debug.WriteLine($"File AccessToken : {readFile}");
