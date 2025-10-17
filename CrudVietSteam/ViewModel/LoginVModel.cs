@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace CrudVietSteam.ViewModel
@@ -58,23 +59,21 @@ namespace CrudVietSteam.ViewModel
         public EventHandler Authenticated;
         public LoginVModel()
         {
-            LoginCommand = new VfxCommand(OnLogin, CanExcutedLogin);
+            LoginCommand = new VfxCommand(OnLogin, ()=> true);
         }
 
 
 
-        private bool CanExcutedLogin()
-        {
-            if (string.IsNullOrEmpty(EmailVM) || string.IsNullOrEmpty(PasswordVM))
-            {
-                return false;
-            }
-            return true;
-        }
+      
 
         private async void OnLogin(object obj)
         {
-            // 1. Check if login is valid 
+            // 1. Check if login is valid  
+            if (string.IsNullOrEmpty(EmailVM) || string.IsNullOrEmpty(PasswordVM))
+            {
+                MessageBox.Show("Vui lòng nhập đầy đủ thông tin đăng nhập.", "Lỗi", MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning); 
+                return;
+            }
             try
             {
                 bool login = await App.vietstemService.LoginAsync(EmailVM, PasswordVM);
