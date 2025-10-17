@@ -45,7 +45,6 @@
                    RowStyle="{StaticResource DataGridRowHoverStyle}"
                    CellStyle="{StaticResource CustomDataGridCellStyle}" >
 
-
                 <DataGrid.Columns>
 
                     <DataGridTemplateColumn >
@@ -63,7 +62,7 @@
 
                         <!--check box item record-->
                         <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
+                            <DataTemplate> 
 
                                 <CheckBox  
                                     
@@ -131,7 +130,6 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <!-- Thêm các cột khác từ ContestsDTO của bạn ở đây -->
                 </DataGrid.Columns>
             </DataGrid>
         </Border>

@@ -1,15 +1,18 @@
-﻿using CrudVietSteam.Command;
+﻿using AutoUpdaterDotNET;
+using CrudVietSteam.Command;
 using CrudVietSteam.View;
 using CrudVietSteam.View.Windows;
+using Microsoft.Web.WebView2.Core;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using AutoUpdaterDotNET;
+using System.Windows.Threading;
 using static CrudVietSteam.ViewModel.MainViewModel;
 using Microsoft.Web.WebView2.Core;
 using CrudVietSteam.Service;
@@ -121,7 +124,7 @@ namespace CrudVietSteam.ViewModel
         public ICommand AddInforCommand { get; set; }
         public ICommand SearchData { get; set; }
         public ICommand ClearCommand { get; set; }
-
+        public string Text { get; private set; }
 
         public MainViewModel()
         {
@@ -138,6 +141,13 @@ namespace CrudVietSteam.ViewModel
 
 
         }
+        }
+
+
+        /// <summary>
+        /// Check For Update Version
+        /// </summary>
+     
 
 
 
@@ -221,7 +231,7 @@ namespace CrudVietSteam.ViewModel
             // 1. ktra CurrentViewType để biết đang ở view nào
             switch (CurrentViewType)
             {
-                // 2. nếu đang ở ContestView thì mở cửa sổ AddContestView
+                
                 case ViewType.ContestView:
                     var addContestWindow = new AddContestView();
                     // gán dữ liệu cho DataContext của cửa sổ AddContestView
@@ -244,12 +254,12 @@ namespace CrudVietSteam.ViewModel
             switch (viewType)
             {
                 case ViewType.ContestView:
-                    // gán dữ liệu cho object CurrentView
+                  
                     CurrentView = contestVM;
                     CurrentTitle = "Contest Management";
                     break;
                 case ViewType.CityView:
-                    //Gán dữ liệu cho object City -> CurrentView
+                    
                     CurrentView = cityVM;
                     CurrentTitle = "City Management";
                     break;

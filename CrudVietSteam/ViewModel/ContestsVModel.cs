@@ -1,6 +1,7 @@
 ﻿using CrudVietSteam.Command;
 using CrudVietSteam.Service.DTO;
 using CrudVietSteam.View;
+using CrudVietSteam.View.UserControls;
 using CrudVietSteam.View.Windows;
 using System;
 using System.CodeDom;
@@ -25,19 +26,7 @@ namespace CrudVietSteam.ViewModel
 
         #region Properties
 
-        private bool? _isCheckedAll = false;
-        public bool? IsCheckedAll
-        {
-            get { return _isCheckedAll; }
-            set
-            {
-                if (_isCheckedAll != value)
-                {
-                    _isCheckedAll = value;
-                    RaisePropertyChange(nameof(IsCheckedAll));
-                }
-            }
-        }
+
 
         private string _name;
         public string Name
@@ -137,24 +126,41 @@ namespace CrudVietSteam.ViewModel
                 }
             }
         }
+        private bool? _isSelectedAllCT;
+        public bool? IsAllSelectedCT
+        {
+            get => _isSelectedAllCT;
+            set
+            {
+                if (_isSelectedAllCT != value)
+                {
+                    _isSelectedAllCT = value;
+                    Debug.WriteLine($"==== IsSelectAllCT changed to ======= : {_isSelectedAllCT}");
+                    RaisePropertyChange(nameof(IsAllSelectedCT));
+                }
+            }
+        }
+        public bool IsAnyItemSelectedCT
+        {
+            get => Contests != null && Contests.Any(c => c.IsCheckedCT);
+
+        }
 
         #region Commands
         public ICommand AddContestCommand { get; set; }
         public ICommand EditContestCommand { get; set; }
         public ICommand DeleteItemCommand { get; set; }
-        public ICommand SelectedAllCommand { get; set; }
-        public ICommand SelectedItemCommand { get; set; }
-
+        public ICommand SelectedAllCommandCT { get; set; }
+        public ICommand SelectedItemCommandCT { get; set; }
+        public ICommand DeleteAllItemCT { get; set; }
         #endregion
 
         public EventHandler AddSuccess;
-
-
         public ContestsVModel()
         {
             Contests = new ObservableCollection<ContestsDTO>();
             InitializeCommands();
-            LoadData(); // Gọi hàm LoadData để tải dữ liệu khi khởi tạo ViewModel
+            LoadData();
         }
 
         private void InitializeCommands()
@@ -162,42 +168,54 @@ namespace CrudVietSteam.ViewModel
             AddContestCommand = new VfxCommand(AddContest, () => true);
             EditContestCommand = new VfxCommand(OnEdit, () => true);
             DeleteItemCommand = new VfxCommand(OnDelete, () => true);
-            SelectedAllCommand = new VfxCommand(OnSelectedAll, () => true);
-            SelectedItemCommand = new VfxCommand(OnSelectedItem, () => true);
+            SelectedAllCommandCT = new VfxCommand(OnSelectedAll, () => true);
+            SelectedItemCommandCT = new VfxCommand(OnSelectedItem, () => true);
+            DeleteAllItemCT = new VfxCommand(OnDeleteAll, () => true);
+            _isSelectedAllCT = false;
         }
 
+        private void OnDeleteAll(object obj)
+        {
+            var result = MessageBox.Show("Bạn có muốn xóa toàn bộ dữ liệu không ", "Thông báo ", MessageBoxButton.YesNo, MessageBoxImage.Information);
+            if (result == MessageBoxResult.Yes)
+            {
+                var allItem = Contests.Where(x => x.IsCheckedCT).ToList();
+            }
+        }
         private void OnSelectedItem(object obj)
         {
-            if (Contests.All(p => p.IsChecked == true))
+            if (Contests.All(p => p.IsCheckedCT == true))
             {
-                IsCheckedAll = true;
+                _isSelectedAllCT = true;
             }
-            else if (Contests.All(p => p.IsChecked == false))
+            else if (Contests.All(p => p.IsCheckedCT == false))
             {
-                IsCheckedAll = false;
+                _isSelectedAllCT = false;
             }
             else
             {
-                IsCheckedAll = null; // trạng thái không xác định
+                _isSelectedAllCT = null;
             }
+            RaisePropertyChange(nameof(IsAnyItemSelectedCT));
         }
 
         private void OnSelectedAll(object obj)
         {
-            if (IsCheckedAll == true)
+            if (IsAllSelectedCT == true)
             {
                 foreach (var item in Contests)
                 {
-                    item.IsChecked = true;
+                    item.IsCheckedCT = true;
                 }
             }
             else
             {
                 foreach (var item in Contests)
                 {
-                    item.IsChecked = false;
+                    item.IsCheckedCT = false;
                 }
             }
+            RaisePropertyChange(nameof(IsAnyItemSelectedCT));
         }
 
         public async void SearchContest(ContestSearch filter)
@@ -364,7 +382,6 @@ namespace CrudVietSteam.ViewModel
                 RefreshPageCommand();
             }
         }
-
 
     }
 }
