@@ -59,23 +59,19 @@ namespace CrudVietSteam.ViewModel
         public EventHandler Authenticated;
         public LoginVModel()
         {
-            LoginCommand = new VfxCommand(OnLogin, CanExcutedLogin);
-        }
+            LoginCommand = new VfxCommand(OnLogin, ()=> true);
+            UpdateService.CheckForUpdate();
 
-
-
-        private bool CanExcutedLogin()
-        {
-            if (string.IsNullOrEmpty(EmailVM) || string.IsNullOrEmpty(PasswordVM))
-            {
-                return false;
-            }
-            return true;
         }
 
         private async void OnLogin(object obj)
         {
-            // 1. Check if login is valid 
+            // 1. Check if login is valid  
+            if (string.IsNullOrEmpty(EmailVM) || string.IsNullOrEmpty(PasswordVM))
+            {
+                MessageBox.Show("Vui lòng nhập đầy đủ thông tin đăng nhập.", "Lỗi", MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning); 
+                return;
+            }
             try
             {
                 bool login = await App.vietstemService.LoginAsync(EmailVM, PasswordVM);

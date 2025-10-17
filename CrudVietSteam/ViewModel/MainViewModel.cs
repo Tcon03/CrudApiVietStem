@@ -14,7 +14,8 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using static CrudVietSteam.ViewModel.MainViewModel;
-
+using Microsoft.Web.WebView2.Core;
+using CrudVietSteam.Service;
 
 namespace CrudVietSteam.ViewModel
 {
@@ -135,10 +136,11 @@ namespace CrudVietSteam.ViewModel
             AddInforCommand = new VfxCommand(OnAdd, () => true);
             SearchData = new VfxCommand(OnSearch, CanSearch);
             ClearCommand = new VfxCommand(OnClear, CanClear);
-
             // Default display contest view 
             SwitchView(ViewType.ContestView);
 
+
+        }
         }
 
 

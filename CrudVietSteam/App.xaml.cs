@@ -18,5 +18,6 @@ namespace CrudVietSteam
     public partial class App : Application
     {
         public static VietstemSevice vietstemService { get; } = new VietstemSevice();
+
     }
 }

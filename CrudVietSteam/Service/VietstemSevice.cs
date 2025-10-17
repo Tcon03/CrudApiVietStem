@@ -191,7 +191,6 @@ namespace CrudVietSteam.Service
                 Debug.WriteLine("======= Login Result ========\n" + loginResult);
                 if (loginResult != null)
                 {
-
                     _tokenManager.SaveToFile(loginResult.id);
                     MessageBox.Show("Đăng nhập thành công ", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
                     return true;
