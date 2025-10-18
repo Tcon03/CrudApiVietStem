@@ -1,3 +1,4 @@
+=======
 # Ứng dụng desktop (WPF) để quản lý dữ liệu cho các cuộc thi và thành phố của VietStem
 -----------------------------------------------------------------
 
@@ -18,3 +19,4 @@
 ## 📦 Các thư viện : 
 - MahApps.Metro.IconPacks
 - AutoUpdater.NET
+
