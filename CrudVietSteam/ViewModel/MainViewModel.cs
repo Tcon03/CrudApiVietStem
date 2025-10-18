@@ -14,7 +14,6 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using static CrudVietSteam.ViewModel.MainViewModel;
-using Microsoft.Web.WebView2.Core;
 using CrudVietSteam.Service;
 
 namespace CrudVietSteam.ViewModel
@@ -139,15 +138,8 @@ namespace CrudVietSteam.ViewModel
             // Default display contest view 
             SwitchView(ViewType.ContestView);
 
-
-        }
         }
 
-
-        /// <summary>
-        /// Check For Update Version
-        /// </summary>
-     
 
         private bool CanClear()
         {
