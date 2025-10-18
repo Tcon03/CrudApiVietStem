@@ -114,8 +114,6 @@ namespace CrudVietSteam.ViewModel
         }
         #endregion
 
-
-
         public ContestsVModel contestVM { get; private set; }
         public CityVModel cityVM { get; private set; }
         public ICommand ShowContestView { get; set; }
