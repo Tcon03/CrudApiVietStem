@@ -94,8 +94,9 @@ namespace CrudVietSteam.ViewModel
             catch (Exception ex)
             {
                 Debug.WriteLine("Lỗi đăng nhập: " + ex.Message);
-                System.Windows.MessageBox.Show("Đăng nhập thất bại. Vui lòng kiểm tra lại email và mật khẩu.", "Lỗi", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                MessageBox.Show("Đăng nhập thất bại. Vui lòng kiểm tra lại email và mật khẩu.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
     }
 }

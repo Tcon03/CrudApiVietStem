@@ -83,7 +83,6 @@ namespace CrudVietSteam.ViewModel
         public bool IsAnyItemSelected
         {
             get => Citys != null && Citys.Any(c => c.IsChecked);
-
         }
         public ObservableCollection<CityDTO> Citys { get; set; }
         public ICommand DeleteCityCommand { get; set; }
@@ -111,11 +110,8 @@ namespace CrudVietSteam.ViewModel
                 if (result == MessageBoxResult.Yes)
                 {
                     var allItem = Citys.Where(x => x.IsChecked).ToList(); 
-
                 }
-
         }
-
         private async void OnAddCity(object obj)
         {
 

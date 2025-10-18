@@ -18,7 +18,7 @@ namespace CrudVietSteam.ViewModel
 {
     public class EditContestVM : ViewModelBase
     {
-        //1. Thuộc tính để giữ đối tượng đang được sửa để cho View có thể binding 
+
         private ContestsDTO _contest;
         public ContestsDTO ContestEdit
         {
@@ -31,10 +31,8 @@ namespace CrudVietSteam.ViewModel
         }
 
         public ICommand UpdateContestCommand { get; set; }
-        //public EventHandler UpdateSuccess;
 
 
-        //2. Khởi tạo đối tượng EditContestVM với ContestEdit là đối tượng cần sửa
 
         public EditContestVM(ContestsDTO contest)
         {
