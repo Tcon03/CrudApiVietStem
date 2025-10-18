@@ -141,15 +141,6 @@ namespace CrudVietSteam.ViewModel
 
 
         }
-        }
-
-
-        /// <summary>
-        /// Check For Update Version
-        /// </summary>
-     
-
-
 
         private bool CanClear()
         {
