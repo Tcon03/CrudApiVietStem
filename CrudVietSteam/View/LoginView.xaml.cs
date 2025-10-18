@@ -51,6 +51,8 @@ namespace CrudVietSteam.View
                 MessageBox.Show("Lỗi khởi động chương trình, vui lòng thử lại.\n" + ex.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
                 Application.Current.Shutdown();
             }
+        
+
         }
 
         private void Authenticated(object sender, EventArgs e)
@@ -87,6 +89,8 @@ namespace CrudVietSteam.View
                 vm.PasswordVM = tbxPassword.Password;
             }
         }
+
+
 
     }
 
