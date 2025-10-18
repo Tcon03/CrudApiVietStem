@@ -11,7 +11,7 @@
 - Tự động Cập nhật: khi có phiên bản mới 
 -----------------------------------------------------------------
 
-## 🛠️ Công Nghệ Sử Dụng :
+## 🛠️ Công Nghệ Sử Dụng : 
 - WPF
 - MVVM
 - HTTP API
