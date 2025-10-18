@@ -139,8 +139,6 @@ namespace CrudVietSteam.ViewModel
 
         }
 
-
-
         private bool CanClear()
         {
             bool isValid = !string.IsNullOrEmpty(Keywords);
