@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36109.1
+VisualStudioVersion = 17.14.36109.1 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrudVietSteam", "CrudVietSteam\CrudVietSteam.csproj", "{E2B4A5A1-3D33-4E14-AE6C-E91D5E560189}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrudVietSteam", "CrudVietSteam.csproj", "{E2B4A5A1-3D33-4E14-AE6C-E91D5E560189}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,6 +20,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {39CCFFB5-2566-498B-B779-7C9F01CC024F}
+		SolutionGuid = {F9337168-4647-4721-8099-617C1309B9CD}
 	EndGlobalSection
 EndGlobal
